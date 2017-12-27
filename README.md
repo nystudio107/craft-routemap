@@ -1,6 +1,6 @@
 # Route Map plugin for Craft CMS 3.x
 
-Returns a list of public routes for elements with URLs
+Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries
 
 ![Screenshot](resources/img/plugin-logo.png)
 

@@ -30,7 +30,7 @@ Route Map is a plugin to help bridge the routing gap between frontend technologi
 
 This allows you to create your routes dynamically in Craft CMS using the AdminCP, and have them translate automatically to your frontend framework of choice.
 
-Route Map also assists with ServiceWorkers by providing a list of all of the URLs on your Craft CMS site, or just the specific sections you're interested in. You can limit the URLs returned via any `ElementCriteriaModel` attributes, and Route Map can even return a list of URLs to all of the Assets that a particular Entry uses (whether in Assets fields, or embedded in Matrix/Neo blocks).
+Route Map also assists with ServiceWorkers by providing a list of all of the URLs on your Craft CMS site, or just the specific sections you're interested in. You can limit the URLs returned via any `ElementQuery` criteria, and Route Map can even return a list of URLs to all of the Assets that a particular Entry uses (whether in Assets fields, or embedded in Matrix blocks).
 
 This allows you, for instance, to have a ServiceWorker that will automatically pre-cache the latest 5 blog entries on your site, as well as any images displayed on those pages, so that they will work with offline browsing.
 
@@ -44,232 +44,325 @@ There's nothing to configure.
 
 ### Route Rules
 
-The controller API endpoint `/admin/actions/routeMap/getAllRouteRules` will return all of your website's route rules in an associative array. By default, they are in Craft CMS format (e.g.: `blog/{slug}`):
+The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will return all of your website's route rules in an associative array. By default, they are in Craft CMS format (e.g.: `blog/{slug}`):
 
 ```
 {
   "notFound": {
-    "handle": "notFound",
-    "type": "single",
-    "url": "404",
-    "template": "404"
+    "1": {
+      "handle": "notFound",
+      "siteId": "1",
+      "type": "single",
+      "url": "404",
+      "template": "404"
+    }
   },
   "blog": {
-    "handle": "blog",
-    "type": "channel",
-    "url": "blog\/{slug}",
-    "template": "blog\/_entry"
+    "1": {
+      "handle": "blog",
+      "siteId": "1",
+      "type": "channel",
+      "url": "blog\/{slug}",
+      "template": "blog\/_entry"
+    }
   },
   "blogIndex": {
-    "handle": "blogIndex",
-    "type": "single",
-    "url": "blog",
-    "template": "blog\/index"
+    "1": {
+      "handle": "blogIndex",
+      "siteId": "1",
+      "type": "single",
+      "url": "blog",
+      "template": "blog\/index"
+    }
   },
   "homepage": {
-    "handle": "homepage",
-    "type": "single",
-    "url": "\/",
-    "template": "index"
+    "1": {
+      "handle": "homepage",
+      "siteId": "1",
+      "type": "single",
+      "url": "\/",
+      "template": "index"
+    }
   }
 }
 ```
 
-The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue` format for your URL routes. For example, the controller API endpoint `/admin/actions/routeMap/getAllRouteRules?format=Vue` will return the same route rules above, but formatted for `Vue`  (e.g.: `blog/:slug`):
+For each section, Route Map will return the URL rules for each `siteId` as the index.
+
+The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue` format for your URL routes. For example, the controller API endpoint `/actions/route-map/routes/get-all-route-rules?format=Vue` will return the same route rules above, but formatted for `Vue`  (e.g.: `blog/:slug`):
 
 ```
 {
   "notFound": {
-    "handle": "notFound",
-    "type": "single",
-    "url": "\/404",
-    "template": "404"
+    "1": {
+      "handle": "notFound",
+      "siteId": "1",
+      "type": "single",
+      "url": "\/404",
+      "template": "404"
+    }
   },
   "blog": {
-    "handle": "blog",
-    "type": "channel",
-    "url": "\/blog\/:slug",
-    "template": "blog\/_entry"
+    "1": {
+      "handle": "blog",
+      "siteId": "1",
+      "type": "channel",
+      "url": "\/blog\/:slug",
+      "template": "blog\/_entry"
+    }
   },
   "blogIndex": {
-    "handle": "blogIndex",
-    "type": "single",
-    "url": "\/blog",
-    "template": "blog\/index"
+    "1": {
+      "handle": "blogIndex",
+      "siteId": "1",
+      "type": "single",
+      "url": "\/blog",
+      "template": "blog\/index"
+    }
   },
   "homepage": {
-    "handle": "homepage",
-    "type": "single",
-    "url": "\/",
-    "template": "index"
+    "1": {
+      "handle": "homepage",
+      "siteId": "1",
+      "type": "single",
+      "url": "\/",
+      "template": "index"
+    }
   }
 }
 ```
 
 Note that `blog\/{slug}` was changed to `blog\/:slug`. This allows you to easily map both static and dynamic Craft CMS routes to your router of choice.
 
-If you want just the route rules for a particular section, you can use the controller API endpoint `/admin/actions/routeMap/getSectionRouteRules?section=blog` (note the required `section` parameter that specifies the Section handle you want):
+If you want just the route rules for a particular section, you can use the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 
 ```
 {
-  "handle": "blog",
-  "type": "channel",
-  "url": "blog\/{slug}",
-  "template": "blog\/_entry"
+  "1": {
+    "handle": "blog",
+    "siteId": "1",
+    "type": "channel",
+    "url": "blog\/{slug}",
+    "template": "blog\/_entry"
+  }
 }
 ```
 
-You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/admin/actions/routeMap/getSectionRouteRules?section=blog&format=Vue`
+Route Map will return the URL rules for each `siteId` as the index.
+
+You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog&format=Vue`
 
 ```
 {
-  "handle": "blog",
-  "type": "channel",
-  "url": "blog\/:slug",
-  "template": "blog\/_entry"
+  "1": {
+    "handle": "blog",
+    "siteId": "1",
+    "type": "channel",
+    "url": "\/blog\/:slug",
+    "template": "blog\/_entry"
+  }
 }
 ```
 
 ### Entry URLs
 
-The controller API endpoint `/admin/actions/routeMap/getAllUrls` will return a list of _all_ of the URLs to all of the Entries on your website:
+The controller API endpoint `/actions/route-map-routes/get-all-urls` will return a list of _all_ of the URLs to all of the Entries on your website:
 
 ```
 [
-  "http:\/\/nystudio107.dev\/404",
-  "http:\/\/nystudio107.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
-  "http:\/\/nystudio107.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
-  "http:\/\/nystudio107.dev\/blog\/static-caching-with-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/the-case-of-the-missing-php-session",
-  "http:\/\/nystudio107.dev\/blog\/so-you-wanna-make-a-craft-3-plugin",
-  "http:\/\/nystudio107.dev\/blog\/a-b-split-testing-with-nginx-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/mobile-testing-local-dev-sharing-with-homestead",
-  "http:\/\/nystudio107.dev\/blog\/simple-static-asset-versioning",
-  "http:\/\/nystudio107.dev\/blog\/tags-gone-wild",
-  "http:\/\/nystudio107.dev\/blog\/local-development-with-vagrant-homestead",
-  "http:\/\/nystudio107.dev\/blog\/mitigating-disaster-via-website-backups",
-  "http:\/\/nystudio107.dev\/blog\/web-hosting-for-agencies-freelancers",
-  "http:\/\/nystudio107.dev\/blog\/implementing-critical-css",
-  "http:\/\/nystudio107.dev\/blog\/autocomplete-search-with-the-element-api-vuejs",
-  "http:\/\/nystudio107.dev\/blog\/json-ld-structured-data-and-erotica",
-  "http:\/\/nystudio107.dev\/blog\/craft-3-beta-executive-summary",
-  "http:\/\/nystudio107.dev\/blog\/prevent-google-from-indexing-staging-sites",
-  "http:\/\/nystudio107.dev\/blog\/loadjs-as-a-lightweight-javascript-loader",
-  "http:\/\/nystudio107.dev\/blog\/creating-a-content-builder-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/service-workers-and-offline-browsing",
-  "http:\/\/nystudio107.dev\/blog\/using-phpstorm-with-vagrant-homestead",
-  "http:\/\/nystudio107.dev\/blog\/frontend-dev-best-practices-for-2017",
-  "http:\/\/nystudio107.dev\/blog\/using-systemjs-as-javascript-loader",
-  "http:\/\/nystudio107.dev\/blog\/a-better-package-json-for-the-frontend",
-  "http:\/\/nystudio107.dev\/blog\/modern-seo-snake-oil-vs-substance",
-  "http:\/\/nystudio107.dev\/blog\/lazy-loading-with-the-element-api-vuejs",
-  "http:\/\/nystudio107.dev\/blog\/installing-mozjpeg-on-ubuntu-16-04-forge",
-  "http:\/\/nystudio107.dev\/blog\/a-pretty-website-isnt-enough",
-  "http:\/\/nystudio107.dev\/blog\/using-vuejs-2-0-with-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/image-optimization-project-results",
-  "http:\/\/nystudio107.dev\/blog\/database-asset-syncing-between-environments-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/hardening-craft-cms-permissions",
-  "http:\/\/nystudio107.dev\/blog\/multi-environment-config-for-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/google-amp-should-you-care",
-  "http:\/\/nystudio107.dev\/blog\/creating-optimized-images-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/the-craft-cache-tag-in-depth",
-  "http:\/\/nystudio107.dev\/blog\/twig-processing-order-and-scope",
-  "http:\/\/nystudio107.dev\/blog\/stop-using-htaccess-files-no-really",
-  "http:\/\/nystudio107.dev\/blog",
-  "http:\/\/nystudio107.dev\/"
+  "http:\/\/craft3.dev\/404",
+  "http:\/\/craft3.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
+  "http:\/\/craft3.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
+  "http:\/\/craft3.dev\/blog\/static-caching-with-craft-cms",
+  "http:\/\/craft3.dev\/blog\/the-case-of-the-missing-php-session",
+  "http:\/\/craft3.dev\/blog\/so-you-wanna-make-a-craft-3-plugin",
+  "http:\/\/craft3.dev\/blog\/a-b-split-testing-with-nginx-craft-cms",
+  "http:\/\/craft3.dev\/blog\/mobile-testing-local-dev-sharing-with-homestead",
+  "http:\/\/craft3.dev\/blog\/simple-static-asset-versioning",
+  "http:\/\/craft3.dev\/blog\/tags-gone-wild",
+  "http:\/\/craft3.dev\/blog\/local-development-with-vagrant-homestead",
+  "http:\/\/craft3.dev\/blog\/mitigating-disaster-via-website-backups",
+  "http:\/\/craft3.dev\/blog\/web-hosting-for-agencies-freelancers",
+  "http:\/\/craft3.dev\/blog\/implementing-critical-css",
+  "http:\/\/craft3.dev\/blog\/autocomplete-search-with-the-element-api-vuejs",
+  "http:\/\/craft3.dev\/blog\/json-ld-structured-data-and-erotica",
+  "http:\/\/craft3.dev\/blog\/craft-3-beta-executive-summary",
+  "http:\/\/craft3.dev\/blog\/prevent-google-from-indexing-staging-sites",
+  "http:\/\/craft3.dev\/blog\/loadjs-as-a-lightweight-javascript-loader",
+  "http:\/\/craft3.dev\/blog\/creating-a-content-builder-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/service-workers-and-offline-browsing",
+  "http:\/\/craft3.dev\/blog\/using-phpstorm-with-vagrant-homestead",
+  "http:\/\/craft3.dev\/blog\/frontend-dev-best-practices-for-2017",
+  "http:\/\/craft3.dev\/blog\/using-systemjs-as-javascript-loader",
+  "http:\/\/craft3.dev\/blog\/a-better-package-json-for-the-frontend",
+  "http:\/\/craft3.dev\/blog\/modern-seo-snake-oil-vs-substance",
+  "http:\/\/craft3.dev\/blog\/lazy-loading-with-the-element-api-vuejs",
+  "http:\/\/craft3.dev\/blog\/installing-mozjpeg-on-ubuntu-16-04-forge",
+  "http:\/\/craft3.dev\/blog\/a-pretty-website-isnt-enough",
+  "http:\/\/craft3.dev\/blog\/using-vuejs-2-0-with-craft-cms",
+  "http:\/\/craft3.dev\/blog\/image-optimization-project-results",
+  "http:\/\/craft3.dev\/blog\/database-asset-syncing-between-environments-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/hardening-craft-cms-permissions",
+  "http:\/\/craft3.dev\/blog\/multi-environment-config-for-craft-cms",
+  "http:\/\/craft3.dev\/blog\/google-amp-should-you-care",
+  "http:\/\/craft3.dev\/blog\/creating-optimized-images-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/the-craft-cache-tag-in-depth",
+  "http:\/\/craft3.dev\/blog\/twig-processing-order-and-scope",
+  "http:\/\/craft3.dev\/blog\/stop-using-htaccess-files-no-really",
+  "http:\/\/craft3.dev\/blog",
+  "http:\/\/craft3.dev\/"
 ]
 ```
 
-You can retrieve just the entries for a particular section via the controller API endpoint `/admin/actions/routeMap/getSectionUrls?section=blog` (note the required `section` parameter that specifies the Section handle you want):
+You can retrieve just the entries for a particular section via the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 
 ```
 [
-  "http:\/\/nystudio107.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
-  "http:\/\/nystudio107.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
-  "http:\/\/nystudio107.dev\/blog\/static-caching-with-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/the-case-of-the-missing-php-session",
-  "http:\/\/nystudio107.dev\/blog\/so-you-wanna-make-a-craft-3-plugin",
-  "http:\/\/nystudio107.dev\/blog\/a-b-split-testing-with-nginx-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/mobile-testing-local-dev-sharing-with-homestead",
-  "http:\/\/nystudio107.dev\/blog\/simple-static-asset-versioning",
-  "http:\/\/nystudio107.dev\/blog\/tags-gone-wild",
-  "http:\/\/nystudio107.dev\/blog\/local-development-with-vagrant-homestead",
-  "http:\/\/nystudio107.dev\/blog\/mitigating-disaster-via-website-backups",
-  "http:\/\/nystudio107.dev\/blog\/web-hosting-for-agencies-freelancers",
-  "http:\/\/nystudio107.dev\/blog\/implementing-critical-css",
-  "http:\/\/nystudio107.dev\/blog\/autocomplete-search-with-the-element-api-vuejs",
-  "http:\/\/nystudio107.dev\/blog\/json-ld-structured-data-and-erotica",
-  "http:\/\/nystudio107.dev\/blog\/craft-3-beta-executive-summary",
-  "http:\/\/nystudio107.dev\/blog\/prevent-google-from-indexing-staging-sites",
-  "http:\/\/nystudio107.dev\/blog\/loadjs-as-a-lightweight-javascript-loader",
-  "http:\/\/nystudio107.dev\/blog\/creating-a-content-builder-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/service-workers-and-offline-browsing",
-  "http:\/\/nystudio107.dev\/blog\/using-phpstorm-with-vagrant-homestead",
-  "http:\/\/nystudio107.dev\/blog\/frontend-dev-best-practices-for-2017",
-  "http:\/\/nystudio107.dev\/blog\/using-systemjs-as-javascript-loader",
-  "http:\/\/nystudio107.dev\/blog\/a-better-package-json-for-the-frontend",
-  "http:\/\/nystudio107.dev\/blog\/modern-seo-snake-oil-vs-substance",
-  "http:\/\/nystudio107.dev\/blog\/lazy-loading-with-the-element-api-vuejs",
-  "http:\/\/nystudio107.dev\/blog\/installing-mozjpeg-on-ubuntu-16-04-forge",
-  "http:\/\/nystudio107.dev\/blog\/a-pretty-website-isnt-enough",
-  "http:\/\/nystudio107.dev\/blog\/using-vuejs-2-0-with-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/image-optimization-project-results",
-  "http:\/\/nystudio107.dev\/blog\/database-asset-syncing-between-environments-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/hardening-craft-cms-permissions",
-  "http:\/\/nystudio107.dev\/blog\/multi-environment-config-for-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/google-amp-should-you-care",
-  "http:\/\/nystudio107.dev\/blog\/creating-optimized-images-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/the-craft-cache-tag-in-depth",
-  "http:\/\/nystudio107.dev\/blog\/twig-processing-order-and-scope",
-  "http:\/\/nystudio107.dev\/blog\/stop-using-htaccess-files-no-really"
+  "http:\/\/craft3.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
+  "http:\/\/craft3.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
+  "http:\/\/craft3.dev\/blog\/static-caching-with-craft-cms",
+  "http:\/\/craft3.dev\/blog\/the-case-of-the-missing-php-session",
+  "http:\/\/craft3.dev\/blog\/so-you-wanna-make-a-craft-3-plugin",
+  "http:\/\/craft3.dev\/blog\/a-b-split-testing-with-nginx-craft-cms",
+  "http:\/\/craft3.dev\/blog\/mobile-testing-local-dev-sharing-with-homestead",
+  "http:\/\/craft3.dev\/blog\/simple-static-asset-versioning",
+  "http:\/\/craft3.dev\/blog\/tags-gone-wild",
+  "http:\/\/craft3.dev\/blog\/local-development-with-vagrant-homestead",
+  "http:\/\/craft3.dev\/blog\/mitigating-disaster-via-website-backups",
+  "http:\/\/craft3.dev\/blog\/web-hosting-for-agencies-freelancers",
+  "http:\/\/craft3.dev\/blog\/implementing-critical-css",
+  "http:\/\/craft3.dev\/blog\/autocomplete-search-with-the-element-api-vuejs",
+  "http:\/\/craft3.dev\/blog\/json-ld-structured-data-and-erotica",
+  "http:\/\/craft3.dev\/blog\/craft-3-beta-executive-summary",
+  "http:\/\/craft3.dev\/blog\/prevent-google-from-indexing-staging-sites",
+  "http:\/\/craft3.dev\/blog\/loadjs-as-a-lightweight-javascript-loader",
+  "http:\/\/craft3.dev\/blog\/creating-a-content-builder-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/service-workers-and-offline-browsing",
+  "http:\/\/craft3.dev\/blog\/using-phpstorm-with-vagrant-homestead",
+  "http:\/\/craft3.dev\/blog\/frontend-dev-best-practices-for-2017",
+  "http:\/\/craft3.dev\/blog\/using-systemjs-as-javascript-loader",
+  "http:\/\/craft3.dev\/blog\/a-better-package-json-for-the-frontend",
+  "http:\/\/craft3.dev\/blog\/modern-seo-snake-oil-vs-substance",
+  "http:\/\/craft3.dev\/blog\/lazy-loading-with-the-element-api-vuejs",
+  "http:\/\/craft3.dev\/blog\/installing-mozjpeg-on-ubuntu-16-04-forge",
+  "http:\/\/craft3.dev\/blog\/a-pretty-website-isnt-enough",
+  "http:\/\/craft3.dev\/blog\/using-vuejs-2-0-with-craft-cms",
+  "http:\/\/craft3.dev\/blog\/image-optimization-project-results",
+  "http:\/\/craft3.dev\/blog\/database-asset-syncing-between-environments-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/hardening-craft-cms-permissions",
+  "http:\/\/craft3.dev\/blog\/multi-environment-config-for-craft-cms",
+  "http:\/\/craft3.dev\/blog\/google-amp-should-you-care",
+  "http:\/\/craft3.dev\/blog\/creating-optimized-images-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/the-craft-cache-tag-in-depth",
+  "http:\/\/craft3.dev\/blog\/twig-processing-order-and-scope",
+  "http:\/\/craft3.dev\/blog\/stop-using-htaccess-files-no-really"
 ]
 ```
 
-Both of the above controller API endpoints support an optional `attributes` parameter that lets you pass in an array of `ElementCriteriaModel` attribute key/value pairs to be used to refine the Entries selected.
+Both of the above controller API endpoints support an optional `criteria` parameter that lets you pass in an array of `ElementQuery` attribute key/value pairs to be used to refine the Entries selected.
 
-For instance, if you wanted just the most recent 5 Entries from the `blog` section, you'd use the controller API endpoint `/admin/actions/routeMap/getSectionUrls?section=blog&attributes[limit]=5`:
+For instance, if you wanted just the most recent 5 Entries from the `blog` section, you'd use the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog&criteria[limit]=5`:
 
 ```
 [
-  "http:\/\/nystudio107.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
-  "http:\/\/nystudio107.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
-  "http:\/\/nystudio107.dev\/blog\/static-caching-with-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/the-case-of-the-missing-php-session",
-  "http:\/\/nystudio107.dev\/blog\/so-you-wanna-make-a-craft-3-plugin"
+  "http:\/\/craft3.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
+  "http:\/\/craft3.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
+  "http:\/\/craft3.dev\/blog\/static-caching-with-craft-cms",
+  "http:\/\/craft3.dev\/blog\/the-case-of-the-missing-php-session",
+  "http:\/\/craft3.dev\/blog\/so-you-wanna-make-a-craft-3-plugin"
 ]
 ```
 
-Or if you wanted the 5 oldest Entries from the `blog` section, you'd use the controller API endpoint `/admin/actions/routeMap/getSectionUrls?section=blog&attributes[limit]=5&attributes[order]=postDate asc`:
+Or if you wanted the 5 oldest Entries from the `blog` section, you'd use the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog&criteria[limit]=5&criteria[order]=elements.dateCreated asc`:
 
 ```
 [
-  "http:\/\/nystudio107.dev\/blog\/stop-using-htaccess-files-no-really",
-  "http:\/\/nystudio107.dev\/blog\/twig-processing-order-and-scope",
-  "http:\/\/nystudio107.dev\/blog\/the-craft-cache-tag-in-depth",
-  "http:\/\/nystudio107.dev\/blog\/creating-optimized-images-in-craft-cms",
-  "http:\/\/nystudio107.dev\/blog\/google-amp-should-you-care"
+  "http:\/\/craft3.dev\/blog\/stop-using-htaccess-files-no-really",
+  "http:\/\/craft3.dev\/blog\/twig-processing-order-and-scope",
+  "http:\/\/craft3.dev\/blog\/the-craft-cache-tag-in-depth",
+  "http:\/\/craft3.dev\/blog\/creating-optimized-images-in-craft-cms",
+  "http:\/\/craft3.dev\/blog\/google-amp-should-you-care"
 ]
 ```
 
 ### Entry URL Assets
 
-The controller API endpoint `/admin/actions/routeMap/getUrlAssetUrls?url=/blog/tags-gone-wild` will return all of the image Assets from the Entry with the URI of `/blog/tags-gone-wild`, whether in Assets fields, or embedded in Matrix/Neo blocks (note the required `url` parameter that specifies the URL to the entry you want):
+The controller API endpoint `/actions/route-map/routes/get-url-asset-urls?url=/blog/tags-gone-wild` will return all of the image Assets from the Entry with the URI of `/blog/tags-gone-wild`, whether in Assets fields, or embedded in Matrix/Neo blocks (note the required `url` parameter that specifies the URL to the entry you want):
 
 ```
 [
-  "http:\/\/nystudio107.dev\/img\/blog\/buried-in-tag-manager-tags.jpg",
-  "http:\/\/nystudio107.dev\/img\/blog\/they-told-two-friends.png",
-  "http:\/\/nystudio107.dev\/img\/blog\/tag-manager-tags-gone-wild.png",
-  "http:\/\/nystudio107.dev\/img\/blog\/google-chrome-activity-indicator.png",
-  "http:\/\/nystudio107.dev\/img\/blog\/tag-javascript-executing.png",
-  "http:\/\/nystudio107.dev\/img\/blog\/tags-are-prescription-drugs.jpg",
-  "http:\/\/nystudio107.dev\/img\/blog\/taming-tags-whip.jpg"
+  "http:\/\/craft3.dev\/img\/blog\/buried-in-tag-manager-tags.jpg",
+  "http:\/\/craft3.dev\/img\/blog\/they-told-two-friends.png",
+  "http:\/\/craft3.dev\/img\/blog\/tag-manager-tags-gone-wild.png",
+  "http:\/\/craft3.dev\/img\/blog\/google-chrome-activity-indicator.png",
+  "http:\/\/craft3.dev\/img\/blog\/tag-javascript-executing.png",
+  "http:\/\/craft3.dev\/img\/blog\/tags-are-prescription-drugs.jpg",
+  "http:\/\/craft3.dev\/img\/blog\/taming-tags-whip.jpg"
 ]
+
 ```
 
 Either a full URL or a partial URI can be passed in via the `url` parameter.
 
-By default, it only returns Assets of the type `image` but using the optional parameter `assetTypes` you can pass in an array of the types of Assets you want returned. For instance, if we wanted `image`, `video`, and `pdf` Assets returned, we'd use the controller API endpoint `/admin/actions/routeMap/getUrlAssetUrls?url=/blog/tags-gone-wild&assetTypes[0]=image&assetTypes[1]=video&assetTypes[2]=pdf'`.
+By default, it only returns Assets of the type `image` but using the optional parameter `assetTypes` you can pass in an array of the types of Assets you want returned. For instance, if we wanted `image`, `video`, and `pdf` Assets returned, we'd use the controller API endpoint `/actions/route-map/routes/get-url-asset-urls?url=/blog/tags-gone-wild&assetTypes[0]=image&assetTypes[1]=video&assetTypes[2]=pdf'`.
+
+### Arbitrary Element URLS
+
+You can retrieve URLs for arbitrary Elements via the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset` (note the required `elementType` parameter that specifies the Element class you want):
+
+```
+[  
+   "http://craft3.dev/assets/plugin-logo.png",
+   "http://craft3.dev/assets/pic-zebra-0-fine.jpg",
+   "http://craft3.dev/assets/LQ6J8Ltn7apPvBafn9jmpN29.jpg",
+   "http://craft3.dev/assets/maxresdefault.jpg",
+   "http://craft3.dev/assets/2f5dd408e26b60540429297ca57a8b76.jpg",
+   "http://craft3.dev/assets/shark.jpg",
+   "http://craft3.dev/assets/Desert-Leader.jpg",
+   "http://craft3.dev/assets/Weimaraner_hero.jpg",
+   "http://craft3.dev/assets/weimaraner.jpg",
+   "http://craft3.dev/assets/geisha-japan-japanese-geisha.jpg",
+   "http://craft3.dev/assets/6985756-beautiful-summer-beach-scenes-wallpapers.jpg",
+   "http://craft3.dev/assets/CTO_SocietyOne-Success-Profile.docx",
+   "http://craft3.dev/assets/chart.pdf",
+   "http://craft3.dev/assets/website-accessibility-ada.jpg",
+   "http://craft3.dev/assets/VEXnOnt.jpg",
+   "http://craft3.dev/assets/nuggets.jpg",
+   "http://craft3.dev/assets/D4gtcSe.png",
+   "http://craft3.dev/assets/whiskey_sm.jpg",
+   "http://craft3.dev/assets/whiskey-glass.jpg",
+   "http://craft3.dev/assets/painted-face_170903_023413.jpg",
+   "http://craft3.dev/assets/painted-face.jpg"
+]
+```
+
+The controller API endpoint supports an optional `criteria` parameter that lets you pass in an array of `ElementQuery` criteria key/value pairs to be used to refine the Entries selected.
+
+For instance, if you wanted just the most recent 5 Elements of the type `\craft\elements\Asset`, you'd use the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&criteria[limit]=5`:
+
+```
+[  
+   "http://craft3.dev/assets/plugin-logo.png",
+   "http://craft3.dev/assets/pic-zebra-0-fine.jpg",
+   "http://craft3.dev/assets/LQ6J8Ltn7apPvBafn9jmpN29.jpg",
+   "http://craft3.dev/assets/maxresdefault.jpg",
+   "http://craft3.dev/assets/2f5dd408e26b60540429297ca57a8b76.jpg"
+]
+
+```
+
+Or if you wanted the 5 oldest Elements of the type `\craft\elements\Asset`, you'd use the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&criteria[limit]=5&criteria[orderBy]=elements.dateCreated asc`:
+
+```
+[  
+   "http://craft3.dev/assets/painted-face.jpg",
+   "http://craft3.dev/assets/painted-face_170903_023413.jpg",
+   "http://craft3.dev/assets/whiskey-glass.jpg",
+   "http://craft3.dev/assets/whiskey_sm.jpg",
+   "http://craft3.dev/assets/D4gtcSe.png"
+]
+
+```
 
 ## Using Route Map in your Twig Templates
 
@@ -309,7 +402,7 @@ To get all of your website's public Entry URLs:
 {% set urls = craft.routeMap.getAllUrls() %}
 ```
 
-To refine the URLs returned, you can pass in optional `ElementCriteriaModel` attributes via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
 
 ```
 {% set urls = craft.routeMap.getAllUrls({'limit': 5}) %}
@@ -318,7 +411,7 @@ To refine the URLs returned, you can pass in optional `ElementCriteriaModel` att
 or
 
 ```
-{% set urls = craft.routeMap.getAllUrls({'limit': 5, 'order': 'postDate asc'}) %}
+{% set urls = craft.routeMap.getAllUrls({'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
 ```
 
 To get URLs from just a specific Section:
@@ -327,7 +420,7 @@ To get URLs from just a specific Section:
 {% set urls = craft.routeMap.getSectionUrls('blog') %}
 ```
 
-To refine the URLs returned, you can pass in optional `ElementCriteriaModel` attributes via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
 
 ```
 {% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5}) %}
@@ -336,7 +429,7 @@ To refine the URLs returned, you can pass in optional `ElementCriteriaModel` att
 or
 
 ```
-{% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5, 'order': 'postDate asc'}) %}
+{% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
 ```
 
 ### Entry URL Assets
@@ -353,34 +446,54 @@ By default, it returns only Assets of the type `image`. You can pass in an optio
 {% set urls = craft.routeMap.getUrlAssetUrls('/blog/tags-gone-wild', ['image', 'video', 'pdf']) %}
 ```
 
+### Arbitrary Element URLs
+
+To get all URLs for an arbitrary Element type:
+
+```
+{% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset') %}
+```
+
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+
+```
+{% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset', {'limit': 5}) %}
+```
+
+or
+
+```
+{% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
+```
+
 ## Using Route Map from your Plugins
 
-The `craft()->routeMap` service gives you access to all of the functions mentioned above via your plugins.
+The `RouteMap::$plugin->routes` service gives you access to all of the functions mentioned above via your plugins.
 
 ### Route Rules
 
 To get all of your website's route rules:
 
 ```
-$routeRules = craft()->routeMap->getAllRouteRules();
+$routeRules = RouteMap::$plugin->routes->getAllRouteRules();
 ```
 
 To specify the format that the route rules should be returned in, pass in either `Craft` | `React` | `Vue`:
 
 ```
-$routeRules = craft()->routeMap->getAllRouteRules('Vue');
+$routeRules = RouteMap::$plugin->routes->getAllRouteRules('Vue');
 ```
 
 To get route rules from only a specific section (such as `blog`, in this case), pass in the Section handle:
 
 ```
-$routeRules = craft()->routeMap->getSectionRouteRules('blog');
+$routeRules = RouteMap::$plugin->routes->getSectionRouteRules('blog');
 ```
 
 You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format:
 
 ```
-$routeRules = craft()->routeMap->getSectionRouteRules('blog', 'Vue');
+$routeRules = RouteMap::$plugin->routes->getSectionRouteRules('blog', 'Vue');
 ```
 
 ### Entry URLs
@@ -388,37 +501,37 @@ $routeRules = craft()->routeMap->getSectionRouteRules('blog', 'Vue');
 To get all of your website's public Entry URLs:
 
 ```
-$urls = craft()->routeMap->getAllUrls();
+$urls = RouteMap::$plugin->routes->getAllUrls();
 ```
 
-To refine the URLs returned, you can pass in optional `ElementCriteriaModel` attributes via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
 
 ```
-$urls = craft()->routeMap->getAllUrls(array('limit' => 5));
+$urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5]);
 ```
 
 or
 
 ```
-$urls = craft()->routeMap->getAllUrls(array('limit' => 5, 'order' => 'postDate asc'));
+$urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5, 'orderBy' => 'elements.dateCreated asc']);
 ```
 
 To get URLs from just a specific Section:
 
 ```
-$urls = craft()->routeMap->getSectionUrls('blog');
+$urls = RouteMap::$plugin->routes->getSectionUrls('blog');
 ```
 
-To refine the URLs returned, you can pass in optional `ElementCriteriaModel` attributes via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
 
 ```
-$urls = craft()->routeMap->getSectionUrls('blog', array('limit' => 5));
+$urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5]);
 ```
 
 or
 
 ```
-$urls = craft()->routeMap->getSectionUrls('blog', array('limit' => 5, 'order' => 'postDate asc'));
+$urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5, 'ordery' => 'elements.dateCreated asc']);
 ```
 
 ### Entry URL Assets
@@ -426,13 +539,33 @@ $urls = craft()->routeMap->getSectionUrls('blog', array('limit' => 5, 'order' =>
 To get all of the Asset URLs in a particular Entry (whether in Assets fields or embedded in Matrix/Neo blocks) by passing in a URL or URI to the entry:
 
 ```
-$urls = craft()->routeMap->getUrlAssetUrls('/blog/tags-gone-wild');
+$urls = RouteMap::$plugin->routes->getUrlAssetUrls('/blog/tags-gone-wild');
 ```
 
 By default, it returns only Assets of the type `image`. You can pass in an optional array of Asset types you want returned:
 
 ```
-$urls = craft()->routeMap->getUrlAssetUrls('/blog/tags-gone-wild', array('image', 'video', 'pdf'));
+$urls = RouteMap::$plugin->routes->getUrlAssetUrls('/blog/tags-gone-wild', ['image', 'video', 'pdf']);
+```
+
+### Arbitrary Element URLs
+
+To get all URLs for an arbitrary Element type:
+
+```
+$urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset');
+```
+
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+
+```
+$urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['limit': 5]);
+```
+
+or
+
+```
+$urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['limit': 5, 'orderBy': 'elements.dateCreated asc']);
 ```
 
 ## Route Map Roadmap
@@ -441,6 +574,5 @@ Some things to do, and ideas for potential features:
 
 * Add support for Category Groups / Category URLs
 * Add support for Commerce Products / Variant URLs
-* Add support for multiple locales
 
 Brought to you by [nystudio107](https://nystudio107.com)

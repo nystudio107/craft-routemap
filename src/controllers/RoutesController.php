@@ -50,7 +50,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetAllUrls($criteria = [], $siteId = null)
+    public function actionGetAllUrls(array $criteria = [], $siteId = null)
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllUrls($criteria, $siteId));
     }
@@ -64,7 +64,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetSectionUrls(string $section, $criteria = [], $siteId = null)
+    public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null)
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId));
     }
@@ -104,7 +104,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetUrlAssetUrls($url, $assetTypes = ['image'], $siteId = null)
+    public function actionGetUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null)
     {
         return $this->asJson(RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId));
     }
@@ -119,7 +119,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function getElementUrls($elementType, $criteria = [], $siteId = null)
+    public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null)
     {
         return $this->asJson(RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId));
     }

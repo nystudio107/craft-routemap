@@ -11,7 +11,7 @@
         "vue",
         "react",
         "routes",
-        "serviceworker"
+        "serviceworker",
         "route map"
     ],
     "support": {

@@ -73,12 +73,13 @@ class RoutesController extends Controller
      * Return all of the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return string
      */
-    public function actionGetAllRouteRules(string $format = 'Craft')
+    public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null)
     {
-        return $this->asJson(RouteMap::$plugin->routes->getAllRouteRules($format));
+        return $this->asJson(RouteMap::$plugin->routes->getAllRouteRules($format, $siteId));
     }
 
     /**
@@ -86,12 +87,13 @@ class RoutesController extends Controller
      *
      * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return string
      */
-    public function actionGetSectionRouteRules(string $section, string $format = 'Craft')
+    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null)
     {
-        return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format));
+        return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId));
     }
 
     /**

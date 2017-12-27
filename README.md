@@ -49,47 +49,37 @@ The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will
 ```
 {
   "notFound": {
-    "1": {
-      "handle": "notFound",
-      "siteId": "1",
-      "type": "single",
-      "url": "404",
-      "template": "404"
-    }
+    "handle": "notFound",
+    "siteId": "1",
+    "type": "single",
+    "url": "404",
+    "template": "404"
   },
   "blog": {
-    "1": {
-      "handle": "blog",
-      "siteId": "1",
-      "type": "channel",
-      "url": "blog\/{slug}",
-      "template": "blog\/_entry"
-    }
+    "handle": "blog",
+    "siteId": "1",
+    "type": "channel",
+    "url": "blog/{slug}",
+    "template": "blog/_entry"
   },
   "blogIndex": {
-    "1": {
-      "handle": "blogIndex",
-      "siteId": "1",
-      "type": "single",
-      "url": "blog",
-      "template": "blog\/index"
-    }
+    "handle": "blogIndex",
+    "siteId": "1",
+    "type": "single",
+    "url": "blog",
+    "template": "blog/index"
   },
   "homepage": {
-    "1": {
-      "handle": "homepage",
-      "siteId": "1",
-      "type": "single",
-      "url": "\/",
-      "template": "index"
-    }
+    "handle": "homepage",
+    "siteId": "1",
+    "type": "single",
+    "url": "/",
+    "template": "index"
   }
 }
 ```
 
-For each section, Route Map will return the URL rules for each `siteId` as the index.
-
-The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue` format for your URL routes. For example, the controller API endpoint `/actions/route-map/routes/get-all-route-rules?format=Vue` will return the same route rules above, but formatted for `Vue`  (e.g.: `blog/:slug`):
+If your website has multiple sites, Route Map will return the URL rules for each `siteId` as the index:
 
 ```
 {
@@ -98,7 +88,14 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
       "handle": "notFound",
       "siteId": "1",
       "type": "single",
-      "url": "\/404",
+      "url": "404",
+      "template": "404"
+    },
+    "2": {
+      "handle": "notFound",
+      "siteId": "2",
+      "type": "single",
+      "url": "es/404",
       "template": "404"
     }
   },
@@ -107,8 +104,15 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
       "handle": "blog",
       "siteId": "1",
       "type": "channel",
-      "url": "\/blog\/:slug",
-      "template": "blog\/_entry"
+      "url": "blog/{slug}",
+      "template": "blog/_entry"
+    },
+    "2": {
+      "handle": "blog",
+      "siteId": "2",
+      "type": "channel",
+      "url": "es/blog/{slug}",
+      "template": "blog/_entry"
     }
   },
   "blogIndex": {
@@ -116,8 +120,15 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
       "handle": "blogIndex",
       "siteId": "1",
       "type": "single",
-      "url": "\/blog",
-      "template": "blog\/index"
+      "url": "blog",
+      "template": "blog/index"
+    },
+    "2": {
+      "handle": "blogIndex",
+      "siteId": "2",
+      "type": "single",
+      "url": "es/blog",
+      "template": "blog/index"
     }
   },
   "homepage": {
@@ -125,32 +136,72 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
       "handle": "homepage",
       "siteId": "1",
       "type": "single",
-      "url": "\/",
+      "url": "/",
+      "template": "index"
+    },
+    "2": {
+      "handle": "homepage",
+      "siteId": "2",
+      "type": "single",
+      "url": "es/",
       "template": "index"
     }
   }
 }
 ```
 
-Note that `blog\/{slug}` was changed to `blog\/:slug`. This allows you to easily map both static and dynamic Craft CMS routes to your router of choice.
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-all-route-rules?siteId=2`
+
+The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue` format for your URL routes. For example, the controller API endpoint `/actions/route-map/routes/get-all-route-rules?format=Vue` will return the same route rules above, but formatted for `Vue`  (e.g.: `blog/:slug`):
+
+```
+{
+  "notFound": {
+    "handle": "notFound",
+    "siteId": "1",
+    "type": "single",
+    "url": "/404",
+    "template": "404"
+  },
+  "blog": {
+    "handle": "blog",
+    "siteId": "1",
+    "type": "channel",
+    "url": "/blog/:slug",
+    "template": "blog/_entry"
+  },
+  "blogIndex": {
+    "handle": "blogIndex",
+    "siteId": "1",
+    "type": "single",
+    "url": "/blog",
+    "template": "blog/index"
+  },
+  "homepage": {
+    "handle": "homepage",
+    "siteId": "1",
+    "type": "single",
+    "url": "/",
+    "template": "index"
+  }
+}
+```
+
+Note that `blog/{slug}` was changed to `blog/:slug`. This allows you to easily map both static and dynamic Craft CMS routes to your router of choice.
 
 If you want just the route rules for a particular section, you can use the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 
 ```
 {
-  "1": {
-    "handle": "blog",
-    "siteId": "1",
-    "type": "channel",
-    "url": "blog\/{slug}",
-    "template": "blog\/_entry"
-  }
+  "handle": "blog",
+  "siteId": "1",
+  "type": "channel",
+  "url": "blog/{slug}",
+  "template": "blog/_entry"
 }
 ```
 
-Route Map will return the URL rules for each `siteId` as the index.
-
-You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog&format=Vue`
+Route Map will return the URL rules for each `siteId` as the index if you have multiple sites:
 
 ```
 {
@@ -158,9 +209,30 @@ You can also pass in the optional `format` parameter to get route rules from a s
     "handle": "blog",
     "siteId": "1",
     "type": "channel",
-    "url": "\/blog\/:slug",
-    "template": "blog\/_entry"
+    "url": "blog/{slug}",
+    "template": "blog/_entry"
+  },
+  "2": {
+    "handle": "blog",
+    "siteId": "2",
+    "type": "channel",
+    "url": "es/blog/{slug}",
+    "template": "blog/_entry"
   }
+}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-section-route-rules?section=blog&siteId=2`
+
+You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog&format=Vue`
+
+```
+{
+  "handle": "blog",
+  "siteId": "1",
+  "type": "channel",
+  "url": "/blog/:slug",
+  "template": "blog/_entry"
 }
 ```
 
@@ -170,47 +242,47 @@ The controller API endpoint `/actions/route-map-routes/get-all-urls` will return
 
 ```
 [
-  "http:\/\/craft3.dev\/404",
-  "http:\/\/craft3.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
-  "http:\/\/craft3.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
-  "http:\/\/craft3.dev\/blog\/static-caching-with-craft-cms",
-  "http:\/\/craft3.dev\/blog\/the-case-of-the-missing-php-session",
-  "http:\/\/craft3.dev\/blog\/so-you-wanna-make-a-craft-3-plugin",
-  "http:\/\/craft3.dev\/blog\/a-b-split-testing-with-nginx-craft-cms",
-  "http:\/\/craft3.dev\/blog\/mobile-testing-local-dev-sharing-with-homestead",
-  "http:\/\/craft3.dev\/blog\/simple-static-asset-versioning",
-  "http:\/\/craft3.dev\/blog\/tags-gone-wild",
-  "http:\/\/craft3.dev\/blog\/local-development-with-vagrant-homestead",
-  "http:\/\/craft3.dev\/blog\/mitigating-disaster-via-website-backups",
-  "http:\/\/craft3.dev\/blog\/web-hosting-for-agencies-freelancers",
-  "http:\/\/craft3.dev\/blog\/implementing-critical-css",
-  "http:\/\/craft3.dev\/blog\/autocomplete-search-with-the-element-api-vuejs",
-  "http:\/\/craft3.dev\/blog\/json-ld-structured-data-and-erotica",
-  "http:\/\/craft3.dev\/blog\/craft-3-beta-executive-summary",
-  "http:\/\/craft3.dev\/blog\/prevent-google-from-indexing-staging-sites",
-  "http:\/\/craft3.dev\/blog\/loadjs-as-a-lightweight-javascript-loader",
-  "http:\/\/craft3.dev\/blog\/creating-a-content-builder-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/service-workers-and-offline-browsing",
-  "http:\/\/craft3.dev\/blog\/using-phpstorm-with-vagrant-homestead",
-  "http:\/\/craft3.dev\/blog\/frontend-dev-best-practices-for-2017",
-  "http:\/\/craft3.dev\/blog\/using-systemjs-as-javascript-loader",
-  "http:\/\/craft3.dev\/blog\/a-better-package-json-for-the-frontend",
-  "http:\/\/craft3.dev\/blog\/modern-seo-snake-oil-vs-substance",
-  "http:\/\/craft3.dev\/blog\/lazy-loading-with-the-element-api-vuejs",
-  "http:\/\/craft3.dev\/blog\/installing-mozjpeg-on-ubuntu-16-04-forge",
-  "http:\/\/craft3.dev\/blog\/a-pretty-website-isnt-enough",
-  "http:\/\/craft3.dev\/blog\/using-vuejs-2-0-with-craft-cms",
-  "http:\/\/craft3.dev\/blog\/image-optimization-project-results",
-  "http:\/\/craft3.dev\/blog\/database-asset-syncing-between-environments-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/hardening-craft-cms-permissions",
-  "http:\/\/craft3.dev\/blog\/multi-environment-config-for-craft-cms",
-  "http:\/\/craft3.dev\/blog\/google-amp-should-you-care",
-  "http:\/\/craft3.dev\/blog\/creating-optimized-images-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/the-craft-cache-tag-in-depth",
-  "http:\/\/craft3.dev\/blog\/twig-processing-order-and-scope",
-  "http:\/\/craft3.dev\/blog\/stop-using-htaccess-files-no-really",
-  "http:\/\/craft3.dev\/blog",
-  "http:\/\/craft3.dev\/"
+  "http://craft3.dev/404",
+  "http://craft3.dev/blog/a-gulp-workflow-for-frontend-development-automation",
+  "http://craft3.dev/blog/making-websites-accessible-americans-with-disabilities-act-ada",
+  "http://craft3.dev/blog/static-caching-with-craft-cms",
+  "http://craft3.dev/blog/the-case-of-the-missing-php-session",
+  "http://craft3.dev/blog/so-you-wanna-make-a-craft-3-plugin",
+  "http://craft3.dev/blog/a-b-split-testing-with-nginx-craft-cms",
+  "http://craft3.dev/blog/mobile-testing-local-dev-sharing-with-homestead",
+  "http://craft3.dev/blog/simple-static-asset-versioning",
+  "http://craft3.dev/blog/tags-gone-wild",
+  "http://craft3.dev/blog/local-development-with-vagrant-homestead",
+  "http://craft3.dev/blog/mitigating-disaster-via-website-backups",
+  "http://craft3.dev/blog/web-hosting-for-agencies-freelancers",
+  "http://craft3.dev/blog/implementing-critical-css",
+  "http://craft3.dev/blog/autocomplete-search-with-the-element-api-vuejs",
+  "http://craft3.dev/blog/json-ld-structured-data-and-erotica",
+  "http://craft3.dev/blog/craft-3-beta-executive-summary",
+  "http://craft3.dev/blog/prevent-google-from-indexing-staging-sites",
+  "http://craft3.dev/blog/loadjs-as-a-lightweight-javascript-loader",
+  "http://craft3.dev/blog/creating-a-content-builder-in-craft-cms",
+  "http://craft3.dev/blog/service-workers-and-offline-browsing",
+  "http://craft3.dev/blog/using-phpstorm-with-vagrant-homestead",
+  "http://craft3.dev/blog/frontend-dev-best-practices-for-2017",
+  "http://craft3.dev/blog/using-systemjs-as-javascript-loader",
+  "http://craft3.dev/blog/a-better-package-json-for-the-frontend",
+  "http://craft3.dev/blog/modern-seo-snake-oil-vs-substance",
+  "http://craft3.dev/blog/lazy-loading-with-the-element-api-vuejs",
+  "http://craft3.dev/blog/installing-mozjpeg-on-ubuntu-16-04-forge",
+  "http://craft3.dev/blog/a-pretty-website-isnt-enough",
+  "http://craft3.dev/blog/using-vuejs-2-0-with-craft-cms",
+  "http://craft3.dev/blog/image-optimization-project-results",
+  "http://craft3.dev/blog/database-asset-syncing-between-environments-in-craft-cms",
+  "http://craft3.dev/blog/hardening-craft-cms-permissions",
+  "http://craft3.dev/blog/multi-environment-config-for-craft-cms",
+  "http://craft3.dev/blog/google-amp-should-you-care",
+  "http://craft3.dev/blog/creating-optimized-images-in-craft-cms",
+  "http://craft3.dev/blog/the-craft-cache-tag-in-depth",
+  "http://craft3.dev/blog/twig-processing-order-and-scope",
+  "http://craft3.dev/blog/stop-using-htaccess-files-no-really",
+  "http://craft3.dev/blog",
+  "http://craft3.dev/"
 ]
 ```
 
@@ -218,44 +290,44 @@ You can retrieve just the entries for a particular section via the controller AP
 
 ```
 [
-  "http:\/\/craft3.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
-  "http:\/\/craft3.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
-  "http:\/\/craft3.dev\/blog\/static-caching-with-craft-cms",
-  "http:\/\/craft3.dev\/blog\/the-case-of-the-missing-php-session",
-  "http:\/\/craft3.dev\/blog\/so-you-wanna-make-a-craft-3-plugin",
-  "http:\/\/craft3.dev\/blog\/a-b-split-testing-with-nginx-craft-cms",
-  "http:\/\/craft3.dev\/blog\/mobile-testing-local-dev-sharing-with-homestead",
-  "http:\/\/craft3.dev\/blog\/simple-static-asset-versioning",
-  "http:\/\/craft3.dev\/blog\/tags-gone-wild",
-  "http:\/\/craft3.dev\/blog\/local-development-with-vagrant-homestead",
-  "http:\/\/craft3.dev\/blog\/mitigating-disaster-via-website-backups",
-  "http:\/\/craft3.dev\/blog\/web-hosting-for-agencies-freelancers",
-  "http:\/\/craft3.dev\/blog\/implementing-critical-css",
-  "http:\/\/craft3.dev\/blog\/autocomplete-search-with-the-element-api-vuejs",
-  "http:\/\/craft3.dev\/blog\/json-ld-structured-data-and-erotica",
-  "http:\/\/craft3.dev\/blog\/craft-3-beta-executive-summary",
-  "http:\/\/craft3.dev\/blog\/prevent-google-from-indexing-staging-sites",
-  "http:\/\/craft3.dev\/blog\/loadjs-as-a-lightweight-javascript-loader",
-  "http:\/\/craft3.dev\/blog\/creating-a-content-builder-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/service-workers-and-offline-browsing",
-  "http:\/\/craft3.dev\/blog\/using-phpstorm-with-vagrant-homestead",
-  "http:\/\/craft3.dev\/blog\/frontend-dev-best-practices-for-2017",
-  "http:\/\/craft3.dev\/blog\/using-systemjs-as-javascript-loader",
-  "http:\/\/craft3.dev\/blog\/a-better-package-json-for-the-frontend",
-  "http:\/\/craft3.dev\/blog\/modern-seo-snake-oil-vs-substance",
-  "http:\/\/craft3.dev\/blog\/lazy-loading-with-the-element-api-vuejs",
-  "http:\/\/craft3.dev\/blog\/installing-mozjpeg-on-ubuntu-16-04-forge",
-  "http:\/\/craft3.dev\/blog\/a-pretty-website-isnt-enough",
-  "http:\/\/craft3.dev\/blog\/using-vuejs-2-0-with-craft-cms",
-  "http:\/\/craft3.dev\/blog\/image-optimization-project-results",
-  "http:\/\/craft3.dev\/blog\/database-asset-syncing-between-environments-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/hardening-craft-cms-permissions",
-  "http:\/\/craft3.dev\/blog\/multi-environment-config-for-craft-cms",
-  "http:\/\/craft3.dev\/blog\/google-amp-should-you-care",
-  "http:\/\/craft3.dev\/blog\/creating-optimized-images-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/the-craft-cache-tag-in-depth",
-  "http:\/\/craft3.dev\/blog\/twig-processing-order-and-scope",
-  "http:\/\/craft3.dev\/blog\/stop-using-htaccess-files-no-really"
+  "http://craft3.dev/blog/a-gulp-workflow-for-frontend-development-automation",
+  "http://craft3.dev/blog/making-websites-accessible-americans-with-disabilities-act-ada",
+  "http://craft3.dev/blog/static-caching-with-craft-cms",
+  "http://craft3.dev/blog/the-case-of-the-missing-php-session",
+  "http://craft3.dev/blog/so-you-wanna-make-a-craft-3-plugin",
+  "http://craft3.dev/blog/a-b-split-testing-with-nginx-craft-cms",
+  "http://craft3.dev/blog/mobile-testing-local-dev-sharing-with-homestead",
+  "http://craft3.dev/blog/simple-static-asset-versioning",
+  "http://craft3.dev/blog/tags-gone-wild",
+  "http://craft3.dev/blog/local-development-with-vagrant-homestead",
+  "http://craft3.dev/blog/mitigating-disaster-via-website-backups",
+  "http://craft3.dev/blog/web-hosting-for-agencies-freelancers",
+  "http://craft3.dev/blog/implementing-critical-css",
+  "http://craft3.dev/blog/autocomplete-search-with-the-element-api-vuejs",
+  "http://craft3.dev/blog/json-ld-structured-data-and-erotica",
+  "http://craft3.dev/blog/craft-3-beta-executive-summary",
+  "http://craft3.dev/blog/prevent-google-from-indexing-staging-sites",
+  "http://craft3.dev/blog/loadjs-as-a-lightweight-javascript-loader",
+  "http://craft3.dev/blog/creating-a-content-builder-in-craft-cms",
+  "http://craft3.dev/blog/service-workers-and-offline-browsing",
+  "http://craft3.dev/blog/using-phpstorm-with-vagrant-homestead",
+  "http://craft3.dev/blog/frontend-dev-best-practices-for-2017",
+  "http://craft3.dev/blog/using-systemjs-as-javascript-loader",
+  "http://craft3.dev/blog/a-better-package-json-for-the-frontend",
+  "http://craft3.dev/blog/modern-seo-snake-oil-vs-substance",
+  "http://craft3.dev/blog/lazy-loading-with-the-element-api-vuejs",
+  "http://craft3.dev/blog/installing-mozjpeg-on-ubuntu-16-04-forge",
+  "http://craft3.dev/blog/a-pretty-website-isnt-enough",
+  "http://craft3.dev/blog/using-vuejs-2-0-with-craft-cms",
+  "http://craft3.dev/blog/image-optimization-project-results",
+  "http://craft3.dev/blog/database-asset-syncing-between-environments-in-craft-cms",
+  "http://craft3.dev/blog/hardening-craft-cms-permissions",
+  "http://craft3.dev/blog/multi-environment-config-for-craft-cms",
+  "http://craft3.dev/blog/google-amp-should-you-care",
+  "http://craft3.dev/blog/creating-optimized-images-in-craft-cms",
+  "http://craft3.dev/blog/the-craft-cache-tag-in-depth",
+  "http://craft3.dev/blog/twig-processing-order-and-scope",
+  "http://craft3.dev/blog/stop-using-htaccess-files-no-really"
 ]
 ```
 
@@ -265,11 +337,11 @@ For instance, if you wanted just the most recent 5 Entries from the `blog` secti
 
 ```
 [
-  "http:\/\/craft3.dev\/blog\/a-gulp-workflow-for-frontend-development-automation",
-  "http:\/\/craft3.dev\/blog\/making-websites-accessible-americans-with-disabilities-act-ada",
-  "http:\/\/craft3.dev\/blog\/static-caching-with-craft-cms",
-  "http:\/\/craft3.dev\/blog\/the-case-of-the-missing-php-session",
-  "http:\/\/craft3.dev\/blog\/so-you-wanna-make-a-craft-3-plugin"
+  "http://craft3.dev/blog/a-gulp-workflow-for-frontend-development-automation",
+  "http://craft3.dev/blog/making-websites-accessible-americans-with-disabilities-act-ada",
+  "http://craft3.dev/blog/static-caching-with-craft-cms",
+  "http://craft3.dev/blog/the-case-of-the-missing-php-session",
+  "http://craft3.dev/blog/so-you-wanna-make-a-craft-3-plugin"
 ]
 ```
 
@@ -277,13 +349,15 @@ Or if you wanted the 5 oldest Entries from the `blog` section, you'd use the con
 
 ```
 [
-  "http:\/\/craft3.dev\/blog\/stop-using-htaccess-files-no-really",
-  "http:\/\/craft3.dev\/blog\/twig-processing-order-and-scope",
-  "http:\/\/craft3.dev\/blog\/the-craft-cache-tag-in-depth",
-  "http:\/\/craft3.dev\/blog\/creating-optimized-images-in-craft-cms",
-  "http:\/\/craft3.dev\/blog\/google-amp-should-you-care"
+  "http://craft3.dev/blog/stop-using-htaccess-files-no-really",
+  "http://craft3.dev/blog/twig-processing-order-and-scope",
+  "http://craft3.dev/blog/the-craft-cache-tag-in-depth",
+  "http://craft3.dev/blog/creating-optimized-images-in-craft-cms",
+  "http://craft3.dev/blog/google-amp-should-you-care"
 ]
 ```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-section-urls?section=blog&siteId=2`
 
 ### Entry URL Assets
 
@@ -291,13 +365,13 @@ The controller API endpoint `/actions/route-map/routes/get-url-asset-urls?url=/b
 
 ```
 [
-  "http:\/\/craft3.dev\/img\/blog\/buried-in-tag-manager-tags.jpg",
-  "http:\/\/craft3.dev\/img\/blog\/they-told-two-friends.png",
-  "http:\/\/craft3.dev\/img\/blog\/tag-manager-tags-gone-wild.png",
-  "http:\/\/craft3.dev\/img\/blog\/google-chrome-activity-indicator.png",
-  "http:\/\/craft3.dev\/img\/blog\/tag-javascript-executing.png",
-  "http:\/\/craft3.dev\/img\/blog\/tags-are-prescription-drugs.jpg",
-  "http:\/\/craft3.dev\/img\/blog\/taming-tags-whip.jpg"
+  "http://craft3.dev/img/blog/buried-in-tag-manager-tags.jpg",
+  "http://craft3.dev/img/blog/they-told-two-friends.png",
+  "http://craft3.dev/img/blog/tag-manager-tags-gone-wild.png",
+  "http://craft3.dev/img/blog/google-chrome-activity-indicator.png",
+  "http://craft3.dev/img/blog/tag-javascript-executing.png",
+  "http://craft3.dev/img/blog/tags-are-prescription-drugs.jpg",
+  "http://craft3.dev/img/blog/taming-tags-whip.jpg"
 ]
 
 ```
@@ -364,6 +438,8 @@ Or if you wanted the 5 oldest Elements of the type `\craft\elements\Asset`, you'
 
 ```
 
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&siteId=2`
+
 ## Using Route Map in your Twig Templates
 
 You can also access any of the aforementioned functionality from within Craft CMS Twig templates.
@@ -382,6 +458,12 @@ To specify the format that the route rules should be returned in, pass in either
 {% set routeRules = craft.routeMap.getAllRouteRules('Vue') %}
 ```
 
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set routeRules = craft.routeMap.getAllRouteRules('Vue', 2) %}
+```
+
 To get route rules from only a specific section (such as `blog`, in this case), pass in the Section handle:
 
 ```
@@ -392,6 +474,12 @@ You can also pass in the optional `format` parameter to get route rules from a s
 
 ```
 {% set routeRules = craft.routeMap.getSectionRouteRules('blog', 'Vue') %}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set routeRules = craft.routeMap.getSectionRouteRules('blog', 'Vue', 2) %}
 ```
 
 ### Entry URLs
@@ -414,6 +502,12 @@ or
 {% set urls = craft.routeMap.getAllUrls({'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
 ```
 
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set urls = craft.routeMap.getAllUrls({'limit': 5}, 2) %}
+```
+
 To get URLs from just a specific Section:
 
 ```
@@ -430,6 +524,12 @@ or
 
 ```
 {% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
+```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}, 2) %}
 ```
 
 ### Entry URL Assets
@@ -466,6 +566,12 @@ or
 {% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
 ```
 
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset', {'limit': 5}, 2) %}
+```
+
 ## Using Route Map from your Plugins
 
 The `RouteMap::$plugin->routes` service gives you access to all of the functions mentioned above via your plugins.
@@ -484,6 +590,12 @@ To specify the format that the route rules should be returned in, pass in either
 $routeRules = RouteMap::$plugin->routes->getAllRouteRules('Vue');
 ```
 
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$routeRules = RouteMap::$plugin->routes->getAllRouteRules('Vue', 2);
+```
+
 To get route rules from only a specific section (such as `blog`, in this case), pass in the Section handle:
 
 ```
@@ -494,6 +606,12 @@ You can also pass in the optional `format` parameter to get route rules from a s
 
 ```
 $routeRules = RouteMap::$plugin->routes->getSectionRouteRules('blog', 'Vue');
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$routeRules = RouteMap::$plugin->routes->getSectionRouteRules('blog', 'Vue', 2);
 ```
 
 ### Entry URLs
@@ -516,6 +634,12 @@ or
 $urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5, 'orderBy' => 'elements.dateCreated asc']);
 ```
 
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5], 2);
+```
+
 To get URLs from just a specific Section:
 
 ```
@@ -532,6 +656,12 @@ or
 
 ```
 $urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5, 'ordery' => 'elements.dateCreated asc']);
+```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5], 2);
 ```
 
 ### Entry URL Assets
@@ -566,6 +696,12 @@ or
 
 ```
 $urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['limit': 5, 'orderBy': 'elements.dateCreated asc']);
+```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['limit': 5], 2);
 ```
 
 ## Route Map Roadmap

@@ -55,12 +55,13 @@ class RouteMapVariable
      * Return all of the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return array
      */
-    public function getAllRouteRules(string $format = 'Craft'): array
+    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
     {
-        return RouteMap::$plugin->routes->getAllRouteRules($format);
+        return RouteMap::$plugin->routes->getAllRouteRules($format, $siteId);
     }
 
     /**
@@ -68,12 +69,13 @@ class RouteMapVariable
      *
      * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return array
      */
-    public function getSectionRouteRules(string $section, string $format = 'Craft'): array
+    public function getSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): array
     {
-        return RouteMap::$plugin->routes->getSectionRouteRules($section, $format);
+        return RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId);
     }
 
     /**

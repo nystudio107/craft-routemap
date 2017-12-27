@@ -8,19 +8,37 @@
  * @copyright Copyright (c) 2017 nystudio107
  */
 
-namespace nystudio107\routemap\variables;
+namespace nystudio107\routemap\controllers;
 
 use nystudio107\routemap\RouteMap;
 
 use craft\base\ElementInterface;
+use craft\web\Controller;
 
 /**
  * @author    nystudio107
  * @package   RouteMap
  * @since     1.0.0
  */
-class RouteMapVariable
+class RoutesController extends Controller
 {
+    // Protected Properties
+    // =========================================================================
+
+    /**
+     * @var    bool|array Allows anonymous access to this controller's actions.
+     *         The actions must be in 'kebab-case'
+     * @access protected
+     */
+    protected $allowAnonymous = [
+        'get-all-urls',
+        'get-section-urls',
+        'get-all-route-rules',
+        'get-section-route-rules',
+        'get-url-asset-urls',
+        'get-element-urls',
+    ];
+
     // Public Methods
     // =========================================================================
 
@@ -30,11 +48,11 @@ class RouteMapVariable
      * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return array
+     * @return string
      */
-    public function getAllUrls($criteria = [], $siteId = null)
+    public function actionGetAllUrls($criteria = [], $siteId = null)
     {
-        return RouteMap::$plugin->routes->getAllUrls($criteria, $siteId);
+        return $this->asJson(RouteMap::$plugin->routes->getAllUrls($criteria, $siteId));
     }
 
     /**
@@ -44,11 +62,11 @@ class RouteMapVariable
      * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return array
+     * @return string
      */
-    public function getSectionUrls(string $section, $criteria = [], $siteId = null)
+    public function actionGetSectionUrls(string $section, $criteria = [], $siteId = null)
     {
-        return RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId);
+        return $this->asJson(RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId));
     }
 
     /**
@@ -56,11 +74,11 @@ class RouteMapVariable
      *
      * @param string $format 'Craft'|'React'|'Vue'
      *
-     * @return array
+     * @return string
      */
-    public function getAllRouteRules(string $format = 'Craft'): array
+    public function actionGetAllRouteRules(string $format = 'Craft')
     {
-        return RouteMap::$plugin->routes->getAllRouteRules($format);
+        return $this->asJson(RouteMap::$plugin->routes->getAllRouteRules($format));
     }
 
     /**
@@ -69,11 +87,11 @@ class RouteMapVariable
      * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
      *
-     * @return array
+     * @return string
      */
-    public function getSectionRouteRules(string $section, string $format = 'Craft'): array
+    public function actionGetSectionRouteRules(string $section, string $format = 'Craft')
     {
-        return RouteMap::$plugin->routes->getSectionRouteRules($section, $format);
+        return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format));
     }
 
     /**
@@ -84,11 +102,11 @@ class RouteMapVariable
      * @param array    $assetTypes
      * @param int|null $siteId
      *
-     * @return array
+     * @return string
      */
-    public function getUrlAssetUrls($url, $assetTypes = ['image'], $siteId = null)
+    public function actionGetUrlAssetUrls($url, $assetTypes = ['image'], $siteId = null)
     {
-        return RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId);
+        return $this->asJson(RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId));
     }
 
     /**
@@ -99,10 +117,10 @@ class RouteMapVariable
      * @var array                   $criteria
      * @var int|null                $siteId
      *
-     * @return array
+     * @return string
      */
     public function getElementUrls($elementType, $criteria = [], $siteId = null)
     {
-        return RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId);
+        return $this->asJson(RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId));
     }
 }

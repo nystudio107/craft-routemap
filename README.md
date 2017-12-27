@@ -8,7 +8,7 @@ Related: [Route Map for Craft 2.x](https://github.com/nystudio107/routemap)
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires Craft CMS 3.0.0-RC3 or later.
 
 ## Installation
 

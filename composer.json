@@ -47,7 +47,7 @@
         "hasCpSection": false,
         "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft3-routemap/master/CHANGELOG.md",
         "components": {
-            "routeMap": "nystudio107\\routemap\\services\\RouteMapService"
+            "routes": "nystudio107\\routemap\\services\\Routes"
         },
         "class": "nystudio107\\routemap\\RouteMap"
     }

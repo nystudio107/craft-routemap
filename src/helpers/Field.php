@@ -18,8 +18,8 @@ use yii\base\InvalidConfigException;
 
 /**
  * @author    nystudio107
- * @package   Seomatic
- * @since     3.0.0
+ * @package   RouteMap
+ * @since     1.0.0
  */
 class Field extends Component
 {
@@ -42,7 +42,7 @@ class Field extends Component
         $fields = $layout->getFields();
         /** @var  $field BaseField */
         foreach ($fields as $field) {
-            if (($field instanceof $fieldType) || (is_subclass_of($field, $fieldType))) {
+            if ($field instanceof $fieldType) {
                 $foundFields[] = $field->handle;
             }
         }
@@ -71,7 +71,7 @@ class Field extends Component
             $fields = $matrixBlockTypeModel->getFields();
             /** @var  $field BaseField */
             foreach ($fields as $field) {
-                if (($field instanceof $fieldType) || (is_subclass_of($field, $fieldType))) {
+                if ($field instanceof $fieldType) {
                     $foundFields[] = $field->handle;
                 }
             }

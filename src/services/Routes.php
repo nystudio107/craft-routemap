@@ -28,7 +28,7 @@ use yii\caching\TagDependency;
  * @package   RouteMap
  * @since     1.0.0
  */
-class RouteMapService extends Component
+class Routes extends Component
 {
 
     // Constants
@@ -136,7 +136,7 @@ class RouteMapService extends Component
         // Just return the data if it's already cached
         $routes = $cache->getOrSet($cacheKey, function () use ($section, $format) {
             Craft::info(
-                'Routemap cache miss: '.$section,
+                'Route Map cache miss: '.$section,
                 __METHOD__
             );
             $resultingRoutes = [];
@@ -198,7 +198,7 @@ class RouteMapService extends Component
         // Just return the data if it's already cached
         $assetUrls = $cache->getOrSet($cacheKey, function () use ($uri, $assetTypes, $siteId) {
             Craft::info(
-                'Routemap cache miss: '.$uri,
+                'Route Map cache miss: '.$uri,
                 __METHOD__
             );
             $resultingAssetUrls = [];
@@ -257,7 +257,7 @@ class RouteMapService extends Component
      *
      * @return array
      */
-    function getElementUrls($elementType, $criteria = [], $siteId = null)
+    public function getElementUrls($elementType, $criteria = [], $siteId = null)
     {
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
@@ -280,7 +280,7 @@ class RouteMapService extends Component
         // Just return the data if it's already cached
         $urls = $cache->getOrSet($cacheKey, function () use ($elementClass, $criteria) {
             Craft::info(
-                'Routemap cache miss: '.$elementClass,
+                'Route Map cache miss: '.$elementClass,
                 __METHOD__
             );
             $resultingUrls = [];
@@ -310,7 +310,7 @@ class RouteMapService extends Component
         $cache = Craft::$app->getCache();
         TagDependency::invalidate($cache, self::ROUTEMAP_CACHE_TAG);
         Craft::info(
-            'RouteMap cache cleared',
+            'Route Map cache cleared',
             __METHOD__
         );
     }

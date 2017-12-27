@@ -1,0 +1,54 @@
+{
+    "name": "nystudio107/craft3-routemap",
+    "description": "Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "vue",
+        "react",
+        "routes",
+        "serviceworker"
+        "route map"
+    ],
+    "support": {
+        "docs": "https://github.com/nystudio107/craft3-routemap/blob/master/README.md",
+        "issues": "https://github.com/nystudio107/craft3-routemap/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "nystudio107",
+            "homepage": "https://nystudio107.com/"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "~3.0.0-RC3"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+          "nystudio107\\routemap\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Route Map",
+        "handle": "route-map",
+        "schemaVersion": "1.0.0",
+        "hasCpSettings": false,
+        "hasCpSection": false,
+        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft3-routemap/master/CHANGELOG.md",
+        "components": {
+            "routeMap": "nystudio107\\routemap\\services\\RouteMapService"
+        },
+        "class": "nystudio107\\routemap\\RouteMap"
+    }
+}

@@ -28,7 +28,7 @@ use yii\caching\TagDependency;
  * @package   RouteMap
  * @since     1.0.0
  */
-class RouteMapService extends Component
+class Routes extends Component
 {
 
     // Constants
@@ -93,16 +93,17 @@ class RouteMapService extends Component
      * Return all of the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return array
      */
-    public function getAllRouteRules(string $format = 'Craft'): array
+    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
     {
         $routeRules = [];
         // Get all of the sections
         $sections = Craft::$app->getSections()->getAllSections();
         foreach ($sections as $section) {
-            $routes = $this->getSectionRouteRules($section->handle, $format);
+            $routes = $this->getSectionRouteRules($section->handle, $format, $siteId);
             if (!empty($routes)) {
                 $routeRules[$section->handle] = $routes;
             }
@@ -116,16 +117,17 @@ class RouteMapService extends Component
      *
      * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return array
      */
-    public function getSectionRouteRules(string $section, string $format = 'Craft'): array
+    public function getSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): array
     {
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
 
         // Set up our cache criteria
-        $cacheKey = $this->getCacheKey($this::ROUTEMAP_RULES, [$section, $format]);
+        $cacheKey = $this->getCacheKey($this::ROUTEMAP_RULES, [$section, $format, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
             'tags' => [
@@ -134,9 +136,9 @@ class RouteMapService extends Component
         ]);
 
         // Just return the data if it's already cached
-        $routes = $cache->getOrSet($cacheKey, function () use ($section, $format) {
+        $routes = $cache->getOrSet($cacheKey, function () use ($section, $format, $siteId) {
             Craft::info(
-                'Routemap cache miss: '.$section,
+                'Route Map cache miss: '.$section,
                 __METHOD__
             );
             $resultingRoutes = [];
@@ -146,7 +148,7 @@ class RouteMapService extends Component
                 $sites = $section->getSiteSettings();
 
                 foreach ($sites as $site) {
-                    if ($site->hasUrls) {
+                    if ($site->hasUrls && ($siteId == null || $site->siteId == $siteId)) {
                         // Get section data to return
                         $route = [
                             'handle'   => $section->handle,
@@ -160,6 +162,10 @@ class RouteMapService extends Component
                         $resultingRoutes[$site->siteId] = $this->normalizeFormat($format, $route);
                     }
                 }
+            }
+            // If there's only one siteId for this section, just return it
+            if (count($resultingRoutes) === 1) {
+                $resultingRoutes = reset($resultingRoutes);
             }
 
             return $resultingRoutes;
@@ -187,7 +193,7 @@ class RouteMapService extends Component
         $uri = parse_url($url, PHP_URL_PATH);
         $uri = ltrim($uri, '/');
         // Set up our cache criteria
-        $cacheKey = $this->getCacheKey($this::ROUTEMAP_ASSET_URLS, [$uri, $assetTypes]);
+        $cacheKey = $this->getCacheKey($this::ROUTEMAP_ASSET_URLS, [$uri, $assetTypes, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
             'tags' => [
@@ -198,7 +204,7 @@ class RouteMapService extends Component
         // Just return the data if it's already cached
         $assetUrls = $cache->getOrSet($cacheKey, function () use ($uri, $assetTypes, $siteId) {
             Craft::info(
-                'Routemap cache miss: '.$uri,
+                'Route Map cache miss: '.$uri,
                 __METHOD__
             );
             $resultingAssetUrls = [];
@@ -257,7 +263,7 @@ class RouteMapService extends Component
      *
      * @return array
      */
-    function getElementUrls($elementType, $criteria = [], $siteId = null)
+    public function getElementUrls($elementType, $criteria = [], $siteId = null)
     {
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
@@ -269,7 +275,7 @@ class RouteMapService extends Component
         ], $criteria);
         // Set up our cache criteria
         $elementClass = is_object($elementType) ? get_class($elementType) : $elementType;
-        $cacheKey = $this->getCacheKey($this::ROUTEMAP_ELEMENT_URLS, [$elementClass, $criteria]);
+        $cacheKey = $this->getCacheKey($this::ROUTEMAP_ELEMENT_URLS, [$elementClass, $criteria, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
             'tags' => [
@@ -280,7 +286,7 @@ class RouteMapService extends Component
         // Just return the data if it's already cached
         $urls = $cache->getOrSet($cacheKey, function () use ($elementClass, $criteria) {
             Craft::info(
-                'Routemap cache miss: '.$elementClass,
+                'Route Map cache miss: '.$elementClass,
                 __METHOD__
             );
             $resultingUrls = [];
@@ -310,7 +316,7 @@ class RouteMapService extends Component
         $cache = Craft::$app->getCache();
         TagDependency::invalidate($cache, self::ROUTEMAP_CACHE_TAG);
         Craft::info(
-            'RouteMap cache cleared',
+            'Route Map cache cleared',
             __METHOD__
         );
     }

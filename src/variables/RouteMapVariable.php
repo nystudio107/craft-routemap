@@ -12,6 +12,8 @@ namespace nystudio107\routemap\variables;
 
 use nystudio107\routemap\RouteMap;
 
+use craft\base\ElementInterface;
+
 /**
  * @author    nystudio107
  * @package   RouteMap
@@ -32,7 +34,7 @@ class RouteMapVariable
      */
     public function getAllUrls($criteria = [], $siteId = null)
     {
-        return RouteMap::$plugin->routeMap->getAllUrls($criteria, $siteId);
+        return RouteMap::$plugin->routes->getAllUrls($criteria, $siteId);
     }
 
     /**
@@ -46,19 +48,20 @@ class RouteMapVariable
      */
     public function getSectionUrls(string $section, $criteria = [], $siteId = null)
     {
-        return RouteMap::$plugin->routeMap->getSectionUrls($section, $criteria, $siteId);
+        return RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId);
     }
 
     /**
      * Return all of the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return array
      */
-    public function getAllRouteRules(string $format = 'Craft'): array
+    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
     {
-        return RouteMap::$plugin->routeMap->getAllRouteRules($format);
+        return RouteMap::$plugin->routes->getAllRouteRules($format, $siteId);
     }
 
     /**
@@ -66,12 +69,13 @@ class RouteMapVariable
      *
      * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
      *
      * @return array
      */
-    public function getSectionRouteRules(string $section, string $format = 'Craft'): array
+    public function getSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): array
     {
-        return RouteMap::$plugin->routeMap->getSectionRouteRules($section, $format);
+        return RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId);
     }
 
     /**
@@ -86,6 +90,21 @@ class RouteMapVariable
      */
     public function getUrlAssetUrls($url, $assetTypes = ['image'], $siteId = null)
     {
-        return RouteMap::$plugin->routeMap->getUrlAssetUrls($url, $assetTypes, $siteId);
+        return RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId);
+    }
+
+    /**
+     * Returns all of the URLs for the given $elementType based on the passed in
+     * $criteria and $siteId
+     *
+     * @var string|ElementInterface $elementType
+     * @var array                   $criteria
+     * @var int|null                $siteId
+     *
+     * @return array
+     */
+    public function getElementUrls($elementType, $criteria = [], $siteId = null)
+    {
+        return RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId);
     }
 }

@@ -15,6 +15,12 @@ use nystudio107\routemap\variables\RouteMapVariable;
 
 use Craft;
 use craft\base\Plugin;
+use craft\base\Element;
+use craft\elements\Entry;
+use craft\events\ElementEvent;
+use craft\events\RegisterCacheOptionsEvent;
+use craft\services\Elements;
+use craft\utilities\ClearCaches;
 use craft\web\twig\variables\CraftVariable;
 
 use yii\base\Event;
@@ -56,6 +62,50 @@ class RouteMap extends Plugin
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('routeMap', RouteMapVariable::class);
+            }
+        );
+
+        // Handler: Elements::EVENT_AFTER_SAVE_ELEMENT
+        Event::on(
+            Elements::class,
+            Elements::EVENT_AFTER_SAVE_ELEMENT,
+            function (ElementEvent $event) {
+                Craft::trace(
+                    'Elements::EVENT_AFTER_SAVE_ELEMENT',
+                    __METHOD__
+                );
+                /** @var Element $element */
+                $element = $event->element;
+                $isNewElement = $event->isNew;
+                $bustCache = true;
+                // Only bust the cache if the element is ENABLED or LIVE
+                if (($element->getStatus() != Element::STATUS_ENABLED)
+                    && ($element->getStatus() != Entry::STATUS_LIVE)
+                ) {
+                    $bustCache = false;
+                }
+                if ($bustCache) {
+                    Craft::trace(
+                        "Cache busted due to saving: " . $element::className() . " - " . $element->title,
+                        __METHOD__
+                    );
+                    RouteMap::$plugin->routes->invalidateCache();
+                }
+            }
+        );
+
+        // Handler: ClearCaches::EVENT_REGISTER_CACHE_OPTIONS
+        Event::on(
+            ClearCaches::className(),
+            ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
+            function (RegisterCacheOptionsEvent $event) {
+                $event->options[] = [
+                    'key' => 'route-map',
+                    'label' => Craft::t('route-map', 'Route Map Cache'),
+                    'action' => function () {
+                        RouteMap::$plugin->routes->invalidateCache();
+                    },
+                ];
             }
         );
 

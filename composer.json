@@ -15,7 +15,7 @@
         "route map"
     ],
     "support": {
-        "docs": "https://github.com/nystudio107/craft-routemap/blob/master/README.md",
+        "docs": "https://github.com/nystudio107/craft-routemap/blob/v1/README.md",
         "issues": "https://github.com/nystudio107/craft-routemap/issues"
     },
     "license": "MIT",
@@ -45,7 +45,7 @@
         "schemaVersion": "1.0.0",
         "hasCpSettings": false,
         "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-routemap/master/CHANGELOG.md",
+        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-routemap/v1/CHANGELOG.md",
         "components": {
             "routes": "nystudio107\\routemap\\services\\Routes"
         },

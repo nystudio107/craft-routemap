@@ -168,10 +168,13 @@ class RouteMapVariable
     /**
      * Get all routes rules defined in the config/routes.php file and CMS
      *
+     * @var int $siteId
+     * @var bool $incGlobalRules - merge global routes with the site rules
+     *
      * @return array
      */
-    public function getAllRouteRules()
+    public function getRouteRules($sideId = null, $incGlobalRules = true)
     {
-        return RouteMap::$plugin->routes->getAllRouteRules();
+        return RouteMap::$plugin->routes->getRouteRules($sideId, $incGlobalRules);
     }
 }

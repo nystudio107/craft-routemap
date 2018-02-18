@@ -17,6 +17,9 @@ use craft\elements\db\ElementQueryInterface;
 use craft\elements\Asset;
 use craft\elements\Entry;
 use craft\elements\Category;
+use craft\helpers\ArrayHelper;
+
+use craft\db\Query;
 use craft\fields\Assets as AssetsField;
 use craft\fields\Matrix as MatrixField;
 
@@ -86,6 +89,7 @@ class Routes extends Component
         // Get all of the sections
         $sections = $this->getAllSectionRouteRules($format, $siteId);
         $categories = $this->getAllCategoryRouteRules($format, $siteId);
+        $rules = $this->getAllRules($siteId);
 
         return ['sections' => $sections, 'categories' => $categories];
     }
@@ -453,15 +457,21 @@ class Routes extends Component
     /**
      * Get all routes rules defined in the config/routes.php file and CMS
      *
+     * @var int $siteId
+     * @var bool $incGlobalRules - merge global routes with the site rules
+     *
      * @return array
      */
-    public function getAllRouteRules()
+    public function getRouteRules($siteId = null, $incGlobalRules = true)
     {
-        $routesService = Craft::$app->getRoutes();
+        $globalRules = $incGlobalRules === true ? $this->getDbRoutes('global') : [];
+
+        $siteRoutes = $this->getDbRoutes($siteId);
 
         $rules = array_merge(
-            $routesService->getConfigFileRoutes(),
-            $routesService->getDbRoutes()
+            Craft::$app->getRoutes()->getConfigFileRoutes(),
+            $globalRules,
+            $siteRoutes
         );
 
         return $rules;
@@ -469,6 +479,39 @@ class Routes extends Component
 
     // Protected Methods
     // =========================================================================
+
+
+    /**
+     * Query the database for db routes
+     *
+     * @param int $siteId
+     *
+     * @return array
+     */
+    protected function getDbRoutes($siteId = null)
+    {
+        if ( $siteId === 'global') {
+          $siteId = null;
+        } else if ( is_null($siteId) ) {
+          $siteId = Craft::$app->getSites()->currentSite->id;
+        };
+
+        // Normalize the URL
+        $results = (new Query())
+            ->select(['uriPattern', 'template'])
+            ->from(['{{%routes}}'])
+            ->where([
+                'or',
+                ['siteId' => $siteId]
+            ])
+            ->orderBy(['sortOrder' => SORT_ASC])
+            ->all();
+
+        return ArrayHelper::map($results, 'uriPattern', function($results) {
+            return ['template' => $results['template']];
+        });
+    }
+
 
     /**
      * Normalize the routes based on the format

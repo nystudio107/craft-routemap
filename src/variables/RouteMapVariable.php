@@ -164,4 +164,14 @@ class RouteMapVariable
     {
         return RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId);
     }
+
+    /**
+     * Get all routes rules defined in the config/routes.php file and CMS
+     *
+     * @return array
+     */
+    public function getAllRouteRules()
+    {
+        return RouteMap::$plugin->routes->getAllRouteRules();
+    }
 }

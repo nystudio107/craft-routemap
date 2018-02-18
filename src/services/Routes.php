@@ -450,6 +450,23 @@ class Routes extends Component
         );
     }
 
+    /**
+     * Get all routes rules defined in the config/routes.php file and CMS
+     *
+     * @return array
+     */
+    public function getAllRouteRules()
+    {
+        $routesService = Craft::$app->getRoutes();
+
+        $rules = array_merge(
+            $routesService->getConfigFileRoutes(),
+            $routesService->getDbRoutes()
+        );
+
+        return $rules;
+    }
+
     // Protected Methods
     // =========================================================================
 

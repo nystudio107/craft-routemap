@@ -38,6 +38,20 @@ class RouteMapVariable
     }
 
     /**
+     * Return all of the section and category route rules
+     *
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
+    {
+        return RouteMap::$plugin->routes->getAllRouteRules($format, $siteId);
+    }
+
+
+    /**
      * Return the public URLs for a section
      *
      * @param string   $section
@@ -51,6 +65,7 @@ class RouteMapVariable
         return RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId);
     }
 
+
     /**
      * Return all of the section route rules
      *
@@ -59,9 +74,9 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
+    public function getAllSectionRouteRules(string $format = 'Craft', $siteId = null): array
     {
-        return RouteMap::$plugin->routes->getAllRouteRules($format, $siteId);
+        return RouteMap::$plugin->routes->getAllSectionRouteRules($format, $siteId);
     }
 
     /**
@@ -77,6 +92,48 @@ class RouteMapVariable
     {
         return RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId);
     }
+
+    /**
+     * Return the public URLs for a category group
+     *
+     * @param string   $category
+     * @param array    $criteria
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getCategoryUrls(string $category, $criteria = [], $siteId = null)
+    {
+        return RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId);
+    }
+
+    /**
+     * Return all of the cateogry group route rules
+     *
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getAllCategoryRouteRules(string $format = 'Craft', $siteId = null): array
+    {
+        return RouteMap::$plugin->routes->getAllCategoryRouteRules($format, $siteId);
+    }
+
+    /**
+     * Return the route rules for a specific category
+     *
+     * @param string $category
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): array
+    {
+        return RouteMap::$plugin->routes->getCategoryRouteRules($category, $format, $siteId);
+    }
+
 
     /**
      * Get all of the assets of the type $assetTypes that are used in the Entry

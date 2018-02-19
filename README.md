@@ -48,34 +48,47 @@ The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will
 
 ```
 {
-  "notFound": {
-    "handle": "notFound",
-    "siteId": "1",
-    "type": "single",
-    "url": "404",
-    "template": "404"
+  "sections": {
+    "notFound": {
+      "handle": "notFound",
+      "siteId": "1",
+      "type": "single",
+      "url": "404",
+      "template": "404"
+    },
+    "blog": {
+      "handle": "blog",
+      "siteId": "1",
+      "type": "channel",
+      "url": "blog/{slug}",
+      "template": "blog/_entry"
+    },
+    "blogIndex": {
+      "handle": "blogIndex",
+      "siteId": "1",
+      "type": "single",
+      "url": "blog",
+      "template": "blog/index"
+    },
+    "homepage": {
+      "handle": "homepage",
+      "siteId": "1",
+      "type": "single",
+      "url": "/",
+      "template": "index"
+    }
   },
-  "blog": {
-    "handle": "blog",
-    "siteId": "1",
-    "type": "channel",
-    "url": "blog/{slug}",
-    "template": "blog/_entry"
+  "categories": {
+      "handle": "pets",
+      "siteId": "1",
+      "url": "pets/{slug}",
+      "template": "pets/_entry"
   },
-  "blogIndex": {
-    "handle": "blogIndex",
-    "siteId": "1",
-    "type": "single",
-    "url": "blog",
-    "template": "blog/index"
+  "rules": {
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
+    }
   },
-  "homepage": {
-    "handle": "homepage",
-    "siteId": "1",
-    "type": "single",
-    "url": "/",
-    "template": "index"
-  }
 }
 ```
 
@@ -83,70 +96,91 @@ If your website has multiple sites, Route Map will return the URL rules for each
 
 ```
 {
-  "notFound": {
-    "1": {
-      "handle": "notFound",
-      "siteId": "1",
-      "type": "single",
-      "url": "404",
-      "template": "404"
+  "sections": {
+    "notFound": {
+      "1": {
+        "handle": "notFound",
+        "siteId": "1",
+        "type": "single",
+        "url": "404",
+        "template": "404"
+      },
+      "2": {
+        "handle": "notFound",
+        "siteId": "2",
+        "type": "single",
+        "url": "es/404",
+        "template": "404"
+      }
     },
-    "2": {
-      "handle": "notFound",
-      "siteId": "2",
-      "type": "single",
-      "url": "es/404",
-      "template": "404"
+    "blog": {
+      "1": {
+        "handle": "blog",
+        "siteId": "1",
+        "type": "channel",
+        "url": "blog/{slug}",
+        "template": "blog/_entry"
+      },
+      "2": {
+        "handle": "blog",
+        "siteId": "2",
+        "type": "channel",
+        "url": "es/blog/{slug}",
+        "template": "blog/_entry"
+      }
+    },
+    "blogIndex": {
+      "1": {
+        "handle": "blogIndex",
+        "siteId": "1",
+        "type": "single",
+        "url": "blog",
+        "template": "blog/index"
+      },
+      "2": {
+        "handle": "blogIndex",
+        "siteId": "2",
+        "type": "single",
+        "url": "es/blog",
+        "template": "blog/index"
+      }
+    },
+    "homepage": {
+      "1": {
+        "handle": "homepage",
+        "siteId": "1",
+        "type": "single",
+        "url": "/",
+        "template": "index"
+      },
+      "2": {
+        "handle": "homepage",
+        "siteId": "2",
+        "type": "single",
+        "url": "es/",
+        "template": "index"
+      }
     }
   },
-  "blog": {
+  "categories": {
     "1": {
-      "handle": "blog",
+      "handle": "pets",
       "siteId": "1",
-      "type": "channel",
-      "url": "blog/{slug}",
-      "template": "blog/_entry"
+      "url": "pets/{slug}",
+      "template": "pets/_entry"
     },
     "2": {
-      "handle": "blog",
-      "siteId": "2",
-      "type": "channel",
-      "url": "es/blog/{slug}",
-      "template": "blog/_entry"
+      "handle": "pets",
+      "siteId": "1",
+      "url": "es/pets/{slug}",
+      "template": "pets/_entry"
     }
   },
-  "blogIndex": {
-    "1": {
-      "handle": "blogIndex",
-      "siteId": "1",
-      "type": "single",
-      "url": "blog",
-      "template": "blog/index"
-    },
-    "2": {
-      "handle": "blogIndex",
-      "siteId": "2",
-      "type": "single",
-      "url": "es/blog",
-      "template": "blog/index"
+  "rules": {
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
     }
   },
-  "homepage": {
-    "1": {
-      "handle": "homepage",
-      "siteId": "1",
-      "type": "single",
-      "url": "/",
-      "template": "index"
-    },
-    "2": {
-      "handle": "homepage",
-      "siteId": "2",
-      "type": "single",
-      "url": "es/",
-      "template": "index"
-    }
-  }
 }
 ```
 
@@ -156,34 +190,47 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
 
 ```
 {
-  "notFound": {
-    "handle": "notFound",
-    "siteId": "1",
-    "type": "single",
-    "url": "/404",
-    "template": "404"
+  "sections": {
+    "notFound": {
+      "handle": "notFound",
+      "siteId": "1",
+      "type": "single",
+      "url": "/404",
+      "template": "404"
+    },
+    "blog": {
+      "handle": "blog",
+      "siteId": "1",
+      "type": "channel",
+      "url": "/blog/:slug",
+      "template": "blog/_entry"
+    },
+    "blogIndex": {
+      "handle": "blogIndex",
+      "siteId": "1",
+      "type": "single",
+      "url": "/blog",
+      "template": "blog/index"
+    },
+    "homepage": {
+      "handle": "homepage",
+      "siteId": "1",
+      "type": "single",
+      "url": "/",
+      "template": "index"
+    }
   },
-  "blog": {
-    "handle": "blog",
-    "siteId": "1",
-    "type": "channel",
-    "url": "/blog/:slug",
-    "template": "blog/_entry"
+  "categories": {
+      "handle": "pets",
+      "siteId": "1",
+      "url": "pets/:slug",
+      "template": "pets/_entry"
   },
-  "blogIndex": {
-    "handle": "blogIndex",
-    "siteId": "1",
-    "type": "single",
-    "url": "/blog",
-    "template": "blog/index"
+  "rules": {
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
+    }
   },
-  "homepage": {
-    "handle": "homepage",
-    "siteId": "1",
-    "type": "single",
-    "url": "/",
-    "template": "index"
-  }
 }
 ```
 
@@ -236,9 +283,53 @@ You can also pass in the optional `format` parameter to get route rules from a s
 }
 ```
 
+
+If you want just the route rules for a particular category, you can use the controller API endpoint `/actions/route-map/routes/get-category-route-rules?category=pets` (note the required `section` parameter that specifies the Section handle you want):
+
+```
+{
+  "handle": "pets",
+  "siteId": "1",
+  "url": "pets/{slug}",
+  "template": "pets/_entry"
+}
+```
+
+Route Map will return the URL rules for each `siteId` as the index if you have multiple sites:
+
+```
+{
+  "1": {
+    "handle": "pets",
+    "siteId": "1",
+    "url": "pets/{slug}",
+    "template": "pets/_entry"
+  },
+  "2": {
+    "handle": "pets",
+    "siteId": "2",
+    "url": "es/pets/{slug}",
+    "template": "pets/_entry"
+  }
+}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-category-route-rules?category=pets&siteId=2`
+
+You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-category-route-rules?category=pets&format=Vue`
+
+```
+{
+  "handle": "pets",
+  "siteId": "1",
+  "url": "/pets/:slug",
+  "template": "pets/_entry"
+}
+```
+
 ### Entry URLs
 
-The controller API endpoint `/actions/route-map-routes/get-all-urls` will return a list of _all_ of the URLs to all of the Entries on your website:
+The controller API endpoint `/actions/route-map/routes/get-all-urls` will return a list of _all_ of the public URLs to all of the Elements on your website (Entries, Assets, Categories, even custom Elements):
 
 ```
 [
@@ -451,6 +542,18 @@ To get all of your website's route rules:
 ```
 {% set routeRules = craft.routeMap.getAllRouteRules() %}
 ```
+
+This will return an array of route rules, in the format:
+
+```
+  [
+  'section' => [],
+  'category' => [],
+  'rules' => [],
+  ]
+```
+
+...where `section` is an array of Section rules, `category` is an array of Category rules, and `rules` is an array of rules specified in the AdminCP Settings->Routes combined with any route rules specified in your `config/routes.php`
 
 To specify the format that the route rules should be returned in, pass in either `Craft` | `React` | `Vue`:
 

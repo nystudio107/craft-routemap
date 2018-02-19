@@ -44,6 +44,8 @@ There's nothing to configure.
 
 ### Route Rules
 
+#### All Route Rules
+
 The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will return all of your website's route rules in an associative array. By default, they are in Craft CMS format (e.g.: `blog/{slug}`):
 
 ```
@@ -236,6 +238,8 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
 
 Note that `blog/{slug}` was changed to `blog/:slug`. This allows you to easily map both static and dynamic Craft CMS routes to your router of choice.
 
+#### Section Route Rules
+
 If you want just the route rules for a particular section, you can use the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 
 ```
@@ -283,6 +287,7 @@ You can also pass in the optional `format` parameter to get route rules from a s
 }
 ```
 
+#### Category Route Rules
 
 If you want just the route rules for a particular category, you can use the controller API endpoint `/actions/route-map/routes/get-category-route-rules?category=pets` (note the required `section` parameter that specifies the Section handle you want):
 
@@ -327,7 +332,9 @@ You can also pass in the optional `format` parameter to get route rules from a s
 }
 ```
 
-### Entry URLs
+### Public URLs
+
+#### All Public URLs
 
 The controller API endpoint `/actions/route-map/routes/get-all-urls` will return a list of _all_ of the public URLs to all of the Elements on your website (Entries, Assets, Categories, even custom Elements):
 
@@ -376,6 +383,8 @@ The controller API endpoint `/actions/route-map/routes/get-all-urls` will return
   "http://craft3.dev/"
 ]
 ```
+
+#### Section Public URLs
 
 You can retrieve just the entries for a particular section via the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 

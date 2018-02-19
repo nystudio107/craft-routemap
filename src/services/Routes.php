@@ -76,7 +76,7 @@ class Routes extends Component
     /**
      * Return all of the section route rules
      *
-     * @param string $format 'Craft'|'React'|'Vue'
+     * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
      * @return array
@@ -111,7 +111,7 @@ class Routes extends Component
     /**
      * Return all of the section route rules
      *
-     * @param string $format 'Craft'|'React'|'Vue'
+     * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
      * @return array
@@ -135,8 +135,8 @@ class Routes extends Component
     /**
      * Return the route rules for a specific section
      *
-     * @param string $section
-     * @param string $format 'Craft'|'React'|'Vue'
+     * @param string   $section
+     * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
      * @return array
@@ -194,30 +194,30 @@ class Routes extends Component
         return $routes;
     }
 
-      /**
-       * Return the public URLs for a category
-       *
-       * @param string   $category
-       * @param array    $criteria
-       * @param int|null $siteId
-       *
-       * @return array
-       */
-      public function getCategoryUrls(string $category, $criteria = [], $siteId = null)
-      {
+    /**
+     * Return the public URLs for a category
+     *
+     * @param string   $category
+     * @param array    $criteria
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getCategoryUrls(string $category, $criteria = [], $siteId = null)
+    {
 
-          $criteria = array_merge([
-              'group' => $category,
-          ], $criteria);
+        $criteria = array_merge([
+            'group' => $category,
+        ], $criteria);
 
-          return $this->getElementUrls(Category::class, $criteria, $siteId);
-      }
+        return $this->getElementUrls(Category::class, $criteria, $siteId);
+    }
 
 
     /**
      * Return all of the cateogry group route rules
      *
-     * @param string $format 'Craft'|'React'|'Vue'
+     * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
      * @return array
@@ -226,7 +226,7 @@ class Routes extends Component
     {
         $routeRules = [];
         // Get all of the sections
-        $groups = Craft::$app->getCategories()->getAllGroups();;
+        $groups = Craft::$app->getCategories()->getAllGroups();
         foreach ($groups as $group) {
             $routes = $this->getCategoryRouteRules($group->handle, $format, $siteId);
             if (!empty($routes)) {
@@ -241,8 +241,8 @@ class Routes extends Component
      * Return the route rules for a specific category
      *
      * @param int|string $category
-     * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
+     * @param string     $format 'Craft'|'React'|'Vue'
+     * @param int|null   $siteId
      *
      * @return array
      */
@@ -251,11 +251,11 @@ class Routes extends Component
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
 
-        if ( is_numeric($category)) {
-          $category = Craft::$app->getCategories()->getGroupById($category);
-          $handle = $category->handle;
+        if (is_numeric($category)) {
+            $category = Craft::$app->getCategories()->getGroupById($category);
+            $handle = $category->handle;
         } else {
-          $handle = $category;
+            $handle = $category;
         }
 
         // Set up our cache criteria

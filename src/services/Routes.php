@@ -16,6 +16,10 @@ use craft\base\ElementInterface;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\Asset;
 use craft\elements\Entry;
+use craft\elements\Category;
+use craft\helpers\ArrayHelper;
+
+use craft\db\Query;
 use craft\fields\Assets as AssetsField;
 use craft\fields\Matrix as MatrixField;
 
@@ -43,7 +47,8 @@ class Routes extends Component
 
     const ROUTEMAP_CACHE_TAG = 'RouteMap';
 
-    const ROUTEMAP_RULES = 'Rules';
+    const ROUTEMAP_SECTION_RULES = 'Sections';
+    const ROUTEMAP_CATEGORY_RULES = 'Categories';
     const ROUTEMAP_ELEMENT_URLS = 'ElementUrls';
     const ROUTEMAP_ASSET_URLS = 'AssetUrls';
     const ROUTEMAP_ALL_URLS = 'AllUrls';
@@ -72,6 +77,24 @@ class Routes extends Component
     }
 
     /**
+     * Return all of the section route rules
+     *
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
+    {
+        // Get all of the sections
+        $sections = $this->getAllSectionRouteRules($format, $siteId);
+        $categories = $this->getAllCategoryRouteRules($format, $siteId);
+        $rules = $this->getAllRules($siteId);
+
+        return ['sections' => $sections, 'categories' => $categories];
+    }
+
+    /**
      * Return the public URLs for a section
      *
      * @param string   $section
@@ -97,7 +120,7 @@ class Routes extends Component
      *
      * @return array
      */
-    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
+    public function getAllSectionRouteRules(string $format = 'Craft', $siteId = null): array
     {
         $routeRules = [];
         // Get all of the sections
@@ -111,6 +134,7 @@ class Routes extends Component
 
         return $routeRules;
     }
+
 
     /**
      * Return the route rules for a specific section
@@ -127,7 +151,7 @@ class Routes extends Component
         $cache = Craft::$app->getCache();
 
         // Set up our cache criteria
-        $cacheKey = $this->getCacheKey($this::ROUTEMAP_RULES, [$section, $format, $siteId]);
+        $cacheKey = $this->getCacheKey($this::ROUTEMAP_SECTION_RULES, [$section, $format, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
             'tags' => [
@@ -154,6 +178,115 @@ class Routes extends Component
                             'handle'   => $section->handle,
                             'siteId'   => $site->siteId,
                             'type'     => $section->type,
+                            'url'      => $site->uriFormat,
+                            'template' => $site->template,
+                        ];
+
+                        // Normalize the routes based on the format
+                        $resultingRoutes[$site->siteId] = $this->normalizeFormat($format, $route);
+                    }
+                }
+            }
+            // If there's only one siteId for this section, just return it
+            if (count($resultingRoutes) === 1) {
+                $resultingRoutes = reset($resultingRoutes);
+            }
+
+            return $resultingRoutes;
+        }, $duration, $dependency);
+
+        return $routes;
+    }
+
+      /**
+       * Return the public URLs for a category
+       *
+       * @param string   $category
+       * @param array    $criteria
+       * @param int|null $siteId
+       *
+       * @return array
+       */
+      public function getCategoryUrls(string $category, $criteria = [], $siteId = null)
+      {
+
+          $criteria = array_merge([
+              'group' => $category,
+          ], $criteria);
+
+          return $this->getElementUrls(Category::class, $criteria, $siteId);
+      }
+
+
+    /**
+     * Return all of the cateogry group route rules
+     *
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getAllCategoryRouteRules(string $format = 'Craft', $siteId = null): array
+    {
+        $routeRules = [];
+        // Get all of the sections
+        $groups = Craft::$app->getCategories()->getAllGroups();;
+        foreach ($groups as $group) {
+            $routes = $this->getCategoryRouteRules($group->handle, $format, $siteId);
+            if (!empty($routes)) {
+                $routeRules[$group->handle] = $routes;
+            }
+        }
+
+        return $routeRules;
+    }
+
+    /**
+     * Return the route rules for a specific category
+     *
+     * @param int|string $category
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return array
+     */
+    public function getCategoryRouteRules($category, string $format = 'Craft', $siteId = null): array
+    {
+        $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
+        $cache = Craft::$app->getCache();
+
+        if ( is_numeric($category)) {
+          $category = Craft::$app->getCategories()->getGroupById($category);
+          $handle = $category->handle;
+        } else {
+          $handle = $category;
+        }
+
+        // Set up our cache criteria
+        $cacheKey = $this->getCacheKey($this::ROUTEMAP_CATEGORY_RULES, [$category, $handle, $format, $siteId]);
+        $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
+        $dependency = new TagDependency([
+            'tags' => [
+                $this::ROUTEMAP_CACHE_TAG,
+            ],
+        ]);
+        // Just return the data if it's already cached
+        $routes = $cache->getOrSet($cacheKey, function () use ($category, $handle, $format, $siteId) {
+            Craft::info(
+                'Route Map cache miss: '.$category,
+                __METHOD__
+            );
+            $resultingRoutes = [];
+            $category = is_object($category) ? $category : Craft::$app->getCategories()->getGroupByHandle($handle);
+            if ($category) {
+                $sites = $category->getSiteSettings();
+
+                foreach ($sites as $site) {
+                    if ($site->hasUrls && ($siteId == null || $site->siteId == $siteId)) {
+                        // Get section data to return
+                        $route = [
+                            'handle'   => $category->handle,
+                            'siteId'   => $site->siteId,
                             'url'      => $site->uriFormat,
                             'template' => $site->template,
                         ];
@@ -321,8 +454,64 @@ class Routes extends Component
         );
     }
 
+    /**
+     * Get all routes rules defined in the config/routes.php file and CMS
+     *
+     * @var int $siteId
+     * @var bool $incGlobalRules - merge global routes with the site rules
+     *
+     * @return array
+     */
+    public function getRouteRules($siteId = null, $incGlobalRules = true)
+    {
+        $globalRules = $incGlobalRules === true ? $this->getDbRoutes('global') : [];
+
+        $siteRoutes = $this->getDbRoutes($siteId);
+
+        $rules = array_merge(
+            Craft::$app->getRoutes()->getConfigFileRoutes(),
+            $globalRules,
+            $siteRoutes
+        );
+
+        return $rules;
+    }
+
     // Protected Methods
     // =========================================================================
+
+
+    /**
+     * Query the database for db routes
+     *
+     * @param int $siteId
+     *
+     * @return array
+     */
+    protected function getDbRoutes($siteId = null)
+    {
+        if ( $siteId === 'global') {
+          $siteId = null;
+        } else if ( is_null($siteId) ) {
+          $siteId = Craft::$app->getSites()->currentSite->id;
+        };
+
+        // Normalize the URL
+        $results = (new Query())
+            ->select(['uriPattern', 'template'])
+            ->from(['{{%routes}}'])
+            ->where([
+                'or',
+                ['siteId' => $siteId]
+            ])
+            ->orderBy(['sortOrder' => SORT_ASC])
+            ->all();
+
+        return ArrayHelper::map($results, 'uriPattern', function($results) {
+            return ['template' => $results['template']];
+        });
+    }
+
 
     /**
      * Normalize the routes based on the format

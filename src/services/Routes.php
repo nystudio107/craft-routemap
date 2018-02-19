@@ -457,7 +457,7 @@ class Routes extends Component
     /**
      * Get all routes rules defined in the config/routes.php file and CMS
      *
-     * @var int $siteId
+     * @var int  $siteId
      * @var bool $incGlobalRules - merge global routes with the site rules
      *
      * @return array
@@ -490,10 +490,10 @@ class Routes extends Component
      */
     protected function getDbRoutes($siteId = null)
     {
-        if ( $siteId === 'global') {
-          $siteId = null;
-        } else if ( is_null($siteId) ) {
-          $siteId = Craft::$app->getSites()->currentSite->id;
+        if ($siteId === 'global') {
+            $siteId = null;
+        } else if (is_null($siteId)) {
+            $siteId = Craft::$app->getSites()->currentSite->id;
         };
 
         // Normalize the URL
@@ -502,12 +502,12 @@ class Routes extends Component
             ->from(['{{%routes}}'])
             ->where([
                 'or',
-                ['siteId' => $siteId]
+                ['siteId' => $siteId],
             ])
             ->orderBy(['sortOrder' => SORT_ASC])
             ->all();
 
-        return ArrayHelper::map($results, 'uriPattern', function($results) {
+        return ArrayHelper::map($results, 'uriPattern', function ($results) {
             return ['template' => $results['template']];
         });
     }

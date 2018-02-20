@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.0 - 2018.02.20
+### Added
+* Added support for retrieving category route rules & URLs
+* Added support for retrieving Admin CP & `routes.php` rules
+
+### Changed
+* Updated the `README.md` to reflect the new functionality
+
 ## 1.0.2 - 2018.02.01
 ### Added
 * Renamed the composer package name to `craft-routemap`

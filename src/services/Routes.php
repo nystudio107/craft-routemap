@@ -34,7 +34,6 @@ use yii\caching\TagDependency;
  */
 class Routes extends Component
 {
-
     // Constants
     // =========================================================================
 
@@ -89,9 +88,13 @@ class Routes extends Component
         // Get all of the sections
         $sections = $this->getAllSectionRouteRules($format, $siteId);
         $categories = $this->getAllCategoryRouteRules($format, $siteId);
-        $rules = $this->getAllRules($siteId);
+        $rules = $this->getRouteRules($siteId);
 
-        return ['sections' => $sections, 'categories' => $categories];
+        return [
+            'sections' => $sections,
+            'categories' => $categories,
+            'rules' => $rules
+        ];
     }
 
     /**
@@ -134,7 +137,6 @@ class Routes extends Component
 
         return $routeRules;
     }
-
 
     /**
      * Return the route rules for a specific section
@@ -216,7 +218,6 @@ class Routes extends Component
 
         return $this->getElementUrls(Category::class, $criteria, $siteId);
     }
-
 
     /**
      * Return all of the cateogry group route rules
@@ -458,13 +459,13 @@ class Routes extends Component
      * Get all routes rules defined in the config/routes.php file and CMS
      *
      * @var int  $siteId
-     * @var bool $incGlobalRules - merge global routes with the site rules
+     * @var bool $includeGlobal - merge global routes with the site rules
      *
      * @return array
      */
-    public function getRouteRules($siteId = null, $incGlobalRules = true)
+    public function getRouteRules($siteId = null, $includeGlobal = true)
     {
-        $globalRules = $incGlobalRules === true ? $this->getDbRoutes('global') : [];
+        $globalRules = $includeGlobal === true ? $this->getDbRoutes('global') : [];
 
         $siteRoutes = $this->getDbRoutes($siteId);
 
@@ -480,7 +481,6 @@ class Routes extends Component
     // Protected Methods
     // =========================================================================
 
-
     /**
      * Query the database for db routes
      *
@@ -492,7 +492,7 @@ class Routes extends Component
     {
         if ($siteId === 'global') {
             $siteId = null;
-        } else if (is_null($siteId)) {
+        } elseif (is_null($siteId)) {
             $siteId = Craft::$app->getSites()->currentSite->id;
         };
 
@@ -511,7 +511,6 @@ class Routes extends Component
             return ['template' => $results['template']];
         });
     }
-
 
     /**
      * Normalize the routes based on the format

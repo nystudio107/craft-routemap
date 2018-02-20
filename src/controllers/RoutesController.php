@@ -70,6 +70,20 @@ class RoutesController extends Controller
     }
 
     /**
+     * Return the public URLs for a category
+     *
+     * @param string   $category
+     * @param array    $criteria
+     * @param int|null $siteId
+     *
+     * @return string
+     */
+    public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null)
+    {
+        return $this->asJson(RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId));
+    }
+
+    /**
      * Return all of the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
@@ -94,6 +108,33 @@ class RoutesController extends Controller
     public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null)
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId));
+    }
+
+    /**
+     * Return the route rules for a specific category
+     *
+     * @param string   $category
+     * @param string   $format 'Craft'|'React'|'Vue'
+     * @param int|null $siteId
+     *
+     * @return string
+     */
+    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null)
+    {
+        return $this->asJson(RouteMap::$plugin->routes->getCategoryRouteRules($category, $format, $siteId));
+    }
+
+    /**
+     * Return the Craft AdminCP and `routes.php` rules
+     *
+     * @param int|null $siteId
+     * @param bool     $includeGlobal
+     *
+     * @return string
+     */
+    public function actionGetRouteRules($siteId = null, $includeGlobal = true)
+    {
+        return $this->asJson(RouteMap::$plugin->routes->getRouteRules($siteId, $includeGlobal));
     }
 
     /**

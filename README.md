@@ -44,109 +44,146 @@ There's nothing to configure.
 
 ### Route Rules
 
-The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will return all of your website's route rules in an associative array. By default, they are in Craft CMS format (e.g.: `blog/{slug}`):
+#### All Route Rules
+
+The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will return all of your website's route rules in an array of associative arrays. By default, they are in Craft CMS format (e.g.: `blog/{slug}`):
 
 ```
 {
-  "notFound": {
-    "handle": "notFound",
-    "siteId": "1",
-    "type": "single",
-    "url": "404",
-    "template": "404"
-  },
-  "blog": {
-    "handle": "blog",
-    "siteId": "1",
-    "type": "channel",
-    "url": "blog/{slug}",
-    "template": "blog/_entry"
-  },
-  "blogIndex": {
-    "handle": "blogIndex",
-    "siteId": "1",
-    "type": "single",
-    "url": "blog",
-    "template": "blog/index"
-  },
-  "homepage": {
-    "handle": "homepage",
-    "siteId": "1",
-    "type": "single",
-    "url": "/",
-    "template": "index"
-  }
-}
-```
-
-If your website has multiple sites, Route Map will return the URL rules for each `siteId` as the index:
-
-```
-{
-  "notFound": {
-    "1": {
+  "sections": {
+    "notFound": {
       "handle": "notFound",
       "siteId": "1",
       "type": "single",
       "url": "404",
       "template": "404"
     },
-    "2": {
-      "handle": "notFound",
-      "siteId": "2",
-      "type": "single",
-      "url": "es/404",
-      "template": "404"
-    }
-  },
-  "blog": {
-    "1": {
+    "blog": {
       "handle": "blog",
       "siteId": "1",
       "type": "channel",
       "url": "blog/{slug}",
       "template": "blog/_entry"
     },
-    "2": {
-      "handle": "blog",
-      "siteId": "2",
-      "type": "channel",
-      "url": "es/blog/{slug}",
-      "template": "blog/_entry"
-    }
-  },
-  "blogIndex": {
-    "1": {
+    "blogIndex": {
       "handle": "blogIndex",
       "siteId": "1",
       "type": "single",
       "url": "blog",
       "template": "blog/index"
     },
-    "2": {
-      "handle": "blogIndex",
-      "siteId": "2",
-      "type": "single",
-      "url": "es/blog",
-      "template": "blog/index"
-    }
-  },
-  "homepage": {
-    "1": {
+    "homepage": {
       "handle": "homepage",
       "siteId": "1",
       "type": "single",
       "url": "/",
       "template": "index"
+    }
+  },
+  "categories": {
+      "handle": "pets",
+      "siteId": "1",
+      "url": "pets/{slug}",
+      "template": "pets/_entry"
+  },
+  "rules": {
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
+    }
+  },
+}
+```
+...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the AdminCP Settings->Routes combined with any route rules specified in your `config/routes.php`
+
+If your website has multiple sites, Route Map will return the URL rules for each `siteId` as the index:
+
+```
+{
+  "sections": {
+    "notFound": {
+      "1": {
+        "handle": "notFound",
+        "siteId": "1",
+        "type": "single",
+        "url": "404",
+        "template": "404"
+      },
+      "2": {
+        "handle": "notFound",
+        "siteId": "2",
+        "type": "single",
+        "url": "es/404",
+        "template": "404"
+      }
+    },
+    "blog": {
+      "1": {
+        "handle": "blog",
+        "siteId": "1",
+        "type": "channel",
+        "url": "blog/{slug}",
+        "template": "blog/_entry"
+      },
+      "2": {
+        "handle": "blog",
+        "siteId": "2",
+        "type": "channel",
+        "url": "es/blog/{slug}",
+        "template": "blog/_entry"
+      }
+    },
+    "blogIndex": {
+      "1": {
+        "handle": "blogIndex",
+        "siteId": "1",
+        "type": "single",
+        "url": "blog",
+        "template": "blog/index"
+      },
+      "2": {
+        "handle": "blogIndex",
+        "siteId": "2",
+        "type": "single",
+        "url": "es/blog",
+        "template": "blog/index"
+      }
+    },
+    "homepage": {
+      "1": {
+        "handle": "homepage",
+        "siteId": "1",
+        "type": "single",
+        "url": "/",
+        "template": "index"
+      },
+      "2": {
+        "handle": "homepage",
+        "siteId": "2",
+        "type": "single",
+        "url": "es/",
+        "template": "index"
+      }
+    }
+  },
+  "categories": {
+    "1": {
+      "handle": "pets",
+      "siteId": "1",
+      "url": "pets/{slug}",
+      "template": "pets/_entry"
     },
     "2": {
-      "handle": "homepage",
-      "siteId": "2",
-      "type": "single",
-      "url": "es/",
-      "template": "index"
+      "handle": "pets",
+      "siteId": "1",
+      "url": "es/pets/{slug}",
+      "template": "pets/_entry"
     }
-  }
+  },
+  "rules": {
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
+    }
+  },
 }
 ```
 
@@ -156,38 +193,53 @@ The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue
 
 ```
 {
-  "notFound": {
-    "handle": "notFound",
-    "siteId": "1",
-    "type": "single",
-    "url": "/404",
-    "template": "404"
+  "sections": {
+    "notFound": {
+      "handle": "notFound",
+      "siteId": "1",
+      "type": "single",
+      "url": "/404",
+      "template": "404"
+    },
+    "blog": {
+      "handle": "blog",
+      "siteId": "1",
+      "type": "channel",
+      "url": "/blog/:slug",
+      "template": "blog/_entry"
+    },
+    "blogIndex": {
+      "handle": "blogIndex",
+      "siteId": "1",
+      "type": "single",
+      "url": "/blog",
+      "template": "blog/index"
+    },
+    "homepage": {
+      "handle": "homepage",
+      "siteId": "1",
+      "type": "single",
+      "url": "/",
+      "template": "index"
+    }
   },
-  "blog": {
-    "handle": "blog",
-    "siteId": "1",
-    "type": "channel",
-    "url": "/blog/:slug",
-    "template": "blog/_entry"
+  "categories": {
+      "handle": "pets",
+      "siteId": "1",
+      "url": "pets/:slug",
+      "template": "pets/_entry"
   },
-  "blogIndex": {
-    "handle": "blogIndex",
-    "siteId": "1",
-    "type": "single",
-    "url": "/blog",
-    "template": "blog/index"
+  "rules": {
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
+    }
   },
-  "homepage": {
-    "handle": "homepage",
-    "siteId": "1",
-    "type": "single",
-    "url": "/",
-    "template": "index"
-  }
 }
 ```
 
 Note that `blog/{slug}` was changed to `blog/:slug`. This allows you to easily map both static and dynamic Craft CMS routes to your router of choice.
+
+#### Section Route Rules
 
 If you want just the route rules for a particular section, you can use the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 
@@ -236,9 +288,72 @@ You can also pass in the optional `format` parameter to get route rules from a s
 }
 ```
 
-### Entry URLs
+#### Category Route Rules
 
-The controller API endpoint `/actions/route-map-routes/get-all-urls` will return a list of _all_ of the URLs to all of the Entries on your website:
+If you want just the route rules for a particular category, you can use the controller API endpoint `/actions/route-map/routes/get-category-route-rules?category=pets` (note the required `section` parameter that specifies the Section handle you want):
+
+```
+{
+  "handle": "pets",
+  "siteId": "1",
+  "url": "pets/{slug}",
+  "template": "pets/_entry"
+}
+```
+
+Route Map will return the URL rules for each `siteId` as the index if you have multiple sites:
+
+```
+{
+  "1": {
+    "handle": "pets",
+    "siteId": "1",
+    "url": "pets/{slug}",
+    "template": "pets/_entry"
+  },
+  "2": {
+    "handle": "pets",
+    "siteId": "2",
+    "url": "es/pets/{slug}",
+    "template": "pets/_entry"
+  }
+}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-category-route-rules?category=pets&siteId=2`
+
+You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-category-route-rules?category=pets&format=Vue`
+
+```
+{
+  "handle": "pets",
+  "siteId": "1",
+  "url": "/pets/:slug",
+  "template": "pets/_entry"
+}
+```
+
+#### Custom Route Rules
+
+You can retrieve the custom route rules defined in the Craft CMS 3 Admin CP and in the `routes.php` file via the controller API endpoint `/actions/route-map/routes/get-route-rules`
+
+```
+{
+    "blog/archive/<year:\d{4}>": {
+      "template": "blog/_archive"
+    }
+}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-route-rules?siteId=2`
+
+You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine if you want to include any global (for all sites) routes via the controller API endpoint `/actions/route-map/routes/get-route-rules?includeGlobal=0`
+
+### Public URLs
+
+#### All Public URLs
+
+The controller API endpoint `/actions/route-map/routes/get-all-urls` will return a list of _all_ of the public URLs to all of the Elements on your website (Entries, Assets, Categories, even custom Elements):
 
 ```
 [
@@ -285,6 +400,8 @@ The controller API endpoint `/actions/route-map-routes/get-all-urls` will return
   "http://craft3.dev/"
 ]
 ```
+
+#### Section Public URLs
 
 You can retrieve just the entries for a particular section via the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog` (note the required `section` parameter that specifies the Section handle you want):
 
@@ -358,6 +475,50 @@ Or if you wanted the 5 oldest Entries from the `blog` section, you'd use the con
 ```
 
 The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-section-urls?section=blog&siteId=2`
+
+#### Category Public URLs
+
+You can retrieve just the entries for a particular category via the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets` (note the required `category` parameter that specifies the Section handle you want):
+
+```
+[
+  "http://craft3.dev/pets/african-grey-parrot",
+  "http://craft3.dev/pets/pikachu",
+  "http://craft3.dev/blog/rescue-dogs",
+  "http://craft3.dev/blog/stinky-monkeys",
+  "http://craft3.dev/blog/violent-iguanas",
+  "http://craft3.dev/blog/fluffy-floof-balls",
+  "http://craft3.dev/blog/snakes-in-the-grass"
+]
+```
+
+Both of the above controller API endpoints support an optional `criteria` parameter that lets you pass in an array of `ElementQuery` attribute key/value pairs to be used to refine the Entries selected.
+
+For instance, if you wanted just the most recent 5 Entries from the `pets` category, you'd use the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets&criteria[limit]=5`:
+
+```
+[
+  "http://craft3.dev/pets/african-grey-parrot",
+  "http://craft3.dev/pets/pikachu",
+  "http://craft3.dev/blog/rescue-dogs",
+  "http://craft3.dev/blog/stinky-monkeys",
+  "http://craft3.dev/blog/violent-iguanas",
+]
+```
+
+Or if you wanted the 5 oldest elements from the `pets` category, you'd use the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets&criteria[limit]=5&criteria[order]=elements.dateCreated asc`:
+
+```
+[
+  "http://craft3.dev/blog/rescue-dogs",
+  "http://craft3.dev/blog/stinky-monkeys",
+  "http://craft3.dev/blog/violent-iguanas",
+  "http://craft3.dev/blog/fluffy-floof-balls",
+  "http://craft3.dev/blog/snakes-in-the-grass"
+]
+```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-category-urls?section=blog&siteId=2`
 
 ### Entry URL Assets
 
@@ -446,11 +607,25 @@ You can also access any of the aforementioned functionality from within Craft CM
 
 ### Route Rules
 
+#### All Route Rules
+
 To get all of your website's route rules:
 
 ```
 {% set routeRules = craft.routeMap.getAllRouteRules() %}
 ```
+
+This will return an array of route rules, in the format:
+
+```
+  [
+  'section' => [],
+  'category' => [],
+  'rules' => [],
+  ]
+```
+
+...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the AdminCP Settings->Routes combined with any route rules specified in your `config/routes.php`
 
 To specify the format that the route rules should be returned in, pass in either `Craft` | `React` | `Vue`:
 
@@ -463,6 +638,8 @@ The default is to return all route rules for all `siteId`s but you can specify a
 ```
 {% set routeRules = craft.routeMap.getAllRouteRules('Vue', 2) %}
 ```
+
+#### Section Route Rules
 
 To get route rules from only a specific section (such as `blog`, in this case), pass in the Section handle:
 
@@ -482,7 +659,49 @@ The default is to return all route rules for all `siteId`s but you can specify a
 {% set routeRules = craft.routeMap.getSectionRouteRules('blog', 'Vue', 2) %}
 ```
 
-### Entry URLs
+#### Category Route Rules
+
+To get route rules from only a specific category (such as `pets`, in this case), pass in the Category handle:
+
+```
+{% set routeRules = craft.routeMap.getCategoryRouteRules('pets') %}
+```
+
+You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format:
+
+```
+{% set routeRules = craft.routeMap.getCategoryRouteRules('pets', 'Vue') %}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set routeRules = craft.routeMap.getCategoryRouteRules('pets', 'Vue', 2) %}
+```
+
+#### Custom Route Rules
+
+You can retrieve the custom route rules defined in the Craft CMS 3 Admin CP and in the `routes.php` file:
+
+```
+{% set routeRules = craft.routeMap.getRouteRules() %}
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set routeRules = craft.routeMap.getRouteRules(1) %}
+```
+
+You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine if you want to include any global (for all sites) routes:
+
+```
+{% set routeRules = craft.routeMap.getRouteRules(1, false) %}
+```
+
+### Public URLs
+
+#### All Public URLs
 
 To get all of your website's public Entry URLs:
 
@@ -508,6 +727,8 @@ The default is to return all URLs for all `siteId`s but you can specify a partic
 {% set urls = craft.routeMap.getAllUrls({'limit': 5}, 2) %}
 ```
 
+#### Section Public URLs
+
 To get URLs from just a specific Section:
 
 ```
@@ -530,6 +751,32 @@ The default is to return all URLs for all `siteId`s but you can specify a partic
 
 ```
 {% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}, 2) %}
+```
+
+#### Category Public URLs
+
+To get URLs from just a specific Section:
+
+```
+{% set urls = craft.routeMap.getCategoryUrls('pets') %}
+```
+
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+
+```
+{% set urls = craft.routeMap.getCategoryUrls('pets', {'limit': 5}) %}
+```
+
+or
+
+```
+{% set urls = craft.routeMap.getCategoryUrls('pets', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
+```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+{% set urls = craft.routeMap.getCategoryUrls('pets', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}, 2) %}
 ```
 
 ### Entry URL Assets
@@ -578,6 +825,8 @@ The `RouteMap::$plugin->routes` service gives you access to all of the functions
 
 ### Route Rules
 
+#### All Route Rules
+
 To get all of your website's route rules:
 
 ```
@@ -595,6 +844,8 @@ The default is to return all route rules for all `siteId`s but you can specify a
 ```
 $routeRules = RouteMap::$plugin->routes->getAllRouteRules('Vue', 2);
 ```
+
+#### Section Route Rules
 
 To get route rules from only a specific section (such as `blog`, in this case), pass in the Section handle:
 
@@ -614,7 +865,49 @@ The default is to return all route rules for all `siteId`s but you can specify a
 $routeRules = RouteMap::$plugin->routes->getSectionRouteRules('blog', 'Vue', 2);
 ```
 
-### Entry URLs
+#### Category Route Rules
+
+To get route rules from only a specific category (such as `pets`, in this case), pass in the Category handle:
+
+```
+$routeRules = RouteMap::$plugin->routes->getCategoryRouteRules('pets');
+```
+
+You can also pass in the optional `format` parameter to get route rules from a specific category, in a particular format:
+
+```
+$routeRules = RouteMap::$plugin->routes->getCategoryRouteRules('pets', 'Vue');
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$routeRules = RouteMap::$plugin->routes->getCategoryRouteRules('pets', 'Vue', 2);
+```
+
+#### Custom Route Rules
+
+You can retrieve the custom route rules defined in the Craft CMS 3 Admin CP and in the `routes.php` file:
+
+```
+$routeRules = RouteMap::$plugin->routes->getRouteRules();
+```
+
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$routeRules = RouteMap::$plugin->routes->getRouteRules(1);
+```
+
+You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine if you want to include any global (for all sites) routes:
+
+```
+$routeRules = RouteMap::$plugin->routes->getRouteRules(1, false);
+```
+
+### Public URLs
+
+#### All Public URLs
 
 To get all of your website's public Entry URLs:
 
@@ -640,6 +933,8 @@ The default is to return all URLs for all `siteId`s but you can specify a partic
 $urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5], 2);
 ```
 
+#### Section Public URLs
+
 To get URLs from just a specific Section:
 
 ```
@@ -662,6 +957,32 @@ The default is to return all URLs for all `siteId`s but you can specify a partic
 
 ```
 $urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5], 2);
+```
+
+#### Category Public URLs
+
+To get URLs from just a specific Category:
+
+```
+$urls = RouteMap::$plugin->routes->getCategoryUrls('pets');
+```
+
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+
+```
+$urls = RouteMap::$plugin->routes->getCategoryUrls('pets', ['limit' => 5]);
+```
+
+or
+
+```
+$urls = RouteMap::$plugin->routes->getCategoryUrls('pets', ['limit' => 5, 'ordery' => 'elements.dateCreated asc']);
+```
+
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter:
+
+```
+$urls = RouteMap::$plugin->routes->getCategoryUrls('pets', ['limit' => 5], 2);
 ```
 
 ### Entry URL Assets
@@ -708,7 +1029,6 @@ $urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['lim
 
 Some things to do, and ideas for potential features:
 
-* Add support for Category Groups / Category URLs
 * Add support for Commerce Products / Variant URLs
 
 Brought to you by [nystudio107](https://nystudio107.com)

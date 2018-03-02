@@ -348,7 +348,7 @@ class Routes extends Component
             /** @var  $element Entry */
             if ($element) {
                 // Iterate any Assets fields for this entry
-                $assetFields = FieldHelper::fieldsOfType($element, AssetsField::className());
+                $assetFields = FieldHelper::fieldsOfType($element, AssetsField::class);
                 foreach ($assetFields as $assetField) {
                     $assets = $element[$assetField]->all();
                     foreach ($assets as $asset) {
@@ -361,11 +361,11 @@ class Routes extends Component
                     }
                 }
                 // Iterate through any Assets embedded in Matrix fields
-                $matrixFields = FieldHelper::fieldsOfType($element, MatrixField::className());
+                $matrixFields = FieldHelper::fieldsOfType($element, MatrixField::class);
                 foreach ($matrixFields as $matrixField) {
                     $matrixBlocks = $element[$matrixField]->all();
                     foreach ($matrixBlocks as $matrixBlock) {
-                        $assetFields = FieldHelper::matrixFieldsOfType($matrixBlock, AssetsField::className());
+                        $assetFields = FieldHelper::matrixFieldsOfType($matrixBlock, AssetsField::class);
                         foreach ($assetFields as $assetField) {
                             foreach ($matrixBlock[$assetField] as $asset) {
                                 /** @var $asset Asset */

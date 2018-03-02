@@ -70,7 +70,7 @@ class RouteMap extends Plugin
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
             function (ElementEvent $event) {
-                Craft::trace(
+                Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
                 );
@@ -85,8 +85,8 @@ class RouteMap extends Plugin
                     $bustCache = false;
                 }
                 if ($bustCache) {
-                    Craft::trace(
-                        "Cache busted due to saving: " . $element::className() . " - " . $element->title,
+                    Craft::debug(
+                        "Cache busted due to saving: " . get_class($element) . " - " . $element->title,
                         __METHOD__
                     );
                     RouteMap::$plugin->routes->invalidateCache();
@@ -96,7 +96,7 @@ class RouteMap extends Plugin
 
         // Handler: ClearCaches::EVENT_REGISTER_CACHE_OPTIONS
         Event::on(
-            ClearCaches::className(),
+            ClearCaches::class,
             ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
             function (RegisterCacheOptionsEvent $event) {
                 $event->options[] = [

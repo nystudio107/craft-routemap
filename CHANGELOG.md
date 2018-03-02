@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.1 - 2018.03.02
+### Changed
+* Fixed deprecation errors from Craft CMS 3 RC13
+
 ## 1.1.0 - 2018.02.20
 ### Added
 * Added support for retrieving category route rules & URLs

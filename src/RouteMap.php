@@ -76,17 +76,16 @@ class RouteMap extends Plugin
                 );
                 /** @var Element $element */
                 $element = $event->element;
-                $isNewElement = $event->isNew;
                 $bustCache = true;
                 // Only bust the cache if the element is ENABLED or LIVE
-                if (($element->getStatus() != Element::STATUS_ENABLED)
-                    && ($element->getStatus() != Entry::STATUS_LIVE)
+                if (($element->getStatus() !== Element::STATUS_ENABLED)
+                    && ($element->getStatus() !== Entry::STATUS_LIVE)
                 ) {
                     $bustCache = false;
                 }
                 if ($bustCache) {
                     Craft::debug(
-                        "Cache busted due to saving: " . get_class($element) . " - " . $element->title,
+                        'Cache busted due to saving: ' . \get_class($element) . ' - ' . $element->title,
                         __METHOD__
                     );
                     RouteMap::$plugin->routes->invalidateCache();

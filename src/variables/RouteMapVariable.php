@@ -32,7 +32,7 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getAllUrls($criteria = [], $siteId = null)
+    public function getAllUrls(array $criteria = [], $siteId = null): array
     {
         return RouteMap::$plugin->routes->getAllUrls($criteria, $siteId);
     }
@@ -60,7 +60,7 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getSectionUrls(string $section, $criteria = [], $siteId = null)
+    public function getSectionUrls(string $section, array $criteria = [], $siteId = null): array
     {
         return RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId);
     }
@@ -102,7 +102,7 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getCategoryUrls(string $category, $criteria = [], $siteId = null)
+    public function getCategoryUrls(string $category, array $criteria = [], $siteId = null): array
     {
         return RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId);
     }
@@ -145,7 +145,7 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getUrlAssetUrls($url, $assetTypes = ['image'], $siteId = null)
+    public function getUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): array
     {
         return RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId);
     }
@@ -160,7 +160,7 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getElementUrls($elementType, $criteria = [], $siteId = null)
+    public function getElementUrls($elementType, array $criteria = [], $siteId = null): array
     {
         return RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId);
     }
@@ -173,7 +173,7 @@ class RouteMapVariable
      *
      * @return array
      */
-    public function getRouteRules($sideId = null, $incGlobalRules = true)
+    public function getRouteRules($sideId = null, $incGlobalRules = true): array
     {
         return RouteMap::$plugin->routes->getRouteRules($sideId, $incGlobalRules);
     }

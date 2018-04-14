@@ -50,7 +50,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetAllUrls(array $criteria = [], $siteId = null)
+    public function actionGetAllUrls(array $criteria = [], $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllUrls($criteria, $siteId));
     }
@@ -64,7 +64,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null)
+    public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId));
     }
@@ -78,7 +78,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null)
+    public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId));
     }
@@ -91,7 +91,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null)
+    public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllRouteRules($format, $siteId));
     }
@@ -105,7 +105,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null)
+    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId));
     }
@@ -119,7 +119,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null)
+    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getCategoryRouteRules($category, $format, $siteId));
     }
@@ -132,7 +132,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetRouteRules($siteId = null, $includeGlobal = true)
+    public function actionGetRouteRules($siteId = null, $includeGlobal = true): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getRouteRules($siteId, $includeGlobal));
     }
@@ -147,7 +147,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null)
+    public function actionGetUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId));
     }
@@ -162,7 +162,7 @@ class RoutesController extends Controller
      *
      * @return string
      */
-    public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null)
+    public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null): string
     {
         return $this->asJson(RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId));
     }

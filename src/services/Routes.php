@@ -435,8 +435,9 @@ class Routes extends Component
 
             // Iterate through the elements and grab their URLs
             foreach ($elements as $element) {
-                if (!empty($element->url) && !\in_array($element->url, $resultingUrls, true)) {
-                    $resultingUrls[] = $element->url;
+                if (!empty($element->uri) && !\in_array($element->uri, $resultingUrls, true)) {
+                    $uri = $this->normalizeUri($element->uri);
+                    $resultingUrls[] = $uri;
                 }
             }
 

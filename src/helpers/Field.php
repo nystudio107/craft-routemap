@@ -34,11 +34,14 @@ class Field extends Component
      *
      * @return array
      */
-    public static function fieldsOfType(ElementInterface $element, string $fieldType)
+    public static function fieldsOfType(ElementInterface $element, string $fieldType): array
     {
         $foundFields = [];
 
         $layout = $element->getFieldLayout();
+        if ($layout === null) {
+            return [];
+        }
         $fields = $layout->getFields();
         /** @var  $field BaseField */
         foreach ($fields as $field) {
@@ -58,7 +61,7 @@ class Field extends Component
      *
      * @return array
      */
-    public static function matrixFieldsOfType(MatrixBlock $matrixBlock, string $fieldType)
+    public static function matrixFieldsOfType(MatrixBlock $matrixBlock, string $fieldType): array
     {
         $foundFields = [];
 

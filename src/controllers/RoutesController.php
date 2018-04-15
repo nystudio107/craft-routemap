@@ -15,6 +15,8 @@ use nystudio107\routemap\RouteMap;
 use craft\base\ElementInterface;
 use craft\web\Controller;
 
+use yii\web\Response;
+
 /**
  * @author    nystudio107
  * @package   RouteMap
@@ -48,9 +50,9 @@ class RoutesController extends Controller
      * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetAllUrls(array $criteria = [], $siteId = null): string
+    public function actionGetAllUrls(array $criteria = [], $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllUrls($criteria, $siteId));
     }
@@ -62,9 +64,9 @@ class RoutesController extends Controller
      * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null): string
+    public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId));
     }
@@ -76,9 +78,9 @@ class RoutesController extends Controller
      * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null): string
+    public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId));
     }
@@ -89,9 +91,9 @@ class RoutesController extends Controller
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null): string
+    public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllRouteRules($format, $siteId));
     }
@@ -103,9 +105,9 @@ class RoutesController extends Controller
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): string
+    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId));
     }
@@ -117,9 +119,9 @@ class RoutesController extends Controller
      * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): string
+    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getCategoryRouteRules($category, $format, $siteId));
     }
@@ -130,9 +132,9 @@ class RoutesController extends Controller
      * @param int|null $siteId
      * @param bool     $includeGlobal
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetRouteRules($siteId = null, $includeGlobal = true): string
+    public function actionGetRouteRules($siteId = null, $includeGlobal = true): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getRouteRules($siteId, $includeGlobal));
     }
@@ -145,9 +147,9 @@ class RoutesController extends Controller
      * @param array    $assetTypes
      * @param int|null $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): string
+    public function actionGetUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId));
     }
@@ -160,9 +162,9 @@ class RoutesController extends Controller
      * @var array                   $criteria
      * @var int|null                $siteId
      *
-     * @return string
+     * @return Response
      */
-    public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null): string
+    public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId));
     }

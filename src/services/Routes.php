@@ -258,7 +258,7 @@ class Routes extends Component
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
 
-        if (is_numeric($category)) {
+        if (\is_int($category)) {
             $categoryGroup = Craft::$app->getCategories()->getGroupById($category);
             if ($categoryGroup === null) {
                 return [];
@@ -267,7 +267,9 @@ class Routes extends Component
         } else {
             $handle = $category;
         }
-
+        if ($handle === null) {
+            return [];
+        }
         // Set up our cache criteria
         $cacheKey = $this->getCacheKey($this::ROUTEMAP_CATEGORY_RULES, [$category, $handle, $format, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;

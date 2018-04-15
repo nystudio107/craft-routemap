@@ -12,6 +12,7 @@ namespace nystudio107\routemap\services;
 
 use nystudio107\routemap\helpers\Field as FieldHelper;
 
+use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\Asset;
@@ -435,7 +436,10 @@ class Routes extends Component
 
             // Iterate through the elements and grab their URLs
             foreach ($elements as $element) {
-                if (!empty($element->uri) && !\in_array($element->uri, $resultingUrls, true)) {
+                if ($element instanceof Element
+                    && $element->uri !== null
+                    && !\in_array($element->uri, $resultingUrls, true)
+                ) {
                     $uri = $this->normalizeUri($element->uri);
                     $resultingUrls[] = $uri;
                 }

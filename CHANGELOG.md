@@ -3,6 +3,7 @@
 ## 1.1.3 - 2018.04.15
 ### Changed
 * Fixed improper controller return types
+* More strict checking of Element classes
 
 ## 1.1.2 - 2018.04.14
 ### Changed

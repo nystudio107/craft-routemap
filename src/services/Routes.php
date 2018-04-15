@@ -12,6 +12,7 @@ namespace nystudio107\routemap\services;
 
 use nystudio107\routemap\helpers\Field as FieldHelper;
 
+use craft\base\Element;
 use craft\base\ElementInterface;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\Asset;
@@ -257,7 +258,7 @@ class Routes extends Component
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
 
-        if (is_numeric($category)) {
+        if (\is_int($category)) {
             $categoryGroup = Craft::$app->getCategories()->getGroupById($category);
             if ($categoryGroup === null) {
                 return [];
@@ -266,7 +267,9 @@ class Routes extends Component
         } else {
             $handle = $category;
         }
-
+        if ($handle === null) {
+            return [];
+        }
         // Set up our cache criteria
         $cacheKey = $this->getCacheKey($this::ROUTEMAP_CATEGORY_RULES, [$category, $handle, $format, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
@@ -435,7 +438,10 @@ class Routes extends Component
 
             // Iterate through the elements and grab their URLs
             foreach ($elements as $element) {
-                if (!empty($element->uri) && !\in_array($element->uri, $resultingUrls, true)) {
+                if ($element instanceof Element
+                    && $element->uri !== null
+                    && !\in_array($element->uri, $resultingUrls, true)
+                ) {
                     $uri = $this->normalizeUri($element->uri);
                     $resultingUrls[] = $uri;
                 }

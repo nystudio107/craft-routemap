@@ -112,6 +112,7 @@ class Routes extends Component
     {
         $criteria = array_merge([
             'section' => $section,
+            'status' => 'enabled',
         ], $criteria);
 
         return $this->getElementUrls(Entry::class, $criteria, $siteId);

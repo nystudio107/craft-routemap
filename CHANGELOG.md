@@ -1,5 +1,9 @@
 # Route Map Changelog
 
+## 1.1.4 - 2018.05.15
+### Changed
+* By default return only Section URLs where `status` is `enabled` (this can still be overridden via the criteria you pass in)
+
 ## 1.1.3 - 2018.04.15
 ### Changed
 * Fixed improper controller return types

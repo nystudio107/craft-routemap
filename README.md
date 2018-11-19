@@ -26,13 +26,13 @@ To install the plugin, follow these instructions.
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Route Map.
 
-You can also install Route Map via the **Plugin Store** in the Craft AdminCP.
+You can also install Route Map via the **Plugin Store** in the Craft Control Panel.
 
 ## Route Map Overview
 
 Route Map is a plugin to help bridge the routing gap between frontend technologies like Vue/React and Craft CMS. Using Route Map, you can define your routes in Craft CMS as usual, and use an XHR to get a list of the routes in JSON format for use in your Vue/React frontend (it converts `blog/{slug}` dynamic routes to `/blog/:slug`).
 
-This allows you to create your routes dynamically in Craft CMS using the AdminCP, and have them translate automatically to your frontend framework of choice.
+This allows you to create your routes dynamically in Craft CMS using the Control Panel, and have them translate automatically to your frontend framework of choice.
 
 Route Map also assists with ServiceWorkers by providing a list of all of the URLs on your Craft CMS site, or just the specific sections you're interested in. You can limit the URLs returned via any `ElementQuery` criteria, and Route Map can even return a list of URLs to all of the Assets that a particular Entry uses (whether in Assets fields, or embedded in Matrix blocks).
 
@@ -97,7 +97,7 @@ The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will
   },
 }
 ```
-...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the AdminCP Settings->Routes combined with any route rules specified in your `config/routes.php`
+...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the Control Panel Settings->Routes combined with any route rules specified in your `config/routes.php`
 
 If your website has multiple sites, Route Map will return the URL rules for each `siteId` as the index:
 
@@ -339,7 +339,7 @@ You can also pass in the optional `format` parameter to get route rules from a s
 
 #### Custom Route Rules
 
-You can retrieve the custom route rules defined in the Craft CMS 3 Admin CP and in the `routes.php` file via the controller API endpoint `/actions/route-map/routes/get-route-rules`
+You can retrieve the custom route rules defined in the Craft CMS 3 Control Panel and in the `routes.php` file via the controller API endpoint `/actions/route-map/routes/get-route-rules`
 
 ```
 {
@@ -629,7 +629,7 @@ This will return an array of route rules, in the format:
   ]
 ```
 
-...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the AdminCP Settings->Routes combined with any route rules specified in your `config/routes.php`
+...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the Control Panel Settings->Routes combined with any route rules specified in your `config/routes.php`
 
 To specify the format that the route rules should be returned in, pass in either `Craft` | `React` | `Vue`:
 
@@ -685,7 +685,7 @@ The default is to return all route rules for all `siteId`s but you can specify a
 
 #### Custom Route Rules
 
-You can retrieve the custom route rules defined in the Craft CMS 3 Admin CP and in the `routes.php` file:
+You can retrieve the custom route rules defined in the Craft CMS 3 Control Panel and in the `routes.php` file:
 
 ```
 {% set routeRules = craft.routeMap.getRouteRules() %}
@@ -891,7 +891,7 @@ $routeRules = RouteMap::$plugin->routes->getCategoryRouteRules('pets', 'Vue', 2)
 
 #### Custom Route Rules
 
-You can retrieve the custom route rules defined in the Craft CMS 3 Admin CP and in the `routes.php` file:
+You can retrieve the custom route rules defined in the Craft CMS 3 Control Panel and in the `routes.php` file:
 
 ```
 $routeRules = RouteMap::$plugin->routes->getRouteRules();

@@ -21,7 +21,7 @@
 ## 1.1.0 - 2018.02.20
 ### Added
 * Added support for retrieving category route rules & URLs
-* Added support for retrieving Admin CP & `routes.php` rules
+* Added support for retrieving Control Panel & `routes.php` rules
 
 ### Changed
 * Updated the `README.md` to reflect the new functionality

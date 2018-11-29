@@ -127,7 +127,7 @@ class RoutesController extends Controller
     }
 
     /**
-     * Return the Craft AdminCP and `routes.php` rules
+     * Return the Craft Control Panel and `routes.php` rules
      *
      * @param int|null $siteId
      * @param bool     $includeGlobal

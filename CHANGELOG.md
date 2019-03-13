@@ -1,5 +1,9 @@
 # Route Map Changelog
 
+## 1.1.6 - 2019.03.13
+### Changed
+* Fixed an issue with `getRouteRules()` and Craft 3.1 (where the `routes` db table no longer exists)
+
 ## 1.1.5 - 2018.11.28
 ### Changed
 * Updated composer semver for craftcms/cms

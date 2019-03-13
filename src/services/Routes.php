@@ -10,23 +10,23 @@
 
 namespace nystudio107\routemap\services;
 
+use nystudio107\routemap\RouteMap;
 use nystudio107\routemap\helpers\Field as FieldHelper;
 
+use Craft;
+use craft\base\Component;
 use craft\base\Element;
 use craft\base\ElementInterface;
+use craft\db\Query;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\Asset;
 use craft\elements\Entry;
 use craft\elements\Category;
 use craft\elements\MatrixBlock;
-use craft\helpers\ArrayHelper;
-
-use craft\db\Query;
 use craft\fields\Assets as AssetsField;
 use craft\fields\Matrix as MatrixField;
+use craft\helpers\ArrayHelper;
 
-use Craft;
-use craft\base\Component;
 use yii\caching\TagDependency;
 
 /**
@@ -507,6 +507,10 @@ class Routes extends Component
         }
         if ($siteId === 'global') {
             $siteId = null;
+        }
+        // If we're on Craft 3.1 or later, just return the array from getProjectConfigRoutes();
+        if (RouteMap::$craft31) {
+            return Craft::$app->getRoutes()->getProjectConfigRoutes();
         }
 
         // Normalize the URL

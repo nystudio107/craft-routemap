@@ -44,6 +44,11 @@ class RouteMap extends Plugin
      */
     public static $plugin;
 
+    /**
+     * @var bool
+     */
+    public static $craft31 = false;
+
     // Public Methods
     // =========================================================================
 
@@ -54,6 +59,7 @@ class RouteMap extends Plugin
     {
         parent::init();
         self::$plugin = $this;
+        self::$craft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
 
         Event::on(
             CraftVariable::class,

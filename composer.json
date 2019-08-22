@@ -15,8 +15,8 @@
         "route map"
     ],
     "support": {
-        "docs": "https://github.com/nystudio107/craft-routemap/blob/v1/README.md",
-        "issues": "https://github.com/nystudio107/craft-routemap/issues"
+        "docs": "https://nystudio107.com/plugins/routemap/documentation",
+        "issues": "https://nystudio107.com/plugins/routemap/support"
     },
     "license": "MIT",
     "authors": [

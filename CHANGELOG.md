@@ -1,5 +1,9 @@
 # Route Map Changelog
 
+## 1.1.7 - UNRELEASED
+### Fixed
+* Fix endpoint `get-all-route-rules` to property typecast `siteId` before doing the strict comparison (https://github.com/nystudio107/craft-routemap/issues/22)
+
 ## 1.1.6 - 2019.03.13
 ### Changed
 * Fixed an issue with `getRouteRules()` and Craft 3.1 (where the `routes` db table no longer exists)

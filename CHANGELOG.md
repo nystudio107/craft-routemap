@@ -1,6 +1,9 @@
 # Route Map Changelog
 
 ## 1.1.7 - UNRELEASED
+### Changed
+* Switched documentation system to VitePress
+
 ### Fixed
 * Fix endpoint `get-all-route-rules` to property typecast `siteId` before doing the strict comparison (https://github.com/nystudio107/craft-routemap/issues/22)
 

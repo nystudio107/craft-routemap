@@ -7,7 +7,7 @@ DOCKERRUN=docker container run \
 	-t \
 	-v `pwd`:/app \
 	${CONTAINER}:${TAG}
-DOCSDEST?=../../../sites/nystudio107/web/docs/routemap
+DOCSDEST?=../../../sites/nystudio107/web/docs/route-map
 
 .PHONY: docker build dev fix install lint update npm
 

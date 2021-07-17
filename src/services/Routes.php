@@ -177,7 +177,7 @@ class Routes extends Component
                 $sites = $section->getSiteSettings();
 
                 foreach ($sites as $site) {
-                    if ($site->hasUrls && ($siteId === null || $site->siteId === $siteId)) {
+                    if ($site->hasUrls && ($siteId === null || (int)$site->siteId === $siteId)) {
                         // Get section data to return
                         $route = [
                             'handle'   => $section->handle,
@@ -291,7 +291,7 @@ class Routes extends Component
                 $sites = $category->getSiteSettings();
 
                 foreach ($sites as $site) {
-                    if ($site->hasUrls && ($siteId === null || $site->siteId === $siteId)) {
+                    if ($site->hasUrls && ($siteId === null || (int)$site->siteId === $siteId)) {
                         // Get section data to return
                         $route = [
                             'handle'   => $category->handle,

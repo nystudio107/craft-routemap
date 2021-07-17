@@ -1,6 +1,6 @@
 # Route Map Changelog
 
-## 1.1.7 - UNRELEASED
+## 1.1.7 - 2021.07.17
 ### Changed
 * Switched documentation system to VitePress
 

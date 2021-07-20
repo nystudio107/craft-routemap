@@ -13,8 +13,8 @@ module.exports = {
         docsDir: 'docs/docs',
         docsBranch: 'v1',
         algolia: {
-            apiKey: '',
-            indexName: 'routemap'
+            apiKey: '73ffb565bfdadaaf600202a67c17dc88',
+            indexName: 'route-map'
         },
         editLinks: true,
         editLinkText: 'Edit this page on GitHub',

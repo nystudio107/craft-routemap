@@ -38,32 +38,68 @@ class Routes extends Component
 {
     // Constants
     // =========================================================================
+    /**
+     * @var string
+     */
+    public const ROUTE_FORMAT_CRAFT = 'Craft';
 
-    const ROUTE_FORMAT_CRAFT = 'Craft';
-    const ROUTE_FORMAT_REACT = 'React';
-    const ROUTE_FORMAT_VUE = 'Vue';
+    /**
+     * @var string
+     */
+    public const ROUTE_FORMAT_REACT = 'React';
 
-    const ROUTEMAP_CACHE_DURATION = null;
-    const DEVMODE_ROUTEMAP_CACHE_DURATION = 30;
+    /**
+     * @var string
+     */
+    public const ROUTE_FORMAT_VUE = 'Vue';
 
-    const ROUTEMAP_CACHE_TAG = 'RouteMap';
+    /**
+     * @var null
+     */
+    public const ROUTEMAP_CACHE_DURATION = null;
 
-    const ROUTEMAP_SECTION_RULES = 'Sections';
-    const ROUTEMAP_CATEGORY_RULES = 'Categories';
-    const ROUTEMAP_ELEMENT_URLS = 'ElementUrls';
-    const ROUTEMAP_ASSET_URLS = 'AssetUrls';
-    const ROUTEMAP_ALL_URLS = 'AllUrls';
+    /**
+     * @var int
+     */
+    public const DEVMODE_ROUTEMAP_CACHE_DURATION = 30;
+
+    /**
+     * @var string
+     */
+    public const ROUTEMAP_CACHE_TAG = 'RouteMap';
+
+    /**
+     * @var string
+     */
+    public const ROUTEMAP_SECTION_RULES = 'Sections';
+
+    /**
+     * @var string
+     */
+    public const ROUTEMAP_CATEGORY_RULES = 'Categories';
+
+    /**
+     * @var string
+     */
+    public const ROUTEMAP_ELEMENT_URLS = 'ElementUrls';
+
+    /**
+     * @var string
+     */
+    public const ROUTEMAP_ASSET_URLS = 'AssetUrls';
+
+    /**
+     * @var string
+     */
+    public const ROUTEMAP_ALL_URLS = 'AllUrls';
 
     // Public Methods
     // =========================================================================
-
     /**
      * Return the public URLs for all elements that have URLs
      *
-     * @param array    $criteria
      * @param int|null $siteId
-     *
-     * @return array
+     * @return mixed[]
      */
     public function getAllUrls(array $criteria = [], $siteId = null): array
     {
@@ -83,7 +119,7 @@ class Routes extends Component
      * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return array
+     * @return array<string, mixed[]>
      */
     public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
     {
@@ -102,11 +138,9 @@ class Routes extends Component
     /**
      * Return the public URLs for a section
      *
-     * @param string   $section
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getSectionUrls(string $section, array $criteria = [], $siteId = null): array
     {
@@ -124,7 +158,7 @@ class Routes extends Component
      * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return array
+     * @return array<int|string, mixed[]>
      */
     public function getAllSectionRouteRules(string $format = 'Craft', $siteId = null): array
     {
@@ -144,11 +178,9 @@ class Routes extends Component
     /**
      * Return the route rules for a specific section
      *
-     * @param string   $section
      * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
-     *
-     * @return array
+     * @return mixed[]
      */
     public function getSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): array
     {
@@ -165,7 +197,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        $routes = $cache->getOrSet($cacheKey, function () use ($section, $format, $siteId) {
+        $routes = $cache->getOrSet($cacheKey, function () use ($section, $format, $siteId): array {
             Craft::info(
                 'Route Map cache miss: '.$section,
                 __METHOD__
@@ -192,6 +224,7 @@ class Routes extends Component
                     }
                 }
             }
+
             // If there's only one siteId for this section, just return it
             if (\count($resultingRoutes) === 1) {
                 $resultingRoutes = reset($resultingRoutes);
@@ -206,11 +239,9 @@ class Routes extends Component
     /**
      * Return the public URLs for a category
      *
-     * @param string   $category
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getCategoryUrls(string $category, array $criteria = [], $siteId = null): array
     {
@@ -228,7 +259,7 @@ class Routes extends Component
      * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return array
+     * @return array<int|string, mixed[]>
      */
     public function getAllCategoryRouteRules(string $format = 'Craft', $siteId = null): array
     {
@@ -248,13 +279,11 @@ class Routes extends Component
     /**
      * Return the route rules for a specific category
      *
-     * @param int|string $category
      * @param string     $format 'Craft'|'React'|'Vue'
      * @param int|null   $siteId
-     *
-     * @return array
+     * @return mixed[]
      */
-    public function getCategoryRouteRules($category, string $format = 'Craft', $siteId = null): array
+    public function getCategoryRouteRules(int|string $category, string $format = 'Craft', $siteId = null): array
     {
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
@@ -264,13 +293,16 @@ class Routes extends Component
             if ($categoryGroup === null) {
                 return [];
             }
+
             $handle = $categoryGroup->handle;
         } else {
             $handle = $category;
         }
+
         if ($handle === null) {
             return [];
         }
+
         // Set up our cache criteria
         $cacheKey = $this->getCacheKey($this::ROUTEMAP_CATEGORY_RULES, [$category, $handle, $format, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
@@ -280,7 +312,7 @@ class Routes extends Component
             ],
         ]);
         // Just return the data if it's already cached
-        $routes = $cache->getOrSet($cacheKey, function () use ($category, $handle, $format, $siteId) {
+        $routes = $cache->getOrSet($cacheKey, function () use ($category, $handle, $format, $siteId): array {
             Craft::info(
                 'Route Map cache miss: '.$category,
                 __METHOD__
@@ -305,6 +337,7 @@ class Routes extends Component
                     }
                 }
             }
+
             // If there's only one siteId for this section, just return it
             if (\count($resultingRoutes) === 1) {
                 $resultingRoutes = reset($resultingRoutes);
@@ -320,13 +353,11 @@ class Routes extends Component
      * Get all of the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param string   $url
-     * @param array    $assetTypes
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
-    public function getUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): array
+    public function getUrlAssetUrls(string $url, array $assetTypes = ['image'], $siteId = null): array
     {
         $devMode = Craft::$app->getConfig()->getGeneral()->devMode;
         $cache = Craft::$app->getCache();
@@ -344,7 +375,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        $assetUrls = $cache->getOrSet($cacheKey, function () use ($uri, $assetTypes, $siteId) {
+        $assetUrls = $cache->getOrSet($cacheKey, function () use ($uri, $assetTypes, $siteId): array {
             Craft::info(
                 'Route Map cache miss: '.$uri,
                 __METHOD__
@@ -352,14 +383,14 @@ class Routes extends Component
             $resultingAssetUrls = [];
 
             // Find the element that matches this URI
-            $element = Craft::$app->getElements()->getElementByUri($uri, $siteId, true);
             /** @var  $element Entry */
+            $element = Craft::$app->getElements()->getElementByUri($uri, $siteId, true);
             if ($element) {
                 // Iterate any Assets fields for this entry
                 $assetFields = FieldHelper::fieldsOfType($element, AssetsField::class);
                 foreach ($assetFields as $assetField) {
-                    $assets = $element[$assetField]->all();
                     /** @var Asset[] $assets */
+                    $assets = $element[$assetField]->all();
                     foreach ($assets as $asset) {
                         /** @var $asset Asset */
                         if (\in_array($asset->kind, $assetTypes, true)
@@ -368,11 +399,12 @@ class Routes extends Component
                         }
                     }
                 }
+
                 // Iterate through any Assets embedded in Matrix fields
                 $matrixFields = FieldHelper::fieldsOfType($element, MatrixField::class);
                 foreach ($matrixFields as $matrixField) {
-                    $matrixBlocks = $element[$matrixField]->all();
                     /** @var MatrixBlock[] $matrixBlocks */
+                    $matrixBlocks = $element[$matrixField]->all();
                     foreach ($matrixBlocks as $matrixBlock) {
                         $assetFields = FieldHelper::matrixFieldsOfType($matrixBlock, AssetsField::class);
                         foreach ($assetFields as $assetField) {
@@ -403,7 +435,7 @@ class Routes extends Component
      * @var array                   $criteria
      * @var int|null                $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getElementUrls($elementType, array $criteria = [], $siteId = null): array
     {
@@ -416,7 +448,7 @@ class Routes extends Component
             'limit'  => null,
         ], $criteria);
         // Set up our cache criteria
-        $elementClass = \is_object($elementType) ? \get_class($elementType) : $elementType;
+        $elementClass = \is_object($elementType) ? $elementType::class : $elementType;
         $cacheKey = $this->getCacheKey($this::ROUTEMAP_ELEMENT_URLS, [$elementClass, $criteria, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
@@ -426,7 +458,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        $urls = $cache->getOrSet($cacheKey, function () use ($elementClass, $criteria) {
+        $urls = $cache->getOrSet($cacheKey, function () use ($elementClass, $criteria): array {
             Craft::info(
                 'Route Map cache miss: '.$elementClass,
                 __METHOD__
@@ -457,7 +489,7 @@ class Routes extends Component
     /**
      * Invalidate the RouteMap caches
      */
-    public function invalidateCache()
+    public function invalidateCache(): void
     {
         $cache = Craft::$app->getCache();
         TagDependency::invalidate($cache, self::ROUTEMAP_CACHE_TAG);
@@ -473,7 +505,7 @@ class Routes extends Component
      * @var int  $siteId
      * @var bool $includeGlobal - merge global routes with the site rules
      *
-     * @return array
+     * @return mixed[]
      */
     public function getRouteRules($siteId = null, $includeGlobal = true): array
     {
@@ -481,33 +513,31 @@ class Routes extends Component
 
         $siteRoutes = $this->getDbRoutes($siteId);
 
-        $rules = array_merge(
+        return array_merge(
             Craft::$app->getRoutes()->getConfigFileRoutes(),
             $globalRules,
             $siteRoutes
         );
-
-        return $rules;
     }
 
     // Protected Methods
     // =========================================================================
-
     /**
      * Query the database for db routes
      *
-     * @param string|int $siteId
      *
-     * @return array
+     * @return mixed[]
      */
-    protected function getDbRoutes($siteId = null): array
+    protected function getDbRoutes(int|string $siteId = null): array
     {
         if ($siteId === null) {
             $siteId = Craft::$app->getSites()->currentSite->id;
         }
+
         if ($siteId === 'global') {
             $siteId = null;
         }
+
         // If we're on Craft 3.1 or later, just return the array from getProjectConfigRoutes();
         if (RouteMap::$craft31) {
             return Craft::$app->getRoutes()->getProjectConfigRoutes();
@@ -524,20 +554,18 @@ class Routes extends Component
             ->orderBy(['sortOrder' => SORT_ASC])
             ->all();
 
-        return ArrayHelper::map($results, 'uriPattern', function ($results) {
-            return ['template' => $results['template']];
-        });
+        return ArrayHelper::map($results, 'uriPattern', fn($results) => ['template' => $results['template']]);
     }
 
     /**
      * Normalize the routes based on the format
      *
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param array  $route
      *
-     * @return array
+     * @param mixed[] $route
+     * @return mixed[]
      */
-    protected function normalizeFormat($format, $route): array
+    protected function normalizeFormat(string $format, array $route): array
     {
         // Normalize the URL
         $route['url'] = $this->normalizeUri($route['url']);
@@ -567,8 +595,6 @@ class Routes extends Component
      * Normalize the URI
      *
      * @param $url
-     *
-     * @return string
      */
     protected function normalizeUri($url): string
     {
@@ -584,12 +610,9 @@ class Routes extends Component
      * Generate a cache key with the combination of the $prefix and an md5()
      * hashed version of the flattened $args array
      *
-     * @param string $prefix
-     * @param array  $args
      *
-     * @return string
      */
-    protected function getCacheKey($prefix, array $args = []): string
+    protected function getCacheKey(string $prefix, array $args = []): string
     {
         $cacheKey = $prefix;
         $flattenedArgs = '';
@@ -599,10 +622,12 @@ class Routes extends Component
                 if ((\is_object($arg) || \is_array($arg)) && !empty($arg)) {
                     $flattenedArgs .= http_build_query($arg);
                 }
+
                 if (\is_string($arg)) {
                     $flattenedArgs .= $arg;
                 }
             }
+
             // Make an md5 hash out of it
             $flattenedArgs = md5($flattenedArgs);
         }
@@ -615,8 +640,6 @@ class Routes extends Component
      *
      * @var string|ElementInterface $elementType
      * @var array                   $criteria
-     *
-     * @return ElementQueryInterface
      */
     protected function getElementQuery($elementType, array $criteria): ElementQueryInterface
     {

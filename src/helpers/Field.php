@@ -25,24 +25,22 @@ class Field extends Component
 {
     // Static Methods
     // =========================================================================
-
     /**
      * Return all of the fields in the $element of the type $fieldType class
      *
-     * @param ElementInterface $element
-     * @param string  $fieldType
      *
-     * @return array
+     * @return mixed[]
      */
     public static function fieldsOfType(ElementInterface $element, string $fieldType): array
     {
         $foundFields = [];
 
         $layout = $element->getFieldLayout();
-        if ($layout === null) {
+        if (!$layout instanceof \craft\models\FieldLayout) {
             return [];
         }
-        $fields = $layout->getFields();
+
+        $fields = $layout->getCustomFields();
         /** @var  $field BaseField */
         foreach ($fields as $field) {
             if ($field instanceof $fieldType) {
@@ -56,10 +54,8 @@ class Field extends Component
     /**
      * Return all of the fields in the $matrixBlock of the type $fieldType class
      *
-     * @param MatrixBlock $matrixBlock
-     * @param string      $fieldType
      *
-     * @return array
+     * @return string[]|null[]
      */
     public static function matrixFieldsOfType(MatrixBlock $matrixBlock, string $fieldType): array
     {
@@ -67,10 +63,11 @@ class Field extends Component
 
         try {
             $matrixBlockTypeModel = $matrixBlock->getType();
-        } catch (InvalidConfigException $e) {
+        } catch (InvalidConfigException) {
             $matrixBlockTypeModel = null;
         }
-        if ($matrixBlockTypeModel) {
+
+        if ($matrixBlockTypeModel !== null) {
             $fields = $matrixBlockTypeModel->getFields();
             /** @var  $field BaseField */
             foreach ($fields as $field) {

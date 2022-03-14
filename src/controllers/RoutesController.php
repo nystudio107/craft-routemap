@@ -32,7 +32,7 @@ class RoutesController extends Controller
      *         The actions must be in 'kebab-case'
      * @access protected
      */
-    protected $allowAnonymous = [
+    protected array|bool|int $allowAnonymous = [
         'get-all-urls',
         'get-section-urls',
         'get-all-route-rules',
@@ -43,14 +43,11 @@ class RoutesController extends Controller
 
     // Public Methods
     // =========================================================================
-
     /**
      * Return the public URLs for all elements that have URLs
      *
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return Response
      */
     public function actionGetAllUrls(array $criteria = [], $siteId = null): Response
     {
@@ -60,11 +57,8 @@ class RoutesController extends Controller
     /**
      * Return the public URLs for a section
      *
-     * @param string   $section
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return Response
      */
     public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null): Response
     {
@@ -74,11 +68,8 @@ class RoutesController extends Controller
     /**
      * Return the public URLs for a category
      *
-     * @param string   $category
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return Response
      */
     public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null): Response
     {
@@ -90,8 +81,6 @@ class RoutesController extends Controller
      *
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
-     *
-     * @return Response
      */
     public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null): Response
     {
@@ -101,11 +90,9 @@ class RoutesController extends Controller
     /**
      * Return the route rules for a specific section
      *
-     * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return Response
      */
     public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): Response
     {
@@ -115,11 +102,9 @@ class RoutesController extends Controller
     /**
      * Return the route rules for a specific category
      *
-     * @param string   $category
      * @param string   $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return Response
      */
     public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): Response
     {
@@ -130,11 +115,9 @@ class RoutesController extends Controller
      * Return the Craft Control Panel and `routes.php` rules
      *
      * @param int|null $siteId
-     * @param bool     $includeGlobal
      *
-     * @return Response
      */
-    public function actionGetRouteRules($siteId = null, $includeGlobal = true): Response
+    public function actionGetRouteRules($siteId = null, bool $includeGlobal = true): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getRouteRules($siteId, $includeGlobal));
     }
@@ -143,13 +126,10 @@ class RoutesController extends Controller
      * Get all of the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param string   $url
-     * @param array    $assetTypes
      * @param int|null $siteId
      *
-     * @return Response
      */
-    public function actionGetUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): Response
+    public function actionGetUrlAssetUrls(string $url, array $assetTypes = ['image'], $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId));
     }
@@ -161,8 +141,6 @@ class RoutesController extends Controller
      * @var string|ElementInterface $elementType
      * @var array                   $criteria
      * @var int|null                $siteId
-     *
-     * @return Response
      */
     public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null): Response
     {

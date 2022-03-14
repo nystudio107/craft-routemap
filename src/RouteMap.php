@@ -55,7 +55,7 @@ class RouteMap extends Plugin
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         self::$plugin = $this;
@@ -64,7 +64,7 @@ class RouteMap extends Plugin
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function (Event $event): void {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('routeMap', RouteMapVariable::class);
@@ -75,7 +75,7 @@ class RouteMap extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event) {
+            function (ElementEvent $event): void {
                 Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
@@ -89,9 +89,10 @@ class RouteMap extends Plugin
                 ) {
                     $bustCache = false;
                 }
+
                 if ($bustCache) {
                     Craft::debug(
-                        'Cache busted due to saving: ' . \get_class($element) . ' - ' . $element->title,
+                        'Cache busted due to saving: ' . $element::class . ' - ' . $element->title,
                         __METHOD__
                     );
                     RouteMap::$plugin->routes->invalidateCache();
@@ -103,11 +104,11 @@ class RouteMap extends Plugin
         Event::on(
             ClearCaches::class,
             ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
-            function (RegisterCacheOptionsEvent $event) {
+            function (RegisterCacheOptionsEvent $event): void {
                 $event->options[] = [
                     'key' => 'route-map',
                     'label' => Craft::t('route-map', 'Route Map Cache'),
-                    'action' => function () {
+                    'action' => function (): void {
                         RouteMap::$plugin->routes->invalidateCache();
                     },
                 ];

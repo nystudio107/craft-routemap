@@ -23,14 +23,11 @@ class RouteMapVariable
 {
     // Public Methods
     // =========================================================================
-
     /**
      * Return the public URLs for all elements that have URLs
      *
-     * @param array    $criteria
      * @param int|null $siteId
-     *
-     * @return array
+     * @return mixed[]
      */
     public function getAllUrls(array $criteria = [], $siteId = null): array
     {
@@ -43,7 +40,7 @@ class RouteMapVariable
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
     {
@@ -54,11 +51,9 @@ class RouteMapVariable
     /**
      * Return the public URLs for a section
      *
-     * @param string   $section
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getSectionUrls(string $section, array $criteria = [], $siteId = null): array
     {
@@ -72,7 +67,7 @@ class RouteMapVariable
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAllSectionRouteRules(string $format = 'Craft', $siteId = null): array
     {
@@ -82,11 +77,9 @@ class RouteMapVariable
     /**
      * Return the route rules for a specific section
      *
-     * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
-     *
-     * @return array
+     * @return mixed[]
      */
     public function getSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): array
     {
@@ -96,11 +89,9 @@ class RouteMapVariable
     /**
      * Return the public URLs for a category group
      *
-     * @param string   $category
-     * @param array    $criteria
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getCategoryUrls(string $category, array $criteria = [], $siteId = null): array
     {
@@ -113,7 +104,7 @@ class RouteMapVariable
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAllCategoryRouteRules(string $format = 'Craft', $siteId = null): array
     {
@@ -123,11 +114,9 @@ class RouteMapVariable
     /**
      * Return the route rules for a specific category
      *
-     * @param string $category
      * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
-     *
-     * @return array
+     * @return mixed[]
      */
     public function getCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): array
     {
@@ -139,13 +128,11 @@ class RouteMapVariable
      * Get all of the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param string   $url
-     * @param array    $assetTypes
      * @param int|null $siteId
      *
-     * @return array
+     * @return mixed[]
      */
-    public function getUrlAssetUrls($url, array $assetTypes = ['image'], $siteId = null): array
+    public function getUrlAssetUrls(string $url, array $assetTypes = ['image'], $siteId = null): array
     {
         return RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId);
     }
@@ -158,7 +145,7 @@ class RouteMapVariable
      * @var array                   $criteria
      * @var int|null                $siteId
      *
-     * @return array
+     * @return mixed[]
      */
     public function getElementUrls($elementType, array $criteria = [], $siteId = null): array
     {
@@ -171,7 +158,7 @@ class RouteMapVariable
      * @var int $siteId
      * @var bool $incGlobalRules - merge global routes with the site rules
      *
-     * @return array
+     * @return mixed[]
      */
     public function getRouteRules($sideId = null, $incGlobalRules = true): array
     {

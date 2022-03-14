@@ -10,11 +10,9 @@
 
 namespace nystudio107\routemap\controllers;
 
-use nystudio107\routemap\RouteMap;
-
 use craft\base\ElementInterface;
 use craft\web\Controller;
-
+use nystudio107\routemap\RouteMap;
 use yii\web\Response;
 
 /**
@@ -45,44 +43,36 @@ class RoutesController extends Controller
     // =========================================================================
     /**
      * Return the public URLs for all elements that have URLs
-     *
-     * @param int|null $siteId
-     *
      */
-    public function actionGetAllUrls(array $criteria = [], $siteId = null): Response
+    public function actionGetAllUrls(array $criteria = [], ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllUrls($criteria, $siteId));
     }
 
     /**
      * Return the public URLs for a section
-     *
-     * @param int|null $siteId
-     *
      */
-    public function actionGetSectionUrls(string $section, array $criteria = [], $siteId = null): Response
+    public function actionGetSectionUrls(string $section, array $criteria = [], ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId));
     }
 
     /**
      * Return the public URLs for a category
-     *
-     * @param int|null $siteId
-     *
      */
-    public function actionGetCategoryUrls(string $category, array $criteria = [], $siteId = null): Response
+    public function actionGetCategoryUrls(string $category, array $criteria = [], ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId));
     }
 
     /**
-     * Return all of the section route rules
+     * Return all the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
+     * @param ?int $siteId
+     * @return Response
      */
-    public function actionGetAllRouteRules(string $format = 'Craft', $siteId = null): Response
+    public function actionGetAllRouteRules(string $format = 'Craft', ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getAllRouteRules($format, $siteId));
     }
@@ -90,11 +80,12 @@ class RoutesController extends Controller
     /**
      * Return the route rules for a specific section
      *
+     * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     *
+     * @param ?int $siteId
+     * @return Response
      */
-    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): Response
+    public function actionGetSectionRouteRules(string $section, string $format = 'Craft', ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId));
     }
@@ -102,11 +93,12 @@ class RoutesController extends Controller
     /**
      * Return the route rules for a specific category
      *
-     * @param string   $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     *
+     * @param string $category
+     * @param string $format 'Craft'|'React'|'Vue'
+     * @param ?int $siteId
+     * @return Response
      */
-    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): Response
+    public function actionGetCategoryRouteRules(string $category, string $format = 'Craft', ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getCategoryRouteRules($category, $format, $siteId));
     }
@@ -114,22 +106,25 @@ class RoutesController extends Controller
     /**
      * Return the Craft Control Panel and `routes.php` rules
      *
-     * @param int|null $siteId
-     *
+     * @param ?int $siteId
+     * @param bool $includeGlobal
+     * @return Response
      */
-    public function actionGetRouteRules($siteId = null, bool $includeGlobal = true): Response
+    public function actionGetRouteRules(?int $siteId = null, bool $includeGlobal = true): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getRouteRules($siteId, $includeGlobal));
     }
 
     /**
-     * Get all of the assets of the type $assetTypes that are used in the Entry
+     * Get all the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param int|null $siteId
-     *
+     * @param string $url
+     * @param array $assetTypes
+     * @param ?int $siteId
+     * @return Response
      */
-    public function actionGetUrlAssetUrls(string $url, array $assetTypes = ['image'], $siteId = null): Response
+    public function actionGetUrlAssetUrls(string $url, array $assetTypes = ['image'], ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId));
     }
@@ -138,11 +133,12 @@ class RoutesController extends Controller
      * Returns all of the URLs for the given $elementType based on the passed in
      * $criteria and $siteId
      *
-     * @var string|ElementInterface $elementType
-     * @var array                   $criteria
-     * @var int|null                $siteId
+     * @param string|ElementInterface $elementType
+     * @param array $criteria
+     * @param ?int $siteId
+     * @return Response
      */
-    public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null): Response
+    public function actionGetElementUrls(string|ElementInterface $elementType, array $criteria = [], ?int $siteId = null): Response
     {
         return $this->asJson(RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId));
     }

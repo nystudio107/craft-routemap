@@ -10,19 +10,17 @@
 
 namespace nystudio107\routemap;
 
-use nystudio107\routemap\services\Routes as RoutesService;
-use nystudio107\routemap\variables\RouteMapVariable;
-
 use Craft;
-use craft\base\Plugin;
 use craft\base\Element;
+use craft\base\Plugin;
 use craft\elements\Entry;
 use craft\events\ElementEvent;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\services\Elements;
 use craft\utilities\ClearCaches;
 use craft\web\twig\variables\CraftVariable;
-
+use nystudio107\routemap\services\Routes as RoutesService;
+use nystudio107\routemap\variables\RouteMapVariable;
 use yii\base\Event;
 
 /**
@@ -36,21 +34,46 @@ use yii\base\Event;
  */
 class RouteMap extends Plugin
 {
-    // Static Properties
+    // Public Static Properties
     // =========================================================================
 
     /**
-     * @var RouteMap
+     * @var ?RouteMap
      */
-    public static $plugin;
+    public static ?RouteMap $plugin = null;
+
+    // Public Properties
+    // =========================================================================
+
+    /**
+     * @var string
+     */
+    public string $schemaVersion = '1.0.0';
 
     /**
      * @var bool
      */
-    public static $craft31 = false;
+    public bool $hasCpSection = false;
+
+    /**
+     * @var bool
+     */
+    public bool $hasCpSettings = false;
 
     // Public Methods
     // =========================================================================
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct($id, $parent = null, array $config = [])
+    {
+        $config['components'] = [
+            'routes' => RoutesService::class,
+        ];
+
+        parent::__construct($id, $parent, $config);
+    }
 
     /**
      * @inheritdoc
@@ -59,12 +82,11 @@ class RouteMap extends Plugin
     {
         parent::init();
         self::$plugin = $this;
-        self::$craft31 = version_compare(Craft::$app->getVersion(), '3.1', '>=');
 
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event): void {
+            static function (Event $event): void {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('routeMap', RouteMapVariable::class);
@@ -75,7 +97,7 @@ class RouteMap extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event): void {
+            static function (ElementEvent $event): void {
                 Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
@@ -104,7 +126,7 @@ class RouteMap extends Plugin
         Event::on(
             ClearCaches::class,
             ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
-            function (RegisterCacheOptionsEvent $event): void {
+            static function (RegisterCacheOptionsEvent $event): void {
                 $event->options[] = [
                     'key' => 'route-map',
                     'label' => Craft::t('route-map', 'Route Map Cache'),

@@ -10,9 +10,8 @@
 
 namespace nystudio107\routemap\variables;
 
-use nystudio107\routemap\RouteMap;
-
 use craft\base\ElementInterface;
+use nystudio107\routemap\RouteMap;
 
 /**
  * @author    nystudio107
@@ -26,23 +25,23 @@ class RouteMapVariable
     /**
      * Return the public URLs for all elements that have URLs
      *
-     * @param int|null $siteId
-     * @return mixed[]
+     * @param array $criteria
+     * @param ?int $siteId
+     * @return array
      */
-    public function getAllUrls(array $criteria = [], $siteId = null): array
+    public function getAllUrls(array $criteria = [], ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getAllUrls($criteria, $siteId);
     }
 
     /**
-     * Return all of the section and category route rules
+     * Return all the section and category route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     *
-     * @return mixed[]
+     * @param ?int $siteId
+     * @return array
      */
-    public function getAllRouteRules(string $format = 'Craft', $siteId = null): array
+    public function getAllRouteRules(string $format = 'Craft', ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getAllRouteRules($format, $siteId);
     }
@@ -51,25 +50,25 @@ class RouteMapVariable
     /**
      * Return the public URLs for a section
      *
-     * @param int|null $siteId
-     *
-     * @return mixed[]
+     * @param string $section
+     * @param array $criteria
+     * @param ?int $siteId
+     * @return array
      */
-    public function getSectionUrls(string $section, array $criteria = [], $siteId = null): array
+    public function getSectionUrls(string $section, array $criteria = [], ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getSectionUrls($section, $criteria, $siteId);
     }
 
 
     /**
-     * Return all of the section route rules
+     * Return all the section route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     *
-     * @return mixed[]
+     * @param ?int $siteId
+     * @return array
      */
-    public function getAllSectionRouteRules(string $format = 'Craft', $siteId = null): array
+    public function getAllSectionRouteRules(string $format = 'Craft', ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getAllSectionRouteRules($format, $siteId);
     }
@@ -77,11 +76,12 @@ class RouteMapVariable
     /**
      * Return the route rules for a specific section
      *
+     * @param string $section
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     * @return mixed[]
+     * @param ?int $siteId
+     * @return array
      */
-    public function getSectionRouteRules(string $section, string $format = 'Craft', $siteId = null): array
+    public function getSectionRouteRules(string $section, string $format = 'Craft', ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getSectionRouteRules($section, $format, $siteId);
     }
@@ -89,24 +89,24 @@ class RouteMapVariable
     /**
      * Return the public URLs for a category group
      *
-     * @param int|null $siteId
-     *
-     * @return mixed[]
+     * @param string $category
+     * @param array $criteria
+     * @param ?int $siteId
+     * @return array
      */
-    public function getCategoryUrls(string $category, array $criteria = [], $siteId = null): array
+    public function getCategoryUrls(string $category, array $criteria = [], ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getCategoryUrls($category, $criteria, $siteId);
     }
 
     /**
-     * Return all of the cateogry group route rules
+     * Return all the cateogry group route rules
      *
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     *
-     * @return mixed[]
+     * @param ?int $siteId
+     * @return array
      */
-    public function getAllCategoryRouteRules(string $format = 'Craft', $siteId = null): array
+    public function getAllCategoryRouteRules(string $format = 'Craft', ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getAllCategoryRouteRules($format, $siteId);
     }
@@ -114,40 +114,41 @@ class RouteMapVariable
     /**
      * Return the route rules for a specific category
      *
+     * @param string $category
      * @param string $format 'Craft'|'React'|'Vue'
-     * @param int|null $siteId
-     * @return mixed[]
+     * @param ?int $siteId
+     * @return array
      */
-    public function getCategoryRouteRules(string $category, string $format = 'Craft', $siteId = null): array
+    public function getCategoryRouteRules(string $category, string $format = 'Craft', ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getCategoryRouteRules($category, $format, $siteId);
     }
 
 
     /**
-     * Get all of the assets of the type $assetTypes that are used in the Entry
+     * Get all the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param int|null $siteId
-     *
-     * @return mixed[]
+     * @param string $url
+     * @param array $assetTypes
+     * @param ?int $siteId
+     * @return array
      */
-    public function getUrlAssetUrls(string $url, array $assetTypes = ['image'], $siteId = null): array
+    public function getUrlAssetUrls(string $url, array $assetTypes = ['image'], ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getUrlAssetUrls($url, $assetTypes, $siteId);
     }
 
     /**
-     * Returns all of the URLs for the given $elementType based on the passed in
+     * Returns all the URLs for the given $elementType based on the passed in
      * $criteria and $siteId
      *
-     * @var string|ElementInterface $elementType
-     * @var array                   $criteria
-     * @var int|null                $siteId
-     *
-     * @return mixed[]
+     * @param string|ElementInterface $elementType
+     * @param array $criteria
+     * @param ?int $siteId
+     * @return array
      */
-    public function getElementUrls($elementType, array $criteria = [], $siteId = null): array
+    public function getElementUrls(string|ElementInterface $elementType, array $criteria = [], ?int $siteId = null): array
     {
         return RouteMap::$plugin->routes->getElementUrls($elementType, $criteria, $siteId);
     }
@@ -155,13 +156,12 @@ class RouteMapVariable
     /**
      * Get all routes rules defined in the config/routes.php file and CMS
      *
-     * @var int $siteId
-     * @var bool $incGlobalRules - merge global routes with the site rules
-     *
-     * @return mixed[]
+     * @param bool $incGlobalRules - merge global routes with the site rules
+     * @param ?int $siteId
+     * @return array
      */
-    public function getRouteRules($sideId = null, $incGlobalRules = true): array
+    public function getRouteRules(?int $siteId = null, bool $incGlobalRules = true): array
     {
-        return RouteMap::$plugin->routes->getRouteRules($sideId, $incGlobalRules);
+        return RouteMap::$plugin->routes->getRouteRules($siteId, $incGlobalRules);
     }
 }

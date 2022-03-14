@@ -1,5 +1,11 @@
 # Route Map Changelog
 
+## 4.0.0-beta.1 - 2022.03.14
+
+### Added
+
+* Initial Craft CMS 4 compatibility
+
 ## 1.1.7 - 2021.07.17
 ### Changed
 * Switched documentation system to VitePress

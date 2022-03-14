@@ -1,54 +1,48 @@
 {
-    "name": "nystudio107/craft-routemap",
-    "description": "Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries",
-    "type": "craft-plugin",
-    "version": "1.1.7",
-    "keywords": [
-        "craft",
-        "cms",
-        "craftcms",
-        "craft-plugin",
-        "vue",
-        "react",
-        "routes",
-        "serviceworker",
-        "route map"
-    ],
-    "support": {
-        "docs": "https://nystudio107.com/plugins/routemap/documentation",
-        "issues": "https://nystudio107.com/plugins/routemap/support"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "nystudio107",
-            "homepage": "https://nystudio107.com/"
-        }
-    ],
-    "require": {
-        "craftcms/cms": "^3.0.0"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-          "nystudio107\\routemap\\": "src/"
-        }
-    },
-    "extra": {
-        "name": "Route Map",
-        "handle": "route-map",
-        "schemaVersion": "1.0.0",
-        "hasCpSettings": false,
-        "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-routemap/v1/CHANGELOG.md",
-        "components": {
-            "routes": "nystudio107\\routemap\\services\\Routes"
-        },
-        "class": "nystudio107\\routemap\\RouteMap"
+  "name": "nystudio107/craft-routemap",
+  "description": "Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries",
+  "type": "craft-plugin",
+  "version": "1.1.7",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "vue",
+    "react",
+    "routes",
+    "serviceworker",
+    "route map"
+  ],
+  "support": {
+    "docs": "https://nystudio107.com/plugins/routemap/documentation",
+    "issues": "https://nystudio107.com/plugins/routemap/support"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "nystudio107",
+      "homepage": "https://nystudio107.com/"
     }
+  ],
+  "require": {
+    "craftcms/cms": "^3.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "nystudio107\\routemap\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Route Map",
+    "handle": "route-map",
+    "schemaVersion": "1.0.0",
+    "hasCpSettings": false,
+    "hasCpSection": false,
+    "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-routemap/v1/CHANGELOG.md",
+    "components": {
+      "routes": "nystudio107\\routemap\\services\\Routes"
+    },
+    "class": "nystudio107\\routemap\\RouteMap"
+  }
 }

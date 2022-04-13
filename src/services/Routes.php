@@ -504,7 +504,7 @@ class Routes extends Component
      */
     public function getRouteRules(?int $siteId = null, bool $includeGlobal = true): array
     {
-        $globalRules = $includeGlobal === true ? $this->getDbRoutes('global') : [];
+        $globalRules = [];
 
         $siteRoutes = $this->getDbRoutes($siteId);
 

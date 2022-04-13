@@ -1,5 +1,9 @@
 # Route Map Changelog
 
+## 4.0.0-beta.2 - 2022.04.13
+### Fixed
+* Fixed an issue that would cause `craft.routeMap.getAllRouteRules()` to throw an exception ([#30](https://github.com/nystudio107/craft-routemap/issues/30))
+
 ## 4.0.0-beta.1 - 2022.03.14
 
 ### Added

@@ -2,7 +2,7 @@
   "name": "nystudio107/craft-routemap",
   "description": "Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries",
   "type": "craft-plugin",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0",
   "keywords": [
     "craft",
     "cms",
@@ -27,7 +27,7 @@
     }
   ],
   "require": {
-    "craftcms/cms": "^4.0.0-beta.1"
+    "craftcms/cms": "^4.0.0"
   },
   "autoload": {
     "psr-4": {

@@ -446,8 +446,9 @@ class Routes extends Component
             'limit' => null,
         ], $criteria);
         // Set up our cache criteria
-        $elementClass = is_object($elementType) ? $elementType::class : $elementType;
-        $cacheKey = $this->getCacheKey($this::ROUTEMAP_ELEMENT_URLS, [$elementClass, $criteria, $siteId]);
+        /* @var ElementInterface $elementInterface */
+        $elementInterface = is_object($elementType) ? $elementType : new $elementType;
+        $cacheKey = $this->getCacheKey($this::ROUTEMAP_ELEMENT_URLS, [$elementInterface, $criteria, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
             'tags' => [
@@ -456,15 +457,15 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        return $cache->getOrSet($cacheKey, function () use ($elementClass, $criteria): array {
+        return $cache->getOrSet($cacheKey, function () use ($elementInterface, $criteria): array {
             Craft::info(
-                'Route Map cache miss: ' . $elementClass,
+                'Route Map cache miss: ' . $elementInterface::class,
                 __METHOD__
             );
             $resultingUrls = [];
 
             // Get all of the entries in the section
-            $query = $this->getElementQuery($elementClass, $criteria);
+            $query = $this->getElementQuery($elementInterface, $criteria);
             $elements = $query->all();
 
             // Iterate through the elements and grab their URLs

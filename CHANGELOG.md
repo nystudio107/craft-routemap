@@ -1,5 +1,9 @@
 # Route Map Changelog
 
+## 1.1.8 - 2022.07.17
+### Changed
+* Cast `$siteId` params to be an integer, even though it should be either an `int` or `null` already ([#22](https://github.com/nystudio107/craft-routemap/issues/22))
+
 ## 1.1.7 - 2021.07.17
 ### Changed
 * Switched documentation system to VitePress

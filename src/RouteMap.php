@@ -30,7 +30,6 @@ use function get_class;
  * @author    nystudio107
  * @package   RouteMap
  * @since     1.0.0
- *
  */
 class RouteMap extends Plugin
 {

@@ -14,7 +14,7 @@ Related: [Route Map for Craft 2.x](https://github.com/nystudio107/routemap)
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-RC3 or later.
+This plugin requires Craft CMS 3.0.0 or later.
 
 ## Installation
 
@@ -38,7 +38,7 @@ Route Map is a plugin to help bridge the routing gap between frontend technologi
 
 This allows you to create your routes dynamically in Craft CMS using the Control Panel, and have them translate automatically to your frontend framework of choice.
 
-Route Map also assists with ServiceWorkers by providing a list of all of the URLs on your Craft CMS site, or just the specific sections you're interested in. You can limit the URLs returned via any `ElementQuery` criteria, and Route Map can even return a list of URLs to all of the Assets that a particular Entry uses (whether in Assets fields, or embedded in Matrix blocks).
+Route Map also assists with ServiceWorkers by providing a list of all of the URLs on your Craft CMS site, or just the specific sections you’re interested in. You can limit the URLs returned via any `ElementQuery` criteria, and Route Map can even return a list of URLs to all of the Assets that a particular Entry uses (whether in Assets fields, or embedded in Matrix blocks).
 
 This allows you, for instance, to have a ServiceWorker that will automatically pre-cache the latest 5 blog entries on your site, as well as any images displayed on those pages, so that they will work with offline browsing.
 
@@ -46,7 +46,7 @@ Route Map maintains a cache of each requested set of URLs for excellent performa
 
 ## Configuring Route Map
 
-There's nothing to configure.
+There’s nothing to configure.
 
 ## Using Route Map via XHR
 
@@ -54,7 +54,7 @@ There's nothing to configure.
 
 #### All Route Rules
 
-The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will return all of your website's route rules in an array of associative arrays. By default, they are in Craft CMS format (e.g.: `blog/{slug}`):
+The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will return all of your website’s route rules in an array of associative arrays. By default, they are in Craft CMS format (for example: `blog/{slug}`):
 
 ```json
 {
@@ -103,7 +103,7 @@ The controller API endpoint `/actions/route-map/routes/get-all-route-rules` will
 ```
 ...where `sections` is an array of Section rules, `categories` is an array of Category rules, and `rules` is an array of rules specified in the Control Panel Settings->Routes combined with any route rules specified in your `config/routes.php`
 
-If your website has multiple sites, Route Map will return the URL rules for each `siteId` as the index:
+If your site has multiple sites, Route Map will return the URL rules for each `siteId` as the index:
 
 ```json
 {
@@ -195,9 +195,9 @@ If your website has multiple sites, Route Map will return the URL rules for each
 }
 ```
 
-The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-all-route-rules?siteId=2`
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-all-route-rules?siteId=2`
 
-The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue` format for your URL routes. For example, the controller API endpoint `/actions/route-map/routes/get-all-route-rules?format=Vue` will return the same route rules above, but formatted for `Vue`  (e.g.: `blog/:slug`):
+The `format` URL parameter allows you to specify either `Craft` | `React` | `Vue` format for your URL routes. For example, the controller API endpoint `/actions/route-map/routes/get-all-route-rules?format=Vue` will return the same route rules above, but formatted for `Vue`  (for example: `blog/:slug`):
 
 ```json
 {
@@ -282,7 +282,7 @@ Route Map will return the URL rules for each `siteId` as the index if you have m
 }
 ```
 
-The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-section-route-rules?section=blog&siteId=2`
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-section-route-rules?section=blog&siteId=2`
 
 You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-section-route-rules?section=blog&format=Vue`
 
@@ -328,7 +328,7 @@ Route Map will return the URL rules for each `siteId` as the index if you have m
 }
 ```
 
-The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-category-route-rules?category=pets&siteId=2`
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-category-route-rules?category=pets&siteId=2`
 
 You can also pass in the optional `format` parameter to get route rules from a specific section, in a particular format via the controller API endpoint `/actions/route-map/routes/get-category-route-rules?category=pets&format=Vue`
 
@@ -353,15 +353,15 @@ You can retrieve the custom route rules defined in the Craft CMS 3 Control Panel
 }
 ```
 
-The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-route-rules?siteId=2`
+The default is to return all route rules for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-route-rules?siteId=2`
 
-You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine if you want to include any global (for all sites) routes via the controller API endpoint `/actions/route-map/routes/get-route-rules?includeGlobal=0`
+You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine to include any global (for all sites) routes via the controller API endpoint `/actions/route-map/routes/get-route-rules?includeGlobal=0`
 
 ### Public URLs
 
 #### All Public URLs
 
-The controller API endpoint `/actions/route-map/routes/get-all-urls` will return a list of _all_ of the public URLs to all of the Elements on your website (Entries, Assets, Categories, even custom Elements):
+The controller API endpoint `/actions/route-map/routes/get-all-urls` will return a list of _all_ of the public URLs to all of the Elements on your site (Entries, Assets, Categories, even custom Elements):
 
 ```json
 [
@@ -456,9 +456,9 @@ You can retrieve just the entries for a particular section via the controller AP
 ]
 ```
 
-Both of the above controller API endpoints support an optional `criteria` parameter that lets you pass in an array of `ElementQuery` attribute key/value pairs to be used to refine the Entries selected.
+Both of the above controller API endpoints support an optional `criteria` parameter that lets you pass in an array of `ElementQuery` attribute key-value pairs to be used to refine the Entries selected.
 
-For instance, if you wanted just the most recent 5 Entries from the `blog` section, you'd use the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog&criteria[limit]=5`:
+For instance, if you wanted just the most recent 5 Entries from the `blog` section, you’d use the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog&criteria[limit]=5`:
 
 ```json
 [
@@ -470,7 +470,7 @@ For instance, if you wanted just the most recent 5 Entries from the `blog` secti
 ]
 ```
 
-Or if you wanted the 5 oldest Entries from the `blog` section, you'd use the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog&criteria[limit]=5&criteria[order]=elements.dateCreated asc`:
+Or if you wanted the 5 oldest Entries from the `blog` section, you’d use the controller API endpoint `/actions/route-map/routes/get-section-urls?section=blog&criteria[limit]=5&criteria[order]=elements.dateCreated asc`:
 
 ```json
 [
@@ -482,7 +482,7 @@ Or if you wanted the 5 oldest Entries from the `blog` section, you'd use the con
 ]
 ```
 
-The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-section-urls?section=blog&siteId=2`
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-section-urls?section=blog&siteId=2`
 
 #### Category Public URLs
 
@@ -500,9 +500,9 @@ You can retrieve just the entries for a particular category via the controller A
 ]
 ```
 
-Both of the above controller API endpoints support an optional `criteria` parameter that lets you pass in an array of `ElementQuery` attribute key/value pairs to be used to refine the Entries selected.
+Both of the above controller API endpoints support an optional `criteria` parameter that lets you pass in an array of `ElementQuery` attribute key-value pairs to be used to refine the Entries selected.
 
-For instance, if you wanted just the most recent 5 Entries from the `pets` category, you'd use the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets&criteria[limit]=5`:
+For instance, if you wanted just the most recent 5 Entries from the `pets` category, you’d use the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets&criteria[limit]=5`:
 
 ```json
 [
@@ -514,7 +514,7 @@ For instance, if you wanted just the most recent 5 Entries from the `pets` categ
 ]
 ```
 
-Or if you wanted the 5 oldest elements from the `pets` category, you'd use the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets&criteria[limit]=5&criteria[order]=elements.dateCreated asc`:
+Or if you wanted the 5 oldest elements from the `pets` category, you’d use the controller API endpoint `/actions/route-map/routes/get-category-urls?category=pets&criteria[limit]=5&criteria[order]=elements.dateCreated asc`:
 
 ```json
 [
@@ -526,7 +526,7 @@ Or if you wanted the 5 oldest elements from the `pets` category, you'd use the c
 ]
 ```
 
-The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-category-urls?section=blog&siteId=2`
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-category-urls?section=blog&siteId=2`
 
 ### Entry URL Assets
 
@@ -547,9 +547,9 @@ The controller API endpoint `/actions/route-map/routes/get-url-asset-urls?url=/b
 
 Either a full URL or a partial URI can be passed in via the `url` parameter.
 
-By default, it only returns Assets of the type `image` but using the optional parameter `assetTypes` you can pass in an array of the types of Assets you want returned. For instance, if we wanted `image`, `video`, and `pdf` Assets returned, we'd use the controller API endpoint `/actions/route-map/routes/get-url-asset-urls?url=/blog/tags-gone-wild&assetTypes[0]=image&assetTypes[1]=video&assetTypes[2]=pdf'`.
+By default, it only returns Assets of the type `image` but using the optional parameter `assetTypes` you can pass in an array of the types of Assets you want returned. For instance, if we wanted `image`, `video`, and `pdf` Assets returned, we’d use the controller API endpoint `/actions/route-map/routes/get-url-asset-urls?url=/blog/tags-gone-wild&assetTypes[0]=image&assetTypes[1]=video&assetTypes[2]=pdf'`.
 
-### Arbitrary Element URLS
+### Arbitrary Element URLs
 
 You can retrieve URLs for arbitrary Elements via the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset` (note the required `elementType` parameter that specifies the Element class you want):
 
@@ -579,9 +579,9 @@ You can retrieve URLs for arbitrary Elements via the controller API endpoint `/a
 ]
 ```
 
-The controller API endpoint supports an optional `criteria` parameter that lets you pass in an array of `ElementQuery` criteria key/value pairs to be used to refine the Entries selected.
+The controller API endpoint supports an optional `criteria` parameter that lets you pass in an array of `ElementQuery` criteria key-value pairs to be used to refine the Entries selected.
 
-For instance, if you wanted just the most recent 5 Elements of the type `\craft\elements\Asset`, you'd use the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&criteria[limit]=5`:
+For instance, if you wanted just the most recent 5 Elements of the type `\craft\elements\Asset`, you’d use the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&criteria[limit]=5`:
 
 ```json
 [  
@@ -594,7 +594,7 @@ For instance, if you wanted just the most recent 5 Elements of the type `\craft\
 
 ```
 
-Or if you wanted the 5 oldest Elements of the type `\craft\elements\Asset`, you'd use the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&criteria[limit]=5&criteria[orderBy]=elements.dateCreated asc`:
+Or if you wanted the 5 oldest Elements of the type `\craft\elements\Asset`, you’d use the controller API endpoint `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&criteria[limit]=5&criteria[orderBy]=elements.dateCreated asc`:
 
 ```json
 [  
@@ -607,7 +607,7 @@ Or if you wanted the 5 oldest Elements of the type `\craft\elements\Asset`, you'
 
 ```
 
-The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, e.g.: `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&siteId=2`
+The default is to return all URLs for all `siteId`s but you can specify a particular site via the optional `siteId` parameter, for example: `/actions/route-map/routes/get-element-urls?elementType=\craft\elements\Asset&siteId=2`
 
 ## Using Route Map in your Twig Templates
 
@@ -617,7 +617,7 @@ You can also access any of the aforementioned functionality from within Craft CM
 
 #### All Route Rules
 
-To get all of your website's route rules:
+To get all of your website’s route rules:
 
 ```twig
 {% set routeRules = craft.routeMap.getAllRouteRules() %}
@@ -701,7 +701,7 @@ The default is to return all route rules for all `siteId`s but you can specify a
 {% set routeRules = craft.routeMap.getRouteRules(1) %}
 ```
 
-You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine if you want to include any global (for all sites) routes:
+You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine to include any global (for all sites) routes:
 
 ```twig
 {% set routeRules = craft.routeMap.getRouteRules(1, false) %}
@@ -711,19 +711,19 @@ You can also pass in the optional `includeGlobal` parameter (which defaults to `
 
 #### All Public URLs
 
-To get all of your website's public Entry URLs:
+To get all of your website’s public Entry URLs:
 
 ```twig
 {% set urls = craft.routeMap.getAllUrls() %}
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```twig
 {% set urls = craft.routeMap.getAllUrls({'limit': 5}) %}
 ```
 
-or
+Or
 
 ```twig
 {% set urls = craft.routeMap.getAllUrls({'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
@@ -743,13 +743,13 @@ To get URLs from just a specific Section:
 {% set urls = craft.routeMap.getSectionUrls('blog') %}
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```twig
 {% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5}) %}
 ```
 
-or
+Or
 
 ```twig
 {% set urls = craft.routeMap.getSectionUrls('blog', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
@@ -769,13 +769,13 @@ To get URLs from just a specific Section:
 {% set urls = craft.routeMap.getCategoryUrls('pets') %}
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```twig
 {% set urls = craft.routeMap.getCategoryUrls('pets', {'limit': 5}) %}
 ```
 
-or
+Or
 
 ```twig
 {% set urls = craft.routeMap.getCategoryUrls('pets', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
@@ -809,13 +809,13 @@ To get all URLs for an arbitrary Element type:
 {% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset') %}
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```twig
 {% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset', {'limit': 5}) %}
 ```
 
-or
+Or
 
 ```twig
 {% set urls = craft.routeMap.getElementUrls('\craft\elements\Asset', {'limit': 5, 'orderBy': 'elements.dateCreated asc'}) %}
@@ -835,7 +835,7 @@ The `RouteMap::$plugin->routes` service gives you access to all of the functions
 
 #### All Route Rules
 
-To get all of your website's route rules:
+To get all of your website’s route rules:
 
 ```php
 $routeRules = RouteMap::$plugin->routes->getAllRouteRules();
@@ -907,7 +907,7 @@ The default is to return all route rules for all `siteId`s but you can specify a
 $routeRules = RouteMap::$plugin->routes->getRouteRules(1);
 ```
 
-You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine if you want to include any global (for all sites) routes:
+You can also pass in the optional `includeGlobal` parameter (which defaults to `1` aka `true`) to determine to include any global (for all sites) routes:
 
 ```php
 $routeRules = RouteMap::$plugin->routes->getRouteRules(1, false);
@@ -917,19 +917,19 @@ $routeRules = RouteMap::$plugin->routes->getRouteRules(1, false);
 
 #### All Public URLs
 
-To get all of your website's public Entry URLs:
+To get all of your website’s public Entry URLs:
 
 ```php
 $urls = RouteMap::$plugin->routes->getAllUrls();
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```php
 $urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5]);
 ```
 
-or
+Or
 
 ```php
 $urls = RouteMap::$plugin->routes->getAllUrls(['limit' => 5, 'orderBy' => 'elements.dateCreated asc']);
@@ -949,13 +949,13 @@ To get URLs from just a specific Section:
 $urls = RouteMap::$plugin->routes->getSectionUrls('blog');
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```php
 $urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5]);
 ```
 
-or
+Or
 
 ```php
 $urls = RouteMap::$plugin->routes->getSectionUrls('blog', ['limit' => 5, 'ordery' => 'elements.dateCreated asc']);
@@ -975,13 +975,13 @@ To get URLs from just a specific Category:
 $urls = RouteMap::$plugin->routes->getCategoryUrls('pets');
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```php
 $urls = RouteMap::$plugin->routes->getCategoryUrls('pets', ['limit' => 5]);
 ```
 
-or
+Or
 
 ```php
 $urls = RouteMap::$plugin->routes->getCategoryUrls('pets', ['limit' => 5, 'ordery' => 'elements.dateCreated asc']);
@@ -1015,13 +1015,13 @@ To get all URLs for an arbitrary Element type:
 $urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset');
 ```
 
-To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key/value pairs:
+To refine the URLs returned, you can pass in optional `ElementQuery` criteria via key-value pairs:
 
 ```php
 $urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['limit': 5]);
 ```
 
-or
+Or
 
 ```php
 $urls = RouteMap::$plugin->routes->getElementUrls('\craft\elements\Asset', ['limit': 5, 'orderBy': 'elements.dateCreated asc']);

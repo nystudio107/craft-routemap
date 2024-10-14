@@ -14,6 +14,6 @@
  * @since     1.0.0
  */
 return [
-    'Route Map Cache'         => 'Route Map Cache',
-    '{name} plugin loaded'    => '{name} plugin loaded'
+    'Route Map Cache' => 'Route Map Cache',
+    '{name} plugin loaded' => '{name} plugin loaded',
 ];

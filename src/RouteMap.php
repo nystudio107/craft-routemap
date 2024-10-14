@@ -19,7 +19,6 @@ use craft\events\RegisterCacheOptionsEvent;
 use craft\services\Elements;
 use craft\utilities\ClearCaches;
 use craft\web\twig\variables\CraftVariable;
-use nystudio107\routemap\services\Routes as RoutesService;
 use nystudio107\routemap\services\ServicesTrait;
 use nystudio107\routemap\variables\RouteMapVariable;
 use yii\base\Event;
@@ -30,8 +29,6 @@ use yii\base\Event;
  * @author    nystudio107
  * @package   RouteMap
  * @since     1.0.0
- *
- * @property  RoutesService routes
  */
 class RouteMap extends Plugin
 {
@@ -68,7 +65,7 @@ class RouteMap extends Plugin
 
     // Public Methods
     // =========================================================================
-    
+
     /**
      * @inheritdoc
      */

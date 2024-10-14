@@ -18,7 +18,7 @@ use yii\base\InvalidConfigException;
  * @package   routemap
  * @since     4.0.1
  *
- * @property  RoutesService $helper
+ * @property  RoutesService $routes
  */
 trait ServicesTrait
 {

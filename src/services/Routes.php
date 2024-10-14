@@ -200,7 +200,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        return $cache->getOrSet($cacheKey, function () use ($section, $format, $siteId): array {
+        return $cache->getOrSet($cacheKey, function() use ($section, $format, $siteId): array {
             Craft::info(
                 'Route Map cache miss: ' . $section,
                 __METHOD__
@@ -248,7 +248,6 @@ class Routes extends Component
      */
     public function getCategoryUrls(string $category, array $criteria = [], ?int $siteId = null): array
     {
-
         $criteria = array_merge([
             'group' => $category,
         ], $criteria);
@@ -315,13 +314,13 @@ class Routes extends Component
             ],
         ]);
         // Just return the data if it's already cached
-        return $cache->getOrSet($cacheKey, function () use ($category, $handle, $format, $siteId): array {
+        return $cache->getOrSet($cacheKey, function() use ($category, $handle, $format, $siteId): array {
             Craft::info(
                 'Route Map cache miss: ' . $category,
                 __METHOD__
             );
             $resultingRoutes = [];
-            $category = is_object($category) ? $category : Craft::$app->getCategories()->getGroupByHandle($handle);
+            $category = Craft::$app->getCategories()->getGroupByHandle($handle);
             if ($category) {
                 $sites = $category->getSiteSettings();
 
@@ -377,7 +376,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        return $cache->getOrSet($cacheKey, function () use ($uri, $assetTypes, $siteId): array {
+        return $cache->getOrSet($cacheKey, function() use ($uri, $assetTypes, $siteId): array {
             Craft::info(
                 'Route Map cache miss: ' . $uri,
                 __METHOD__
@@ -385,7 +384,7 @@ class Routes extends Component
             $resultingAssetUrls = [];
 
             // Find the element that matches this URI
-            /** @var  $element Entry */
+            /** @var ?Entry $element */
             $element = Craft::$app->getElements()->getElementByUri($uri, $siteId, true);
             if ($element) {
                 // Iterate any Assets fields for this entry
@@ -447,7 +446,7 @@ class Routes extends Component
         ], $criteria);
         // Set up our cache criteria
         /* @var ElementInterface $elementInterface */
-        $elementInterface = is_object($elementType) ? $elementType : new $elementType;
+        $elementInterface = is_object($elementType) ? $elementType : new $elementType();
         $cacheKey = $this->getCacheKey($this::ROUTEMAP_ELEMENT_URLS, [$elementInterface, $criteria, $siteId]);
         $duration = $devMode ? $this::DEVMODE_ROUTEMAP_CACHE_DURATION : $this::ROUTEMAP_CACHE_DURATION;
         $dependency = new TagDependency([
@@ -457,7 +456,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        return $cache->getOrSet($cacheKey, function () use ($elementInterface, $criteria): array {
+        return $cache->getOrSet($cacheKey, function() use ($elementInterface, $criteria): array {
             Craft::info(
                 'Route Map cache miss: ' . $elementInterface::class,
                 __METHOD__
@@ -500,8 +499,9 @@ class Routes extends Component
      * Get all routes rules defined in the config/routes.php file and CMS
      *
      * @return array
-     * @var ?int $siteId
-     * @var bool $includeGlobal - merge global routes with the site rules
+     * @property ?int $siteId
+     *
+     * @property bool $includeGlobal - merge global routes with the site rules
      */
     public function getRouteRules(?int $siteId = null, bool $includeGlobal = true): array
     {

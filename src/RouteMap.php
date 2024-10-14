@@ -10,19 +10,17 @@
 
 namespace nystudio107\routemap;
 
-use nystudio107\routemap\services\Routes as RoutesService;
-use nystudio107\routemap\variables\RouteMapVariable;
-
 use Craft;
-use craft\base\Plugin;
 use craft\base\Element;
+use craft\base\Plugin;
 use craft\elements\Entry;
 use craft\events\ElementEvent;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\services\Elements;
 use craft\utilities\ClearCaches;
 use craft\web\twig\variables\CraftVariable;
-
+use nystudio107\routemap\services\ServicesTrait;
+use nystudio107\routemap\variables\RouteMapVariable;
 use yii\base\Event;
 
 /**
@@ -32,10 +30,14 @@ use yii\base\Event;
  * @package   RouteMap
  * @since     1.0.0
  *
- * @property  RoutesService routes
  */
 class RouteMap extends Plugin
 {
+    // Traits
+    // =========================================================================
+
+    use ServicesTrait;
+
     // Static Properties
     // =========================================================================
 
@@ -64,7 +66,7 @@ class RouteMap extends Plugin
         Event::on(
             CraftVariable::class,
             CraftVariable::EVENT_INIT,
-            function (Event $event) {
+            function(Event $event) {
                 /** @var CraftVariable $variable */
                 $variable = $event->sender;
                 $variable->set('routeMap', RouteMapVariable::class);
@@ -75,7 +77,7 @@ class RouteMap extends Plugin
         Event::on(
             Elements::class,
             Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event) {
+            function(ElementEvent $event) {
                 Craft::debug(
                     'Elements::EVENT_AFTER_SAVE_ELEMENT',
                     __METHOD__
@@ -103,11 +105,11 @@ class RouteMap extends Plugin
         Event::on(
             ClearCaches::class,
             ClearCaches::EVENT_REGISTER_CACHE_OPTIONS,
-            function (RegisterCacheOptionsEvent $event) {
+            function(RegisterCacheOptionsEvent $event) {
                 $event->options[] = [
                     'key' => 'route-map',
                     'label' => Craft::t('route-map', 'Route Map Cache'),
-                    'action' => function () {
+                    'action' => function() {
                         RouteMap::$plugin->routes->invalidateCache();
                     },
                 ];

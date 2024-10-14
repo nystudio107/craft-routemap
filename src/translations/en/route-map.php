@@ -1,6 +1,6 @@
 <?php
 /**
- * Route Map plugin for Craft CMS 3.x
+ * Route Map plugin for Craft CMS
  *
  * Returns a list of public routes for elements with URLs
  *

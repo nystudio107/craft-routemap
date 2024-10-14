@@ -3,7 +3,7 @@ import {defineConfig} from 'vitepress'
 export default defineConfig({
   title: 'Route Map Plugin',
   description: 'Documentation for the Route Map plugin',
-  base: '/docs/route-map/v4/',
+  base: '/docs/route-map/',
   lang: 'en-US',
   head: [
     ['meta', {content: 'https://github.com/nystudio107', property: 'og:see_also',}],
@@ -18,7 +18,7 @@ export default defineConfig({
     ],
     logo: '/img/plugin-logo.svg',
     editLink: {
-      pattern: 'https://github.com/nystudio107/craft-routemap/edit/develop-v4/docs/docs/:path',
+      pattern: 'https://github.com/nystudio107/craft-routemap/edit/develop-v5/docs/docs/:path',
       text: 'Edit this page on GitHub'
     },
     algolia: {
@@ -26,7 +26,7 @@ export default defineConfig({
       apiKey: 'c5dcc2be096fff3a4714c3a877a056fa',
       indexName: 'routemap',
       searchParameters: {
-        facetFilters: ["version:v4"],
+        facetFilters: ["version:v5"],
       },
     },
     lastUpdatedText: 'Last Updated',
@@ -37,9 +37,9 @@ export default defineConfig({
       {text: 'Changelog', link: 'https://nystudio107.com/plugins/routemap/changelog'},
       {text: 'Issues', link: 'https://github.com/nystudio107/craft-routemap/issues'},
       {
-        text: 'v4', items: [
-          {text: 'v5', link: 'https://nystudio107.com/docs/route-map/'},
-          {text: 'v4', link: '/'},
+        text: 'v5', items: [
+          {text: 'v5', link: '/'},
+          {text: 'v4', link: 'https://nystudio107.com/docs/route-map/v4/'},
           {text: 'v1', link: 'https://nystudio107.com/docs/route-map/v1/'},
         ],
       },

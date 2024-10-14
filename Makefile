@@ -1,4 +1,4 @@
-MAJOR_VERSION?=4
+MAJOR_VERSION?=5
 PLUGINDEV_PROJECT_DIR?=/Users/andrew/webdev/sites/plugindev/cms_v${MAJOR_VERSION}/
 VENDOR?=nystudio107
 PROJECT_PATH?=${VENDOR}/$(shell basename $(CURDIR))

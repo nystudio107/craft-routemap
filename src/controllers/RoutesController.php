@@ -10,10 +10,10 @@
 
 namespace nystudio107\routemap\controllers;
 
-use nystudio107\routemap\RouteMap;
-
 use craft\base\ElementInterface;
+
 use craft\web\Controller;
+use nystudio107\routemap\RouteMap;
 
 use yii\web\Response;
 

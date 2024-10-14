@@ -22,6 +22,7 @@ use craft\web\twig\variables\CraftVariable;
 use nystudio107\routemap\services\ServicesTrait;
 use nystudio107\routemap\variables\RouteMapVariable;
 use yii\base\Event;
+use function get_class;
 
 /**
  * Class RouteMap
@@ -93,7 +94,7 @@ class RouteMap extends Plugin
                 }
                 if ($bustCache) {
                     Craft::debug(
-                        'Cache busted due to saving: ' . \get_class($element) . ' - ' . $element->title,
+                        'Cache busted due to saving: ' . get_class($element) . ' - ' . $element->title,
                         __METHOD__
                     );
                     RouteMap::$plugin->routes->invalidateCache();

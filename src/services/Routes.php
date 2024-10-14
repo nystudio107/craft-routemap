@@ -183,7 +183,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        $routes = $cache->getOrSet($cacheKey, function () use ($section, $format, $siteId) {
+        $routes = $cache->getOrSet($cacheKey, function() use ($section, $format, $siteId) {
             Craft::info(
                 'Route Map cache miss: ' . $section,
                 __METHOD__
@@ -309,7 +309,7 @@ class Routes extends Component
             ],
         ]);
         // Just return the data if it's already cached
-        $routes = $cache->getOrSet($cacheKey, function () use ($category, $handle, $format, $siteId) {
+        $routes = $cache->getOrSet($cacheKey, function() use ($category, $handle, $format, $siteId) {
             Craft::info(
                 'Route Map cache miss: ' . $category,
                 __METHOD__
@@ -377,7 +377,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        $assetUrls = $cache->getOrSet($cacheKey, function () use ($uri, $assetTypes, $siteId) {
+        $assetUrls = $cache->getOrSet($cacheKey, function() use ($uri, $assetTypes, $siteId) {
             Craft::info(
                 'Route Map cache miss: ' . $uri,
                 __METHOD__
@@ -463,7 +463,7 @@ class Routes extends Component
         ]);
 
         // Just return the data if it's already cached
-        $urls = $cache->getOrSet($cacheKey, function () use ($elementClass, $criteria) {
+        $urls = $cache->getOrSet($cacheKey, function() use ($elementClass, $criteria) {
             Craft::info(
                 'Route Map cache miss: ' . $elementClass,
                 __METHOD__
@@ -569,7 +569,7 @@ class Routes extends Component
             ->orderBy(['sortOrder' => SORT_ASC])
             ->all();
 
-        return ArrayHelper::map($results, 'uriPattern', function ($results) {
+        return ArrayHelper::map($results, 'uriPattern', function($results) {
             return ['template' => $results['template']];
         });
     }

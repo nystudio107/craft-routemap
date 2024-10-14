@@ -10,9 +10,9 @@
 
 namespace nystudio107\routemap\variables;
 
-use nystudio107\routemap\RouteMap;
-
 use craft\base\ElementInterface;
+
+use nystudio107\routemap\RouteMap;
 
 /**
  * @author    nystudio107

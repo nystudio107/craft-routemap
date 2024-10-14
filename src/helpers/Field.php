@@ -30,7 +30,7 @@ class Field extends Component
      * Return all of the fields in the $element of the type $fieldType class
      *
      * @param ElementInterface $element
-     * @param string  $fieldType
+     * @param string $fieldType
      *
      * @return array
      */
@@ -43,7 +43,7 @@ class Field extends Component
             return [];
         }
         $fields = $layout->getFields();
-        /** @var  $field BaseField */
+        /** @var BaseField $field */
         foreach ($fields as $field) {
             if ($field instanceof $fieldType) {
                 $foundFields[] = $field->handle;
@@ -57,7 +57,7 @@ class Field extends Component
      * Return all of the fields in the $matrixBlock of the type $fieldType class
      *
      * @param MatrixBlock $matrixBlock
-     * @param string      $fieldType
+     * @param string $fieldType
      *
      * @return array
      */
@@ -72,7 +72,7 @@ class Field extends Component
         }
         if ($matrixBlockTypeModel) {
             $fields = $matrixBlockTypeModel->getFields();
-            /** @var  $field BaseField */
+            /** @var BaseField $field */
             foreach ($fields as $field) {
                 if ($field instanceof $fieldType) {
                     $foundFields[] = $field->handle;

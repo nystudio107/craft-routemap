@@ -11,10 +11,8 @@
 namespace nystudio107\routemap\controllers;
 
 use craft\base\ElementInterface;
-
 use craft\web\Controller;
 use nystudio107\routemap\RouteMap;
-
 use yii\web\Response;
 
 /**
@@ -27,11 +25,6 @@ class RoutesController extends Controller
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
     protected $allowAnonymous = [
         'get-all-urls',
         'get-section-urls',
@@ -47,7 +40,7 @@ class RoutesController extends Controller
     /**
      * Return the public URLs for all elements that have URLs
      *
-     * @param array    $criteria
+     * @param array $criteria
      * @param int|null $siteId
      *
      * @return Response
@@ -60,8 +53,8 @@ class RoutesController extends Controller
     /**
      * Return the public URLs for a section
      *
-     * @param string   $section
-     * @param array    $criteria
+     * @param string $section
+     * @param array $criteria
      * @param int|null $siteId
      *
      * @return Response
@@ -74,8 +67,8 @@ class RoutesController extends Controller
     /**
      * Return the public URLs for a category
      *
-     * @param string   $category
-     * @param array    $criteria
+     * @param string $category
+     * @param array $criteria
      * @param int|null $siteId
      *
      * @return Response
@@ -115,8 +108,8 @@ class RoutesController extends Controller
     /**
      * Return the route rules for a specific category
      *
-     * @param string   $category
-     * @param string   $format 'Craft'|'React'|'Vue'
+     * @param string $category
+     * @param string $format 'Craft'|'React'|'Vue'
      * @param int|null $siteId
      *
      * @return Response
@@ -130,7 +123,7 @@ class RoutesController extends Controller
      * Return the Craft Control Panel and `routes.php` rules
      *
      * @param int|null $siteId
-     * @param bool     $includeGlobal
+     * @param bool $includeGlobal
      *
      * @return Response
      */
@@ -143,8 +136,8 @@ class RoutesController extends Controller
      * Get all of the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param string   $url
-     * @param array    $assetTypes
+     * @param string $url
+     * @param array $assetTypes
      * @param int|null $siteId
      *
      * @return Response
@@ -158,10 +151,9 @@ class RoutesController extends Controller
      * Returns all of the URLs for the given $elementType based on the passed in
      * $criteria and $siteId
      *
-     * @var string|ElementInterface $elementType
-     * @var array                   $criteria
-     * @var int|null                $siteId
-     *
+     * @param string|ElementInterface $elementType
+     * @param array $criteria
+     * @param int|null $siteId
      * @return Response
      */
     public function actionGetElementUrls($elementType, array $criteria = [], $siteId = null): Response

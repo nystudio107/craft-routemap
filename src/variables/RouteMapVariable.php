@@ -11,7 +11,6 @@
 namespace nystudio107\routemap\variables;
 
 use craft\base\ElementInterface;
-
 use nystudio107\routemap\RouteMap;
 
 /**
@@ -27,7 +26,7 @@ class RouteMapVariable
     /**
      * Return the public URLs for all elements that have URLs
      *
-     * @param array    $criteria
+     * @param array $criteria
      * @param int|null $siteId
      *
      * @return array
@@ -54,8 +53,8 @@ class RouteMapVariable
     /**
      * Return the public URLs for a section
      *
-     * @param string   $section
-     * @param array    $criteria
+     * @param string $section
+     * @param array $criteria
      * @param int|null $siteId
      *
      * @return array
@@ -96,8 +95,8 @@ class RouteMapVariable
     /**
      * Return the public URLs for a category group
      *
-     * @param string   $category
-     * @param array    $criteria
+     * @param string $category
+     * @param array $criteria
      * @param int|null $siteId
      *
      * @return array
@@ -139,8 +138,8 @@ class RouteMapVariable
      * Get all of the assets of the type $assetTypes that are used in the Entry
      * that matches the $url
      *
-     * @param string   $url
-     * @param array    $assetTypes
+     * @param string $url
+     * @param array $assetTypes
      * @param int|null $siteId
      *
      * @return array
@@ -154,9 +153,9 @@ class RouteMapVariable
      * Returns all of the URLs for the given $elementType based on the passed in
      * $criteria and $siteId
      *
-     * @var string|ElementInterface $elementType
-     * @var array                   $criteria
-     * @var int|null                $siteId
+     * @param string|ElementInterface $elementType
+     * @param array $criteria
+     * @param int|null $siteId
      *
      * @return array
      */
@@ -168,10 +167,10 @@ class RouteMapVariable
     /**
      * Get all routes rules defined in the config/routes.php file and CMS
      *
-     * @var int $siteId
+     * @return array
      * @var bool $incGlobalRules - merge global routes with the site rules
      *
-     * @return array
+     * @var int $siteId
      */
     public function getRouteRules($sideId = null, $incGlobalRules = true): array
     {

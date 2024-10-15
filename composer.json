@@ -2,7 +2,7 @@
   "name": "nystudio107/craft-routemap",
   "description": "Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries",
   "type": "craft-plugin",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "keywords": [
     "craft",
     "cms",
@@ -28,21 +28,36 @@
   "require": {
     "craftcms/cms": "^3.0.0"
   },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main",
+    "craftcms/rector": "dev-main"
+  },
+  "scripts": {
+    "phpstan": "phpstan --ansi --memory-limit=1G",
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --fix --ansi"
+  },
+  "config": {
+    "allow-plugins": {
+      "craftcms/plugin-installer": true,
+      "yiisoft/yii2-composer": true
+    },
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
   "autoload": {
     "psr-4": {
       "nystudio107\\routemap\\": "src/"
     }
   },
   "extra": {
-    "name": "Route Map",
-    "handle": "route-map",
-    "schemaVersion": "1.0.0",
-    "hasCpSettings": false,
-    "hasCpSection": false,
     "changelogUrl": "https://raw.githubusercontent.com/nystudio107/craft-routemap/v1/CHANGELOG.md",
-    "components": {
-      "routes": "nystudio107\\routemap\\services\\Routes"
-    },
-    "class": "nystudio107\\routemap\\RouteMap"
+    "class": "nystudio107\\routemap\\RouteMap",
+    "developer": "nystudio107",
+    "developerUrl": "https://nystudio107.com",
+    "documentationUrl": "https://nystudio107.com/docs/routemap/",
+    "handle": "route-map",
+    "name": "Route Map"
   }
 }

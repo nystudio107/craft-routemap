@@ -1,5 +1,10 @@
 # Route Map Changelog
 
+## 1.1.9 - 2024.10.14
+### Added
+* Add `phpstan` and `ecs` code linting
+* Add `code-analysis.yaml` GitHub action
+
 ## 1.1.8 - 2022.07.17
 ### Changed
 * Cast `$siteId` params to be an integer, even though it should be either an `int` or `null` already ([#22](https://github.com/nystudio107/craft-routemap/issues/22))

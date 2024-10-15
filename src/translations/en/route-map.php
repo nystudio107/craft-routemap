@@ -1,6 +1,6 @@
 <?php
 /**
- * Route Map plugin for Craft CMS 3.x
+ * Route Map plugin for Craft CMS
  *
  * Returns a list of public routes for elements with URLs
  *
@@ -14,6 +14,6 @@
  * @since     1.0.0
  */
 return [
-    'Route Map Cache'         => 'Route Map Cache',
-    '{name} plugin loaded'    => '{name} plugin loaded'
+    'Route Map Cache' => 'Route Map Cache',
+    '{name} plugin loaded' => '{name} plugin loaded',
 ];

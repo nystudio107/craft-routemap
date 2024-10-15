@@ -1,6 +1,6 @@
 <?php
 /**
- * Route Map plugin for Craft CMS 3.x
+ * Route Map plugin for Craft CMS
  *
  * Returns a list of public routes for elements with URLs
  *
@@ -25,11 +25,6 @@ class RoutesController extends Controller
     // Protected Properties
     // =========================================================================
 
-    /**
-     * @var    bool|array Allows anonymous access to this controller's actions.
-     *         The actions must be in 'kebab-case'
-     * @access protected
-     */
     protected array|bool|int $allowAnonymous = [
         'get-all-urls',
         'get-section-urls',

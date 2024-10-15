@@ -1,6 +1,6 @@
 <?php
 /**
- * Route Map plugin for Craft CMS 3.x
+ * Route Map plugin for Craft CMS
  *
  * Returns a list of public routes for elements with URLs
  *
@@ -43,7 +43,7 @@ class Field extends Component
         }
 
         $fields = $layout->getCustomFields();
-        /** @var  $field BaseField */
+        /** @var BaseField $field */
         foreach ($fields as $field) {
             if ($field instanceof $fieldType) {
                 $foundFields[] = $field->handle;
@@ -72,7 +72,7 @@ class Field extends Component
 
         if ($matrixBlockTypeModel !== null) {
             $fields = $matrixBlockTypeModel->getCustomFields();
-            /** @var  $field BaseField */
+            /** @var BaseField $field */
             foreach ($fields as $field) {
                 if ($field instanceof $fieldType) {
                     $foundFields[] = $field->handle;

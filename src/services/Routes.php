@@ -18,7 +18,6 @@ use craft\elements\Asset;
 use craft\elements\Category;
 use craft\elements\db\ElementQueryInterface;
 use craft\elements\Entry;
-use craft\elements\MatrixBlock;
 use craft\fields\Assets as AssetsField;
 use craft\fields\Matrix as MatrixField;
 use nystudio107\routemap\helpers\Field as FieldHelper;
@@ -166,7 +165,7 @@ class Routes extends Component
     {
         $routeRules = [];
         // Get all the sections
-        $sections = Craft::$app->getSections()->getAllSections();
+        $sections = Craft::$app->getEntries()->getAllSections();
         foreach ($sections as $section) {
             $routes = $this->getSectionRouteRules($section->handle, $format, $siteId);
             if (!empty($routes)) {
@@ -207,7 +206,7 @@ class Routes extends Component
             );
             $resultingRoutes = [];
 
-            $section = Craft::$app->getSections()->getSectionByHandle($section);
+            $section = Craft::$app->getEntries()->getSectionByHandle($section);
             if ($section) {
                 $sites = $section->getSiteSettings();
 
@@ -404,12 +403,12 @@ class Routes extends Component
                 // Iterate through any Assets embedded in Matrix fields
                 $matrixFields = FieldHelper::fieldsOfType($element, MatrixField::class);
                 foreach ($matrixFields as $matrixField) {
-                    /** @var MatrixBlock[] $matrixBlocks */
-                    $matrixBlocks = $element[$matrixField]->all();
-                    foreach ($matrixBlocks as $matrixBlock) {
-                        $assetFields = FieldHelper::matrixFieldsOfType($matrixBlock, AssetsField::class);
+                    /** @var Entry[] $matrixEntries */
+                    $matrixEntries = $element[$matrixField]->all();
+                    foreach ($matrixEntries as $matrixEntry) {
+                        $assetFields = FieldHelper::matrixFieldsOfType($matrixEntry, AssetsField::class);
                         foreach ($assetFields as $assetField) {
-                            foreach ($matrixBlock[$assetField] as $asset) {
+                            foreach ($matrixEntry[$assetField] as $asset) {
                                 /** @var $asset Asset */
                                 if (in_array($asset->kind, $assetTypes, true)
                                     && !in_array($asset->getUrl(), $resultingAssetUrls, true)) {

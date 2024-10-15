@@ -13,7 +13,7 @@ namespace nystudio107\routemap\helpers;
 use craft\base\Component;
 use craft\base\ElementInterface;
 use craft\base\Field as BaseField;
-use craft\elements\MatrixBlock;
+use craft\elements\Entry;
 use craft\models\FieldLayout;
 use yii\base\InvalidConfigException;
 
@@ -56,26 +56,25 @@ class Field extends Component
     /**
      * Return all the fields in the $matrixBlock of the type $fieldType class
      *
-     * @param MatrixBlock $matrixBlock
+     * @param Entry $matrixEntry
      * @param string $fieldType
      * @return ?array
      */
-    public static function matrixFieldsOfType(MatrixBlock $matrixBlock, string $fieldType): ?array
+    public static function matrixFieldsOfType(Entry $matrixEntry, string $fieldType): ?array
     {
         $foundFields = [];
 
         try {
-            $matrixBlockTypeModel = $matrixBlock->getType();
-        } catch (InvalidConfigException) {
-            $matrixBlockTypeModel = null;
+            $matrixEntryTypeModel = $matrixEntry->getType();
+        } catch (InvalidConfigException $e) {
+            $matrixEntryTypeModel = null;
         }
-
-        if ($matrixBlockTypeModel !== null) {
-            $fields = $matrixBlockTypeModel->getCustomFields();
+        if ($matrixEntryTypeModel) {
+            $fields = $matrixEntryTypeModel->getCustomFields();
             /** @var BaseField $field */
             foreach ($fields as $field) {
                 if ($field instanceof $fieldType) {
-                    $foundFields[] = $field->handle;
+                    $foundFields[$field->handle] = $field->name;
                 }
             }
         }

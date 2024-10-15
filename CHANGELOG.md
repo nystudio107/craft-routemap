@@ -1,6 +1,6 @@
 # Route Map Changelog
 
-## 1.1.9 - UNRELEASED
+## 1.1.9 - 2024.10.14
 ### Added
 * Add `phpstan` and `ecs` code linting
 * Add `code-analysis.yaml` GitHub action

@@ -1,5 +1,5 @@
 ---
-title: Route Map plugin for Craft CMS 3.x
+title: Route Map plugin for Craft CMS
 description: Returns a list of Craft/Vue/React route rules and element URLs for ServiceWorkers from Craft entries
 ---
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/badges/quality-score.png?b=v1)](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/?branch=v1) [![Code Coverage](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/badges/coverage.png?b=v1)](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/?branch=v1) [![Build Status](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/badges/build.png?b=v1)](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/build-status/v1) [![Code Intelligence Status](https://scrutinizer-ci.com/g/nystudio107/craft-routemap/badges/code-intelligence.svg?b=v1)](https://scrutinizer-ci.com/code-intelligence)
